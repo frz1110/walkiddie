@@ -1,0 +1,28 @@
+image: ruby:2.7.1
+
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - coverage/lcov.info
+      - test-report.xml
+  script:
+    - npm install
+    - npm run test:coverage
+
+deploy:
+  stage: deploy
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=${REPO_NAME} --api-key=${HEROKU_API}
+  only:
+    - master
+  tags:
+    - docker
