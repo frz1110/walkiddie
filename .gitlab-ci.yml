@@ -25,5 +25,3 @@ deploy:
     - dpl --provider=heroku --app=${REPO_NAME} --api-key=${HEROKU_API}
   only:
     - master
-  tags:
-    - docker
