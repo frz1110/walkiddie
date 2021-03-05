@@ -22,6 +22,7 @@ deploy:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
+    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - dpl --provider=heroku --app=${REPO_NAME} --api-key=${HEROKU_API}
   only:
     - master
