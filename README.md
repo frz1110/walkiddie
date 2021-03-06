@@ -1,5 +1,5 @@
-![Coverage Master](https://gitlab.cs.ui.ac.id/ppl-fasilkom-ui/2021/CC/walkiddie.toys/walkiddie-toys-frontend/badges/master/coverage.svg?key_text=Master+Coverage&key_width=120)
-![Coverage Staging](https://gitlab.cs.ui.ac.id/ppl-fasilkom-ui/2021/CC/walkiddie.toys/walkiddie-toys-frontend/badges/staging/coverage.svg?key_text=Staging+Coverage&key_width=120)
+![Pipeline](https://gitlab.cs.ui.ac.id/ppl-fasilkom-ui/2021/CC/walkiddie.toys/walkiddie-toys-frontend/badges/staging/pipeline.svg)
+![Coverage](https://gitlab.cs.ui.ac.id/ppl-fasilkom-ui/2021/CC/walkiddie.toys/walkiddie-toys-frontend/badges/staging/coverage.svg)
 
 # Getting Started with Create React App
 
