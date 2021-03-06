@@ -1,3 +1,6 @@
+![Coverage Master](https://gitlab.cs.ui.ac.id/ppl-fasilkom-ui/2021/CC/walkiddie.toys/walkiddie-toys-frontend/badges/master/coverage.svg?key_text=Master+Coverage&key_width=120)
+![Coverage Staging](https://gitlab.cs.ui.ac.id/ppl-fasilkom-ui/2021/CC/walkiddie.toys/walkiddie-toys-frontend/badges/staging/coverage.svg?key_text=Staging+Coverage&key_width=120)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
