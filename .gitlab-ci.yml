@@ -16,7 +16,7 @@ test:
     - npm run test -- --coverage --watchAll=false
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
 
-deploy:
+StagingDeployment:
   image: ruby:2.7.1
   stage: deploy
   script:
@@ -27,3 +27,15 @@ deploy:
     - dpl --provider=heroku --app=${REPO_NAME} --api-key=${HEROKU_API}
   only:
     - staging
+
+ProductionDeployment:
+  image: ruby:2.7.1
+  stage: deploy
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+    - dpl --provider=heroku --app=${DEPLOYMENT_REPO_NAME} --api-key=${HEROKU_API}
+  only:
+    - master
