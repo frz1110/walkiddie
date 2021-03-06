@@ -26,4 +26,4 @@ deploy:
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - dpl --provider=heroku --app=${REPO_NAME} --api-key=${HEROKU_API}
   only:
-    - master
+    - staging
