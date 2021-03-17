@@ -1,8 +1,16 @@
 image: node:12.16.3-buster-slim
 
 stages:
+  - lint
   - test
+  - sonar
   - deploy
+
+lint:
+  stage: lint
+  script:
+    - npm install
+    - npm run lint
 
 test:
   stage: test
@@ -15,6 +23,37 @@ test:
     - npm install
     - npm run test -- --coverage --watchAll=false
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
+
+SonarScanner Dev:
+  image:
+    name: sonarsource/sonar-scanner-cli:4.6
+    entrypoint: [""]
+  stage: sonar
+  script:
+  - sonar-scanner
+    -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
+    -Dsonar.login=$SONARQUBE_TOKEN
+    -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+    -Dsonar.branch.target=staging
+    -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
+  except:
+    - master
+    - staging
+
+SonarScanner:
+  image:
+    name: sonarsource/sonar-scanner-cli:4.6
+    entrypoint: [""]
+  stage: sonar
+  script:
+  - sonar-scanner
+    -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
+    -Dsonar.login=$SONARQUBE_TOKEN
+    -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+    -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
+  only:
+    - master
+    - staging
 
 StagingDeployment:
   image: ruby:2.7.1
