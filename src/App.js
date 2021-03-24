@@ -8,19 +8,13 @@ function App() {
       <div className="App">
         <div className="content">
           <Switch>
-            <Route path="/masuk-investor">
+            <Route path="/masuk">
               
             </Route>
             <Route path="/daftar-investor">
               
             </Route>
-            <Route path="/masuk-mitra">
-              
-            </Route>
             <Route path="/daftar-mitra">
-              
-            </Route>
-            <Route path="/tentang">
               
             </Route>
             <Route path="/bantuan">
