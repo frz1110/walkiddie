@@ -1,19 +1,17 @@
 image: node:12.16.3-buster-slim
 
 stages:
-  - lint
-  - test
-  - sonar
+  - code-clean
   - deploy
 
 lint:
-  stage: lint
+  stage: code-clean
   script:
     - npm install
     - npm run lint
 
 test:
-  stage: test
+  stage: code-clean
   artifacts:
     expire_in: 1 hour
     paths:
@@ -28,7 +26,7 @@ SonarScanner Dev:
   image:
     name: sonarsource/sonar-scanner-cli:4.6
     entrypoint: [""]
-  stage: sonar
+  stage: code-clean
   script:
   - sonar-scanner
     -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
@@ -44,7 +42,7 @@ SonarScanner:
   image:
     name: sonarsource/sonar-scanner-cli:4.6
     entrypoint: [""]
-  stage: sonar
+  stage: code-clean
   script:
   - sonar-scanner
     -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
