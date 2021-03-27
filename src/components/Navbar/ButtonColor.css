@@ -1,0 +1,19 @@
+.dark-green-button {
+    background-color: #146A5F;
+    color: white;
+}
+
+.light-tosca-button {
+    background-color: #D3F1EE;
+    color: #146A5F;
+}
+
+.tosca-button {
+    background-color: #0BBBA8;
+    color: white;
+}
+
+button a {
+    text-decoration: none;
+    color: inherit;
+}

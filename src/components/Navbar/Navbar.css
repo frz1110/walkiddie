@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+html {
+    scroll-behavior: smooth;
+}
+
+.navbar-container {
+    width: 100%;
+    height: 72px;
+    box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 6;
+    background-color: white;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1214px;
+    height: inherit;
+    margin: 0 auto;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+}
+
+.navbar .nav-menu {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-flex;
+    height: inherit;
+    align-items: center;
+}
+
+.nav-logo {
+    flex: 1;
+    text-align: left;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.nav-buttons.guest {
+    flex: 1;
+}
+
+.nav-menu a {
+    padding: 0 21px;
+    text-decoration: none;
+    color: #146A5F;
+}
+
+.nav-menu .active {
+    padding-top: 3px;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid #146A5F;
+}
+
+.nav-buttons button {
+    margin: 0 7px;
+    width: 90px;
+    height: 40px;
+    font-weight: 600;
+    padding: 0;
+    font-size: 14px;
+}
+
+button {
+    border-radius: 8px;
+    border: 0;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    height: 49px;
+    padding: 0 27px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.nav-profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button {
+    font-family: 'Manrope', sans-serif;
+}
