@@ -4,11 +4,11 @@
 /* latin-ext */
 .p { 
     text-align: center ;
-    font-family: 'DM-Sans';
+    font-family: 'DM-Sans','sans-serif';
 }
 
 label{
-    font-family: 'DM-Sans';
+    font-family: 'DM-Sans','sans-serif';
 }
 
 .google-image{
@@ -31,14 +31,13 @@ label{
 
 .google-button {
     background-color: #ffffff; /* Green */
-    border-radius: black 0.2px;
+    border-radius: 6px;
     color: rgb(0, 0, 0);
     padding: 10px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    border-radius: 6px;
     width : 350px;
 }
 
