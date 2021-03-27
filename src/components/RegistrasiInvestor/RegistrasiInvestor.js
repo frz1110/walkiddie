@@ -1,12 +1,10 @@
 import './RegistrasiInvestor.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Row } from "react-bootstrap";
-import { connect } from 'react-redux';
 
-const RegistrasiInvestor = ({ signup, isAuthenticated }) => {
-    const [accountCreated, setAccountCreated] = useState(false);
+const RegistrasiInvestor = ()=> {
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -32,7 +30,7 @@ const RegistrasiInvestor = ({ signup, isAuthenticated }) => {
             <br></br>
             <p className="midtext"><span>Atau Buat Akun</span></p>
             <br></br>
-            <form className="centered" onSubmit={e => onSubmit(e)}>
+            <form className="centered">
                 <Row className="justify-content-center">
                     <div className="col-sm">
                         <div className="form-container centered">
@@ -156,8 +154,4 @@ const RegistrasiInvestor = ({ signup, isAuthenticated }) => {
     );
 }
 
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
-}); 
-
-export default connect(mapStateToProps, { signup })(RegistrasiInvestor);
+export default RegistrasiInvestor

@@ -1,20 +1,17 @@
 import RegistrasiInvestor from './RegistrasiInvestor';
 import { render,screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import store from '../store';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux' 
+
+
 describe('<RegistrasiInvestor />', () => {
     it('renders the right contents', () => {
-        const mockSignUp = jest.fn()
-        const mockAuthenticate = jest.fn()
-        render(<Provider store={store}>
+        render(
             <BrowserRouter>
-            <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+            <RegistrasiInvestor/>
             </BrowserRouter>
-            </Provider>);
+            );
 
         expect(screen.getByLabelText(/Nama Depan/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Nama Belakang/)).toBeInTheDocument();
@@ -24,35 +21,29 @@ describe('<RegistrasiInvestor />', () => {
     });
 
     it('renders correctly', () => {
-        const mockSignUp = jest.fn()
-        const mockAuthenticate = jest.fn()
-        const { getByText } = render(<Provider store={store}>
+        const { getByText } = render(
             <BrowserRouter>
-            <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+            <RegistrasiInvestor/>
             </BrowserRouter>
-            </Provider>);
+            );
         expect(getByText(/Buat Akun Baru Investor/)).toBeInTheDocument();
     });
 
 
     test('button should have the corrrect link', () => {
-        const mockSignUp = jest.fn()
-        const mockAuthenticate = jest.fn()
         const { getByText } = render(
-        <Provider store={store}><BrowserRouter>
-        <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
-        </BrowserRouter></Provider>);
+        <BrowserRouter>
+        <RegistrasiInvestor />
+        </BrowserRouter>);
         expect(getByText('Masuk disini')).toHaveAttribute("href", '/login');
     });
 
     test('useState Function testing', () => {
-        const mockSignUp = jest.fn()
-        const mockAuthenticate = jest.fn()
         //Rendering the component and its tree
         const { getByLabelText } = render(
-            <Provider store={store}><BrowserRouter>
-            <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
-            </BrowserRouter></Provider>);
+            <BrowserRouter>
+            <RegistrasiInvestor />
+            </BrowserRouter>);
         //Extracting the child, username_input component with his accessibilityLabel
         const nama_depan = getByLabelText('Nama Depan');
         const nama_belakang = getByLabelText('Nama Belakang');
