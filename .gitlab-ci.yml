@@ -2,6 +2,7 @@ image: node:12.16.3-buster-slim
 
 stages:
   - code-clean
+  - sonar
   - deploy
 
 lint:
@@ -26,7 +27,7 @@ SonarScanner Dev:
   image:
     name: sonarsource/sonar-scanner-cli:4.6
     entrypoint: [""]
-  stage: code-clean
+  stage: sonar
   script:
   - sonar-scanner
     -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
@@ -42,7 +43,7 @@ SonarScanner:
   image:
     name: sonarsource/sonar-scanner-cli:4.6
     entrypoint: [""]
-  stage: code-clean
+  stage: sonar
   script:
   - sonar-scanner
     -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
