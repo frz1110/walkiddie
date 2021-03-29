@@ -1,9 +1,11 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Learn React/i);
-  const regis = screen.getByText(/Registrasi disini/i);
-  expect(linkElement).toBeInTheDocument();
+describe('<App />', () => {
+  it('renders navbar, home, and footer', () => {
+    const {getByTestId, getByText} = render(<App />);
+    expect(getByTestId('navbar')).toBeInTheDocument();
+    expect(getByText(/Platform Crowdfunding/)).toBeInTheDocument();
+    expect(getByText(/Walkiddie. All rights reserved./)).toBeInTheDocument();
+  });
 });

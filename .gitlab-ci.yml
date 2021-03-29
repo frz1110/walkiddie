@@ -1,19 +1,18 @@
 image: node:12.16.3-buster-slim
 
 stages:
-  - lint
-  - test
+  - code-clean
   - sonar
   - deploy
 
 lint:
-  stage: lint
+  stage: code-clean
   script:
     - npm install
     - npm run lint
 
 test:
-  stage: test
+  stage: code-clean
   artifacts:
     expire_in: 1 hour
     paths:
