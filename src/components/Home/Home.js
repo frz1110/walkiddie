@@ -37,9 +37,9 @@ const Home = () => {
                         <h1>Apa itu <span className="green-text">Walkiddie</span>?</h1>
                         <p>Aplikasi berbasis web yang menyediakan pelayanan pengadaan mainan arkade menggunakan sistem <b>crowdfunding</b>.</p>
                         <button className="dark-green-button">
-                            <Link to="mailto:pplnarai2021@gmail.com">
+                            <a href="mailto:pplnarai2021@gmail.com">
                                 Tentang Kami
-                            </Link>
+                            </a>
                         </button>
                     </div>
                 </div>
