@@ -2,6 +2,9 @@
   "name": "test",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.9",
@@ -18,9 +21,12 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "redux": "^4.0.5",
+    "redux-mock-store": "^1.5.4",
+    "redux-thunk": "^2.3.0",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
+    "heroku-prebuild": "npm install -f",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -46,12 +52,14 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!src/index.js",
       "!src/reportWebVitals.js"
     ]
+  },
+  "devDependencies": {
+    "jest-localstorage-mock": "^2.4.8"
   }
 }
