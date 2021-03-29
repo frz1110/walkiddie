@@ -3,31 +3,30 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
-import { useState } from "react";
+import { Provider } from 'react-redux';
+import Login from './page/Login';
+
+import store from './store';
 
 function App() {
-  const [isLoggedIn, setisLoggedIn] = useState(false);
-  const changeIsLoggedIn = () => {
-    setisLoggedIn(!isLoggedIn);
-  };
-
   return (
-    <Router>
+    <Provider store={store}>
+      <Router>
       <div className="App">
-        <Navbar isLoggedIn={isLoggedIn} changeIsLoggedIn={changeIsLoggedIn} />
+        <Navbar />
         <div className="content">
           <Switch>
             <Route path="/masuk">
-              
+              <Login />
             </Route>
             <Route path="/daftar-investor">
-              
+
             </Route>
             <Route path="/daftar-mitra">
-              
+
             </Route>
             <Route path="/bantuan">
-              
+
             </Route>
             <Route exact path="/">
               <Home />
@@ -36,7 +35,8 @@ function App() {
         </div>
         <Footer />
       </div>
-    </Router>
+      </Router>
+    </Provider>
   );
 }
 

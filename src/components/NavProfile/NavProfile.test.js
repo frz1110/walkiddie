@@ -4,6 +4,14 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import Navbar from '../Navbar/Navbar';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from '../../reducer';
+
+const StoreProvider = (initialState = {auth: {isAuthenticated: false}}, Router = BrowserRouter) => ({ children }) => {
+  const store = createStore(reducers, initialState);
+  return <Provider store={store}><Router>{children}</Router></Provider>
+}
 
 describe('<NavProfile />', () => {
     it('renders correctly', () => {
@@ -31,7 +39,7 @@ describe('<NavProfile />', () => {
     });
     
     it('should close dropdown menu on click away event', async () => {
-        const { getByTestId, queryByTestId } = render(<BrowserRouter><Navbar isLoggedIn={true} /></BrowserRouter>);
+        const { getByTestId, queryByTestId } = render(<Navbar />, { wrapper: StoreProvider({auth: {isAuthenticated: true}}) });
         userEvent.click(getByTestId('nav-profile-icon'));
         // console.log(prettyDOM(document.body))
 
@@ -42,7 +50,7 @@ describe('<NavProfile />', () => {
     });
     
     it('should close dropdown menu on tab event', async () => {
-        const { getByTestId, queryByTestId } = render(<BrowserRouter><Navbar isLoggedIn={true} /></BrowserRouter>);
+        const { getByTestId, queryByTestId } = render(<Navbar />, { wrapper: StoreProvider({auth: {isAuthenticated: true}}) });
         userEvent.click(getByTestId('nav-profile-icon'));
 
         userEvent.tab();
