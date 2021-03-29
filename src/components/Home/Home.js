@@ -37,9 +37,9 @@ const Home = () => {
                         <h1 className="wkd-home-headings">Apa itu <span className="wkd-green-text">Walkiddie</span>?</h1>
                         <p className="wkd-home-p">Aplikasi berbasis web yang menyediakan pelayanan pengadaan mainan arkade menggunakan sistem <b>crowdfunding</b>.</p>
                         <button className="wkd-home-button wkd-nav-button wkd-dark-green-button">
-                            <Link to="mailto:pplnarai2021@gmail.com">
+                            <a href="mailto:pplnarai2021@gmail.com">
                                 Tentang Kami
-                            </Link>
+                            </a>
                         </button>
                     </div>
                 </div>

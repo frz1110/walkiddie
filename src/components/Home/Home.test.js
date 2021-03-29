@@ -32,14 +32,13 @@ describe('<Home />',() => {
     });
 
     it('should redirect to Daftar Investor page when Mulai Investasi button is clicked', () => {
-        let testHistory, testLocation;
+        let testLocation;
         const { queryAllByText } = render(
             <MemoryRouter initialEntries={["/"]}>
                 <Home />
                 <Route
                     path="*"
                     render={({ history, location }) => {
-                    testHistory = history;
                     testLocation = location;
                     return null;
                     }}
@@ -52,14 +51,13 @@ describe('<Home />',() => {
     }); 
     
     it('should redirect to Daftar Mitra page when Gabung Mitra button is clicked', () => {
-        let testHistory, testLocation;
+        let testLocation;
         const { queryAllByText } = render(
             <MemoryRouter initialEntries={["/"]}>
                 <Home />
                 <Route
                     path="*"
                     render={({ history, location }) => {
-                    testHistory = history;
                     testLocation = location;
                     return null;
                     }}

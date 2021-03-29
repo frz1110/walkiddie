@@ -48,14 +48,13 @@ describe('<Navbar />', () => {
     });
 
     it('should redirect to Log in page when Masuk button is clicked', () => {
-        let testHistory, testLocation;
+        let testLocation;
         const { getByText } = render(
             <MemoryRouter initialEntries={["/"]}>
                 <Navbar />
                 <Route
                     path="*"
-                    render={({ history, location }) => {
-                    testHistory = history;
+                    render={({ location }) => {
                     testLocation = location;
                     return null;
                     }}
@@ -69,14 +68,13 @@ describe('<Navbar />', () => {
     }); 
     
     it('should redirect to Daftar Investor page when Buat Akun button is clicked', () => {
-        let testHistory, testLocation;
+        let testLocation;
         const { getByText } = render(
             <MemoryRouter initialEntries={["/"]}>
                 <Navbar />
                 <Route
                     path="*"
-                    render={({ history, location }) => {
-                    testHistory = history;
+                    render={({ location }) => {
                     testLocation = location;
                     return null;
                     }}
