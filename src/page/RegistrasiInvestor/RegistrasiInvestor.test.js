@@ -45,7 +45,8 @@ describe('<RegistrasiInvestor />', () => {
                     <RegistrasiInvestor signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
                 </BrowserRouter>
             </Provider>);
-        expect(getByText(/Buat Akun Baru Investor/)).toBeInTheDocument();
+        expect(getByText(/Buat Akun Baru/)).toBeInTheDocument();
+        expect(getByText(/Investor/)).toBeInTheDocument();
     });
 
     it('should redirect if authenticated', () => {

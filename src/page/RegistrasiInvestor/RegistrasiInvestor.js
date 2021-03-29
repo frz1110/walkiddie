@@ -175,7 +175,7 @@ const RegistrasiInvestor = ({ signup, isAuthenticated })=> {
                         </button>
                     </Row>
                     <Row className="justify-content-center">
-                        <p>Sudah punya akun? <Link to='/login'>Masuk disini</Link></p>
+                        <p>Sudah punya akun? <Link to='/masuk'>Masuk disini</Link></p>
                     </Row>
                 </form>
             </div>
