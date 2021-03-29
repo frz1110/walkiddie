@@ -1,4 +1,4 @@
-import { render as rtlRender, fireEvent } from '@testing-library/react';
+import { render as rtlRender, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import reducers from '../../reducer';
@@ -65,8 +65,26 @@ describe('<LoginForm />', () => {
 
     fireEvent.change(container.getByLabelText(/Kata Sandi/), {target: {value: 'password'}});
 
-    fireEvent.click(container.getByRole('button', {name: 'Masuk'}));
+    act(() => {fireEvent.click(container.getByRole('button', {name: 'Masuk'}))});
 
     expect(axios.post).toHaveBeenCalledTimes(1);
+  })
+
+  test('login through form failed and give alert', async () => {
+    const alert = jest.spyOn(window, 'alert');
+    alert.mockImplementation(() => {});
+    axios.post.mockImplementationOnce(() => Promise.reject());
+
+    fireEvent.change(container.getByLabelText(/Email/), {target: {value: 'ayam'}});
+
+    fireEvent.change(container.getByLabelText(/Kata Sandi/), {target: {value: 'password'}});
+
+    await act(async () => {
+      fireEvent.click(container.getByRole('button', {name: 'Masuk'}));
+    });
+
+    expect(axios.post).toHaveBeenCalledTimes(1);
+    expect(alert).toHaveBeenCalledTimes(1);
+    alert.mockRestore();
   })
 })
