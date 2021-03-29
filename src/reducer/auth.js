@@ -5,6 +5,8 @@ import {
   USER_LOADED_FAIL,
   SIGNUP_SUCCESS,
   SIGNUP_FAIL,
+  ACTIVATION_SUCCESS,
+  ACTIVATION_FAIL,
   LOGOUT
 } from '../actions/types';
 
@@ -62,6 +64,11 @@ function reducer(state = initialState, action) {
         refresh: null,
         isAuthenticated: false,
         user: null
+      }
+    case ACTIVATION_SUCCESS:
+    case ACTIVATION_FAIL:
+      return {
+        ...state
       }
     default:
       return state
