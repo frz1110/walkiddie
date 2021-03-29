@@ -1,10 +1,12 @@
 import './RegistrasiInvestor.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Row } from "react-bootstrap";
+import { connect } from 'react-redux';
+import { signup } from '../../actions/auth';
 
-const RegistrasiInvestor = ()=> {
+const RegistrasiInvestor = ({ signup, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -17,6 +19,27 @@ const RegistrasiInvestor = ()=> {
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     
+    const onSubmit = async e => {
+        e.preventDefault();
+
+        if (password === re_password) {
+            const res = await signup(first_name, last_name, email, password, re_password);
+            // console.log(res.signup)
+            if (res.signup){
+                return <Redirect to='/masuk' />
+            }
+            else {
+                alert('Email yang anda masukan telah terdaftar')
+            }
+        } else{
+            alert("Password anda harus sama")
+        }
+    };
+
+    if (isAuthenticated) {
+        return <Redirect to='/' />
+    }
+
     return (
         <div>
         <h1><h1 class="arrow left"></h1>Buat Akun Baru Investor</h1>
@@ -30,7 +53,7 @@ const RegistrasiInvestor = ()=> {
             <br></br>
             <p className="midtext"><span>Atau Buat Akun</span></p>
             <br></br>
-            <form className="centered">
+            <form className="centered" onSubmit={e => onSubmit(e)}>
                 <Row className="justify-content-center">
                     <div className="col-sm">
                         <div className="form-container centered">
@@ -146,7 +169,7 @@ const RegistrasiInvestor = ()=> {
                     </button>
                 </Row>
                 <Row className="justify-content-center">
-                    <p>Sudah punya akun? <Link to='/login'>Masuk disini</Link></p>
+                    <p>Sudah punya akun? <Link to='/masuk'>Masuk disini</Link></p>
                 </Row>
             </form>
         </div>
@@ -154,4 +177,8 @@ const RegistrasiInvestor = ()=> {
     );
 }
 
-export default RegistrasiInvestor
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+}); 
+
+export default connect(mapStateToProps, { signup })(RegistrasiInvestor);
