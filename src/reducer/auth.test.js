@@ -127,4 +127,13 @@ describe('auth reducer', () => {
       "user": null,
     })
   })
+
+  it('activation success', () => {
+    expect(reducer({}, {type: types.ACTIVATION_SUCCESS})).toEqual({})
+  })
+
+  it('activation fail', () => {
+    expect(reducer({}, {type: types.ACTIVATION_FAIL})).toEqual({})
+  })
+  
 })
