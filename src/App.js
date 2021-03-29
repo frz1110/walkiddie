@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
-import { Provider } from 'react-redux';
+import RegistrasiInvestor from './page/RegistrasiInvestor/RegistrasiInvestor';
 import Login from './page/Login';
-import RegistrasiInvestor from './components/RegistrasiInvestor/RegistrasiInvestor';
+import { Provider } from 'react-redux';
 
 import store from './store';
 
