@@ -1,4 +1,5 @@
 import './LoginForm.css';
+import loadingIcon from '../../media/loading-icon.jpg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { connect } from 'react-redux';
@@ -11,14 +12,20 @@ const initialState = {
 
 function LoginForm({ login }) {
   const [formData, setFormData] = useState(initialState);
+  const [loading, setLoading] = useState(false);
 
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
 
   const {email, password} = formData;
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    login(email, password);
+  const handleSubmit = async e => {
+      e.preventDefault();
+      setLoading(true);
+      const res = await login(email, password);
+      if (!res.login) {
+        setLoading(false);
+        alert('Login gagal: Email atau Kata Sandi Salah')
+      }
   }
 
   return (
@@ -35,6 +42,7 @@ function LoginForm({ login }) {
             placeholder="Tuliskan alamat email..."
             onChange={e => onChange(e)}
             required
+            disabled={loading}
           />
           <label htmlFor="password">Kata Sandi</label>
           <input
@@ -45,9 +53,11 @@ function LoginForm({ login }) {
             placeholder="Tuliskan kata sandi..."
             onChange={e => onChange(e)}
             required
+            disabled={loading}
           />
-          <button type="submit">Masuk</button>
+          <button type="submit" disabled={loading}>Masuk</button>
           <p id="reset-password"><Link to="/reset-password">Lupa kata sandi?</Link></p>
+          {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
         </form>
         <div id="atau">
           <div className="line" />

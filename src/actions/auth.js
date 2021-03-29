@@ -24,15 +24,28 @@ export const load_user = () => async dispatch => {
                 type: USER_LOADED_SUCCESS,
                 payload: res.data
             });
+            return {
+                login: true,
+                userLoaded: true
+            }
         } catch (err) {
             dispatch({
                 type: USER_LOADED_FAIL
             });
+            return {
+                login: true,
+                userLoaded: false,
+                err
+            }
         }
     } else {
         dispatch({
             type: USER_LOADED_FAIL
         });
+        return {
+            login: false,
+            err: new Error('missing token')
+        }
     }
 };
 
@@ -53,11 +66,17 @@ export const login = (email, password) => async dispatch => {
             payload: res.data
         });
 
-        dispatch(load_user());
+        const loadRes = await dispatch(load_user());
+        return loadRes;
     } catch (err) {
         dispatch({
             type: LOGIN_FAIL
         })
+      return {
+        login: false,
+        userLoaded: false,
+        err
+      }
     }
 };
 
