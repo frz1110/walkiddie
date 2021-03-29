@@ -150,3 +150,33 @@ describe('signup',() => {
 
     })
 })
+
+describe('activation',() => {
+  it('dispatch ACTIVATION_SUCCESS ', () => {
+      const expectedActions = [
+              { type: types.ACTIVATION_SUCCESS }
+      ]
+
+      axios.post.mockImplementationOnce(() => Promise.resolve());
+
+      const store = mockStore({})
+      return store.dispatch(actions.verify("UID","TOKEN")).then(() => {
+          expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  it('dispatch ACTIVATION_FAIL',() =>{
+
+      const expectedActions = [
+          {   type: types.ACTIVATION_FAIL     }
+      ]
+
+      axios.post.mockImplementationOnce(() => Promise.reject());
+
+      const store = mockStore({})
+      return store.dispatch(actions.verify("UID","TOKEN")).then(() => {
+          expect(store.getActions()).toEqual(expectedActions)
+      })
+
+  })
+})
