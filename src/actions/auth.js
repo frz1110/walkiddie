@@ -103,8 +103,34 @@ export const signup = (first_name, last_name, email, password, re_password) => a
             type: SIGNUP_SUCCESS,
             payload: res.data
         });
-        // console.log(res.data)
-        // alert("Cek email anda untuk aktivasi akun")
+        return {
+            signup : true
+        }
+    } catch (err) {
+        dispatch({
+            type: SIGNUP_FAIL
+        })
+        return {
+            signup : false
+        }
+    }
+};
+
+export const signupMitra = (first_name, last_name, email, password, re_password) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const body = JSON.stringify({ first_name, last_name, email, password, re_password ,"role":"Mitra"});
+
+    try {
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/auth/users/`, body, config);
+        dispatch({
+            type: SIGNUP_SUCCESS,
+            payload: res.data
+        });
         return {
             signup : true
         }
