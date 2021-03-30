@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
 
-html {
-    scroll-behavior: smooth;
-}
-
-.navbar-container {
+.wkd-navbar-container {
     width: 100%;
     height: 72px;
     box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.1);
@@ -13,7 +9,7 @@ html {
     background-color: white;
 }
 
-.navbar {
+.wkd-navbar {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -24,7 +20,7 @@ html {
     font-weight: 600;
 }
 
-.navbar .nav-menu {
+.wkd-navbar .wkd-nav-menu {
     margin-left: auto;
     margin-right: auto;
     display: inline-flex;
@@ -32,36 +28,37 @@ html {
     align-items: center;
 }
 
-.nav-logo {
+.wkd-nav-logo {
     flex: 1;
     text-align: left;
 }
 
-.nav-buttons {
+.wkd-nav-buttons {
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-.nav-buttons.guest {
+.wkd-nav-buttons.wkd-guest {
     flex: 1;
 }
 
-.nav-menu a {
+.wkd-nav-menu a, .wkd-nav-menu a:hover {
     padding: 0 21px;
     text-decoration: none;
-    color: #146A5F;
+    color: gray;
 }
 
-.nav-menu .active {
+.wkd-nav-menu .wkd-active {
     padding-top: 3px;
     height: inherit;
     display: flex;
     align-items: center;
+    color: #146A5F;
     border-bottom: 3px solid #146A5F;
 }
 
-.nav-buttons button {
+.wkd-nav-buttons button {
     margin: 0 7px;
     width: 90px;
     height: 40px;
@@ -70,7 +67,7 @@ html {
     font-size: 14px;
 }
 
-button {
+.wkd-nav-button {
     border-radius: 8px;
     border: 0;
     font-family: 'Manrope', sans-serif;
@@ -81,7 +78,7 @@ button {
     cursor: pointer;
 }
 
-.nav-profile {
+.wkd-nav-profile {
     display: flex;
     align-items: center;
     cursor: pointer;
