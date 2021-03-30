@@ -26,17 +26,25 @@ const RegistrasiInvestor = ({ signup, isAuthenticated })=> {
 
         if (password === re_password) {
             const res = await signup(first_name, last_name, email, password, re_password);
-            // console.log(res.signup)
-            if (res.signup){
-                return <Redirect to='/masuk' />
-            }
-            else {
-                alert('Email yang anda masukan telah terdaftar')
+            if(check(first_name,password) || check(last_name,password) || check(email,password) 
+                || check (password,first_name) || check(password,last_name) || check(password,email)){
+                alert('Password yang anda masukan terlalu mirip dengan email maupun nama anda')
+            }else {
+                if (res.signup){
+                    return <Redirect to='/masuk' />
+                }
+                else {
+                    alert('Email yang anda masukan telah terdaftar')
+                }
             }
         } else{
             alert("Password anda harus sama")
         }
     };
+
+    function check(use,pwd){
+        return pwd.match(/[a-z]+/ig).filter(a=> a.length > 2 && use.includes(a)).length > 0? true:false;
+    }
 
     if (isAuthenticated) {
         return <Redirect to='/' />

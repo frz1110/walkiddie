@@ -223,4 +223,29 @@ describe('<RegistrasiInvestor />', () => {
         userEvent.click(screen.getByText('Buat Akun'));
     });
 
+    test('Fail SignUp Password to similar', () => {
+        const mockSignUp = jest.fn()
+        const mockAuthenticate = jest.fn()    
+        const initialState = { auth: {isAuthenticated: false}}
+        const store = mockStore(initialState)
+        const { getByLabelText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <RegistrasiInvestor signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                </BrowserRouter>
+            </Provider>);
+            
+        const nama_depan = getByLabelText('Nama Depan');
+        const nama_belakang = getByLabelText('Nama Belakang');
+        const email = getByLabelText('Email');
+        const password = getByLabelText('Kata Sandi');
+        const re_password = getByLabelText('Konfirmasi kata sandi');
+        
+        userEvent.type(nama_depan, "doe");
+        userEvent.type(nama_belakang, 'joe');
+        userEvent.type(email, 'doe@joe.com');
+        userEvent.type(password, 'doejoe123');
+        userEvent.type(re_password, 'doejoe123');
+        userEvent.click(screen.getByText('Buat Akun'));
+    });
 });
