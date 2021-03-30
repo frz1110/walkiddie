@@ -35,8 +35,7 @@ function App() {
             <Route path="/profile">
               <Profile />
             </Route>
-            <Route path="/aktivasi/:uid/:token">
-                <Activate />
+            <Route path="/aktivasi/:uid/:token" component={Activate}>
             </Route>
             <Route exact path="/">
               <Home />
