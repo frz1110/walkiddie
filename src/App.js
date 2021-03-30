@@ -6,6 +6,7 @@ import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
 import RegistrasiInvestor from './page/RegistrasiInvestor/RegistrasiInvestor';
 import RegistrasiMitra from './page/RegistrasiMitra/RegistrasiMitra';
+import Profile from './page/Profile/Profile';
 import Login from './page/Login';
 import { Provider } from 'react-redux';
 
@@ -30,6 +31,9 @@ function App() {
             </Route>
             <Route path="/bantuan">
 
+            </Route>
+            <Route path="/profile">
+              <Profile />
             </Route>
             <Route path="/aktivasi/:uid/:token">
                 <Activate />
