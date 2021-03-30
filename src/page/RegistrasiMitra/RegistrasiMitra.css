@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM-Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* latin-ext */
+.p { 
+    text-align: center ;
+    font-family: 'DM-Sans',sans-serif;
+}
+
+label{
+    font-family: 'DM-Sans',sans-serif;
+}
+
+.google-image{
+    width:30px;
+    margin-left:0
+}
+
+#signup {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    font-family: 'DM Sans', sans-serif;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.25);
+}
+
+#signup h1 {
+  font-size: 30px;
+  margin: 20px 0px;
+  font-family: 'DM Sans', sans-serif;
+  text-align: center;
+}
+
+.button {
+    background-color: #146A5F; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    width : 450px;
+}
+
+.google-button {
+    background-color: #ffffff;
+    border-radius: 6px;
+    color: rgb(0, 0, 0);
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width : 350px;
+}
+
+.square-box{
+    box-shadow: 0.5px 0.5px 2px 2px rgb(190, 190, 190);
+    padding: 30px;
+    border-radius: 15px;
+    position:relative;
+    width: 800px;
+    height: 560.99px;
+    left: 325px;
+    margin-bottom: 50px;
+    margin-top:50px;
+}
+
+.midtext {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #ccc; 
+    line-height: 0.1em;
+    margin: 10px 0 20px; 
+} 
+
+.midtext span { 
+    background:#fff; 
+    padding:0 10px; 
+}
+
+.centered{
+    text-align: left;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.arrow {
+    border: solid black;
+    border-width: 0 6px 6px 0;
+    display: inline-block;
+    padding: 4px;
+  }
+  
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+  
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+  
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+  
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
