@@ -31,8 +31,7 @@ function App() {
             <Route path="/bantuan">
 
             </Route>
-            <Route path="/aktivasi/:uid/:token">
-                <Activate />
+            <Route path="/aktivasi/:uid/:token" component={Activate}>
             </Route>
             <Route exact path="/">
               <Home />
