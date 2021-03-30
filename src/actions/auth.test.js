@@ -109,3 +109,74 @@ describe('logout', () => {
     expect(actions.logout()).toEqual(expectedAction);
   })
 })
+
+describe('signup',() => {
+    it('dispatch SIGNUP_SUCCESS and payload', () => {
+
+        const signupData = {
+            data: {
+                first_name: "Udma", 
+                last_name: "Wijaya", 
+                role: "Investor", 
+                email: "ajiinisti12@gmail.com", 
+                id: 1
+            } 
+        }
+
+        const expectedActions = [
+                { type: types.SIGNUP_SUCCESS ,payload: signupData.data}
+        ]
+
+        axios.post.mockImplementationOnce(() => Promise.resolve(signupData));
+
+        const store = mockStore({})
+        return store.dispatch(actions.signup("Udma","Wijaya","ajiinisti12@gmail.com","MyAwesome123","MyAwesome123")).then(() => {
+            expect(store.getActions()).toEqual(expectedActions)
+        })
+    })
+
+    it('dispatch SIGNUP_FAIL',() =>{
+
+        const expectedActions = [
+            {   type: types.SIGNUP_FAIL     }
+        ]
+
+        axios.post.mockImplementationOnce(() => Promise.reject());
+
+        const store = mockStore({})
+        return store.dispatch(actions.signup("Udma","Wijaya","ajiinisti12@gmail.com","MyAwesome123","MyAwesome123")).then(() => {
+            expect(store.getActions()).toEqual(expectedActions)
+        })
+
+    })
+})
+
+describe('activation',() => {
+  it('dispatch ACTIVATION_SUCCESS ', () => {
+      const expectedActions = [
+              { type: types.ACTIVATION_SUCCESS }
+      ]
+
+      axios.post.mockImplementationOnce(() => Promise.resolve());
+
+      const store = mockStore({})
+      return store.dispatch(actions.verify("UID","TOKEN")).then(() => {
+          expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  it('dispatch ACTIVATION_FAIL',() =>{
+
+      const expectedActions = [
+          {   type: types.ACTIVATION_FAIL     }
+      ]
+
+      axios.post.mockImplementationOnce(() => Promise.reject());
+
+      const store = mockStore({})
+      return store.dispatch(actions.verify("UID","TOKEN")).then(() => {
+          expect(store.getActions()).toEqual(expectedActions)
+      })
+
+  })
+})

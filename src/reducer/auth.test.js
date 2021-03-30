@@ -110,4 +110,30 @@ describe('auth reducer', () => {
     expect(spy.mock.calls[1]).toEqual(['refresh']);
     spy.mockRestore();
   })
+
+  it('signup success', () => {
+    expect(reducer({
+      isAuthenticated: false
+    }, {type: types.SIGNUP_SUCCESS})).toEqual({
+      isAuthenticated: false
+    })
+  })
+
+  it('signup fail', () => {
+    expect(reducer({}, {type: types.SIGNUP_FAIL})).toEqual({
+      "access": null,
+      "isAuthenticated": false,
+      "refresh": null,
+      "user": null,
+    })
+  })
+
+  it('activation success', () => {
+    expect(reducer({}, {type: types.ACTIVATION_SUCCESS})).toEqual({})
+  })
+
+  it('activation fail', () => {
+    expect(reducer({}, {type: types.ACTIVATION_FAIL})).toEqual({})
+  })
+  
 })

@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
 
-.footer-container {
+.wkd-footer-container {
     background-color: #146A5F;
 }
 
-footer {
+#wkd-footer {
     height: 72px;
     display: flex;
     align-items: center;
@@ -15,15 +15,15 @@ footer {
     color: white;
 }
 
-.footer-container .icons {
+.wkd-footer-container .wkd-icons {
     margin-left: auto;
 }
 
-.footer-container .icons a {
+.wkd-footer-container .wkd-icons a {
     color: white;
 }
 
-.icons-container {
+.wkd-icons-container {
     width: 24px;
     height: 24px;
     padding: 8px;
@@ -33,9 +33,10 @@ footer {
     justify-content: center;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
+    box-sizing: initial;
 }
 
-.icons-container svg {
+.wkd-icons-container svg {
     width: 18px;
     height: 18px;
     align-items: center;
