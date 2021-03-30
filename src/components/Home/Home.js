@@ -38,7 +38,7 @@ const Home = () => {
                         <p className="wkd-home-p">Aplikasi berbasis web yang menyediakan pelayanan pengadaan mainan arkade menggunakan sistem <b>crowdfunding</b>.</p>
                         <button className="wkd-home-button wkd-nav-button wkd-dark-green-button">
                             <a href="mailto:pplnarai2021@gmail.com">
-                                Tentang Kami
+                                Hubungi Kami
                             </a>
                         </button>
                     </div>
