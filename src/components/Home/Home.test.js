@@ -28,7 +28,7 @@ describe('<Home />',() => {
 
     test('hubungi button should have the correct link', () => {
         const { getByText } = render(<BrowserRouter><Home /></BrowserRouter>);
-        expect(getByText("Tentang Kami")).toHaveAttribute("href", expect.stringContaining('mailto'));
+        expect(getByText("Hubungi Kami")).toHaveAttribute("href", expect.stringContaining('mailto'));
     });
 
     it('should redirect to Daftar Investor page when Mulai Investasi button is clicked', () => {

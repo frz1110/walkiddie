@@ -31,6 +31,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                 alert('Password yang anda masukan terlalu mirip dengan email maupun nama anda')
             }else {
                 if (res.signup){
+                    alert('Anda bisa mengecek email anda untuk link aktivasi akun')
                     return <Redirect to='/masuk' />
                 }
                 else {
