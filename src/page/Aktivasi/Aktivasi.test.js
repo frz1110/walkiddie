@@ -5,7 +5,6 @@ import store from '../../store';
 import '@testing-library/jest-dom';
 import { BrowserRouter,Route } from 'react-router-dom'
 import { Provider } from 'react-redux' 
-import axios from 'axios'
 
 jest.mock('axios')
 
