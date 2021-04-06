@@ -8,6 +8,7 @@ import MenuList from '@material-ui/core/MenuList';
 import { makeStyles } from '@material-ui/core/styles';
 import { ChevronDown, ChevronUp } from 'react-feather';
 import profile from './profile.svg';
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,8 +61,8 @@ export default function NavProfile(props) {
           data-testid="nav-profile-icon"
         >
             <img src={profile} alt="profile icon"/>
-            {!open && <ChevronDown color='#146A5F'/>}
-            {open && <ChevronUp color='#146A5F'/>}
+            {!open && <ChevronDown className="wkd-profile-toggle" color='#146A5F'/>}
+            {open && <ChevronUp className="wkd-profile-toggle" color='#146A5F'/>}
         </div>
 
 
@@ -74,7 +75,7 @@ export default function NavProfile(props) {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown} data-testid="nav-profile-menulist">
-                    <MenuItem onClick={handleClose} data-testid='profile-menu'>Profil</MenuItem>
+                    <MenuItem onClick={handleClose} data-testid='profile-menu'><Link to="/profile">Profil</Link></MenuItem>
                     <MenuItem onClick={handleClose}>Portofolio</MenuItem>
                     <MenuItem onClick={props.handleLogout}>Keluar</MenuItem>
                   </MenuList>

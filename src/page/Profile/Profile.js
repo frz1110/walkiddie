@@ -4,7 +4,6 @@ import EditIcon from './pictures.svg';
 import { ChevronLeft } from 'react-feather';
 import React, { useState } from 'react';
 import { Row } from "react-bootstrap";
-import { Link } from 'react-router-dom';
 
 const Profile = () => {
     const [formData, setFormData] = useState({

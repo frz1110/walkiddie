@@ -193,7 +193,7 @@ describe('signup mitra',() => {
 })
 
 describe('activation',() => {
-  it('dispatch ACTIVATION_SUCCESS ', () => {
+  it('dispatch ACTIVATION_SUCCESS', () => {
       const expectedActions = [
               { type: types.ACTIVATION_SUCCESS }
       ]
