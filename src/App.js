@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Activate from './page/Aktivasi/Aktivasi';
+import DaftarToko from './page/DaftarToko/DaftarToko';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
@@ -36,6 +37,9 @@ function App() {
               <Profile />
             </Route>
             <Route path="/aktivasi/:uid/:token" component={Activate}>
+            </Route>
+            <Route path="/daftar-toko">
+              <DaftarToko />
             </Route>
             <Route exact path="/">
               <Home />
