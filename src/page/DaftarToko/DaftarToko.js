@@ -1,4 +1,5 @@
 import './DaftarToko.css'
+import WalkiddieGoogleMaps from './WalkiddieGoogleMaps.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-google-flight-datepicker/dist/main.css';
 import AlurPendaftaran from './daftar-toko.svg';
@@ -170,6 +171,11 @@ const DaftarToko = () => {
                                                 required
                                             />
                                     </div>
+                                </div>
+                                <div>
+                                    <WalkiddieGoogleMaps>
+
+                                    </WalkiddieGoogleMaps>
                                 </div>
                                 <br></br>
                                 <h3 className="midtext" ><span>Informasi Pengadaan</span></h3>
