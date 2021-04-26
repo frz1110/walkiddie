@@ -38,6 +38,7 @@ function reducer(state = initialState, action) {
     case USER_LOADED_SUCCESS:
       return {
         ...state,
+        isAuthenticated: true,
         user: payload
       }
     case LOGIN_FAIL:
