@@ -25,53 +25,53 @@ const DaftarToko = () => {
         startDate: new Date(),
         endDate: new Date(),
         key: 'selection',
-      }
+    }
 
-    const { 
-        namaToko, 
-        namaCabang, 
-        tipeUsaha, 
-        nomorTelepon, 
-        deskripsiToko, 
-        lokasiToko, 
-        mediaToko, 
-        paketMainan, 
-        totalBiaya, 
+    const {
+        namaToko,
+        namaCabang,
+        tipeUsaha,
+        nomorTelepon,
+        deskripsiToko,
+        lokasiToko,
+        mediaToko,
+        paketMainan,
+        totalBiaya,
         periodePengadaan,
-        estimasiKeuangan 
+        estimasiKeuangan
     } = formData;
 
-    
+
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    return ( 
+    return (
         <div>
             <div className="wkd-home-sect-2-bg"
                 style={{
                     height: '400px',
                     maxWidth: '1500px'
-                    }}
+                }}
             >
                 <div className="wkd-home-sect-2-container"
-                style={{
-                    marginBottom: '100px'
+                    style={{
+                        marginBottom: '100px'
                     }}
                 >
                     <img src={AlurPendaftaran} alt="Walkiddie Icon"></img>
                 </div>
             </div>
 
-            
+
             <div className="wkd-home-sect-3-container">
                 <div className="wkd-home-banner-card"
-                style={{
-                    borderRadius:'7px'
-                }}
+                    style={{
+                        borderRadius: '7px'
+                    }}
                 >
                     <div
-                    style={{
-                        textAlign: 'left'
-                    }}>
+                        style={{
+                            textAlign: 'left'
+                        }}>
                         <h2> Pendaftaran Toko </h2>
                         <p>Daftarkan toko anda dan raih keuntungannya</p>
                         <br></br>
@@ -82,93 +82,93 @@ const DaftarToko = () => {
                                 <div className="form-group row">
                                     <label for='namaToko' class="col-sm-3 col-form-label"> <span class="required"> * </span> Nama Toko </label>
                                     <div class="col-sm-9">
-                                            <input
-                                                id='namaToko'
-                                                className='form-control'
-                                                type='text'
-                                                placeholder='Tuliskan Nama Toko'
-                                                name='namaToko'
-                                                value={namaToko}
-                                                onChange={e => onChange(e)}
-                                                required
-                                            />
+                                        <input
+                                            id='namaToko'
+                                            className='form-control'
+                                            type='text'
+                                            placeholder='Tuliskan Nama Toko'
+                                            name='namaToko'
+                                            value={namaToko}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label for='namaCabang' class="col-sm-3 col-form-label"> Nama Cabang (pilihan) :</label>
                                     <div class="col-sm-9">
-                                            <input
-                                                id='namaCabang'
-                                                className='form-control'
-                                                type='text'
-                                                placeholder='Tuliskan nama cabang (jika memiliki lebih dari satu outlet)'
-                                                name='namaCabang'
-                                                value={namaCabang}
-                                                onChange={e => onChange(e)}
-                                                required
-                                            />
+                                        <input
+                                            id='namaCabang'
+                                            className='form-control'
+                                            type='text'
+                                            placeholder='Tuliskan nama cabang (jika memiliki lebih dari satu outlet)'
+                                            name='namaCabang'
+                                            value={namaCabang}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label for='tipeUsaha' class="col-sm-3 col-form-label"> <span class="required"> * </span> Tipe Usaha :</label>
                                     <div class="col-sm-9">
-                                            <input
-                                                id='tipeUsaha'
-                                                className='form-control'
-                                                type='text'
-                                                placeholder='Tuliskan nama usaha (Contoh: Restoran, toko baju, dll.)  '
-                                                name='tipeUsaha'
-                                                value={tipeUsaha}
-                                                onChange={e => onChange(e)}
-                                                required
-                                            />
+                                        <input
+                                            id='tipeUsaha'
+                                            className='form-control'
+                                            type='text'
+                                            placeholder='Tuliskan nama usaha (Contoh: Restoran, toko baju, dll.)  '
+                                            name='tipeUsaha'
+                                            value={tipeUsaha}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label for='nomorTelepon' class="col-sm-3 col-form-label"> <span class="required"> * </span> Nomor Telepon :</label>
                                     <div class="col-sm-9">
-                                            <input
-                                                id='nomorTelepon'
-                                                className='form-control'
-                                                type='text'
-                                                placeholder='Tuliskan nomor telepon toko'
-                                                name='nomorTelepon'
-                                                value={nomorTelepon}
-                                                onChange={e => onChange(e)}
-                                                required
-                                            />
+                                        <input
+                                            id='nomorTelepon'
+                                            className='form-control'
+                                            type='text'
+                                            placeholder='Tuliskan nomor telepon toko'
+                                            name='nomorTelepon'
+                                            value={nomorTelepon}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label for='deskripsiToko' class="col-sm-3 col-form-label"> <span class="required"> * </span> Deskripsi Toko :</label>
                                     <div class="col-sm-9">
-                                            <textarea
-                                                id='deskripsiToko'
-                                                className='form-control'
-                                                type='text'
-                                                rows='4'
-                                                placeholder='Tuliskan deskripsi singkat toko'
-                                                name='deskripsiToko'
-                                                value={deskripsiToko}
-                                                onChange={e => onChange(e)}
-                                                required
-                                            />
+                                        <textarea
+                                            id='deskripsiToko'
+                                            className='form-control'
+                                            type='text'
+                                            rows='4'
+                                            placeholder='Tuliskan deskripsi singkat toko'
+                                            name='deskripsiToko'
+                                            value={deskripsiToko}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label for='lokasiToko' class="col-sm-3 col-form-label"> <span class="required"> * </span> Lokasi Toko :</label>
                                     <div class="col-sm-9">
-                                            <textarea
-                                                id='lokasiToko'
-                                                className='form-control'
-                                                type='text'
-                                                rows='3'
-                                                placeholder='Tuliskan alamat lengkap toko'
-                                                name='lokasiToko'
-                                                value={lokasiToko}
-                                                onChange={e => onChange(e)}
-                                                required
-                                            />
+                                        <textarea
+                                            id='lokasiToko'
+                                            className='form-control'
+                                            type='text'
+                                            rows='3'
+                                            placeholder='Tuliskan alamat lengkap toko'
+                                            name='lokasiToko'
+                                            value={lokasiToko}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <br></br>
@@ -187,7 +187,7 @@ const DaftarToko = () => {
                                 <div className="form-group row">
                                     <label for='totalBiaya' class="col-sm-3 col-form-label"> Total Biaya pengadaan :</label>
                                     <div class="col-sm-9">
-                                    <input class="form-control" id="totalBiaya" type="text" placeholder="Rp 1.000.000" disabled/>
+                                        <input class="form-control" id="totalBiaya" type="text" placeholder="Rp 1.000.000" disabled />
                                     </div>
                                 </div>
                                 <div className="form-group row">
@@ -215,17 +215,17 @@ const DaftarToko = () => {
                                 <div className="form-group row">
                                     <label for='estimasiKeuangan' class="col-sm-3 col-form-label"> <span class="required"> * </span> Estimasi Keuangan: :</label>
                                     <div class="col-sm-9">
-                                            <textarea
-                                                id='estimasiKeuangan'
-                                                className='form-control'
-                                                type='text'
-                                                rows='3'
-                                                placeholder='Jelaskan mekanisme ROI, Payback period, BEP, dan lain sebagainya'
-                                                name='estimasiKeuangan'
-                                                value={estimasiKeuangan}
-                                                onChange={e => onChange(e)}
-                                                required
-                                            />
+                                        <textarea
+                                            id='estimasiKeuangan'
+                                            className='form-control'
+                                            type='text'
+                                            rows='3'
+                                            placeholder='Jelaskan mekanisme ROI, Payback period, BEP, dan lain sebagainya'
+                                            name='estimasiKeuangan'
+                                            value={estimasiKeuangan}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +238,7 @@ const DaftarToko = () => {
                 </div>
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default DaftarToko;
