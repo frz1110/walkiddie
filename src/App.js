@@ -1,4 +1,5 @@
 import './App.css';
+import { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Activate from './page/Aktivasi/Aktivasi';
 import Navbar from './components/Navbar/Navbar';
@@ -8,11 +9,15 @@ import RegistrasiInvestor from './page/RegistrasiInvestor/RegistrasiInvestor';
 import RegistrasiMitra from './page/RegistrasiMitra/RegistrasiMitra';
 import Profile from './page/Profile/Profile';
 import Login from './page/Login';
+import { fetch_user } from './util/prerender';
 import { Provider } from 'react-redux';
 
 import store from './store';
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  if (loading) fetch_user(store, setLoading);
+  if (loading) return <p>Loading...</p>;
   return (
     <Provider store={store}>
       <Router>
