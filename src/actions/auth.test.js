@@ -221,3 +221,76 @@ describe('activation',() => {
 
   })
 })
+
+describe('google', () => {
+  test('dispatch GOOGLE_AUTH_SUCCESS but token wasn\'t saved to localStorage', async () => {
+    localStorage.removeItem('access','token');
+    const loginData = {
+        refresh: 'refresh-token',
+        access: 'access-token'
+    }
+
+    const store = mockStore({})
+
+    const expectedActions = [
+      { type: types.GOOGLE_AUTH_SUCCESS, payload: loginData },
+      { type: types.USER_LOADED_FAIL }
+    ]
+
+    axios.post.mockImplementationOnce(() => Promise.resolve({data: loginData}));
+
+    return store.dispatch(actions.googleAuthenticate('state', 'code')).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  })
+
+  test('dispatch GOOGLE_AUTH_SUCCESS but API called on load_user fail', async () => {
+    localStorage.removeItem('access','token');
+    const loginData = {
+        refresh: 'refresh-token',
+        access: 'access-token'
+    }
+
+    const store = mockStore({})
+
+    const expectedActions = [
+      { type: types.GOOGLE_AUTH_SUCCESS, payload: loginData },
+      { type: types.USER_LOADED_FAIL }
+    ]
+
+    axios.post.mockImplementationOnce(() => Promise.resolve({data: loginData}));
+    axios.get.mockImplementationOnce(() => Promise.reject());
+
+    return store.dispatch(actions.googleAuthenticate('state', 'code')).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  })
+
+  test('return dispatch GOOGLE_AUTH_FAIL on post rejected', async () => {
+    localStorage.removeItem('access');
+    const expectedActions = [
+      { type: types.GOOGLE_AUTH_FAIL }
+    ]
+
+    axios.post.mockImplementationOnce(() => Promise.reject());
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.googleAuthenticate('state', 'code')).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  })
+
+  test('return google auth return empty list', async () => {
+    localStorage.setItem('access','token');
+    const expectedActions = []
+
+    axios.post.mockImplementationOnce(() => Promise.reject());
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.googleAuthenticate('state', 'code')).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  })
+})

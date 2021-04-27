@@ -6,7 +6,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { signupMitra } from '../../actions/auth';
-
+import axios from 'axios';
 
 const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
     const [formData, setFormData] = useState({
@@ -51,12 +51,23 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
         return <Redirect to='/' />
     }
 
+    const continueWithGoogle = async () => {
+        try {
+            // const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?redirect_uri=http://localhost:3000`)
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/auth/o/google-oauth2/?redirect_uri=https://walkiddie-toys-dev.herokuapp.com`)
+
+            window.location.replace(res.data.authorization_url);
+        } catch (err) {
+
+        }
+    };
+
     return (
         <div id="signup">
             <h1>&lt; Buat Akun Baru <span id="walkiddie">Mitra</span></h1>
             <div className="square-box">
                 <Row className="justify-content-center">
-                    <button className="submit-button google-button" type="button"> 
+                    <button className="submit-button google-button" type="button" onClick={continueWithGoogle}> 
                     <img className="google-image" src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png" alt="Google.png"/>
                     <span>
                         Daftar dengan Google
