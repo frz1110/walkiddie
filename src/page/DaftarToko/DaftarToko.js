@@ -108,8 +108,8 @@ const DaftarToko = ({ isAuthenticated }) => {
       }
 
     const handleSubmit = e => {
-        // e.preventDefault();
-        <Redirect to="/" />
+        e.preventDefault();
+        // <Redirect to="/" />
         postDaftarToko();
     }
 
