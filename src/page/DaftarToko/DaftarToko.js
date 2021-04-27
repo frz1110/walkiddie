@@ -1,10 +1,13 @@
+import 'react-dates/initialize';
 import './DaftarToko.css'
 import WalkiddieGoogleMaps from './WalkiddieGoogleMaps.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-google-flight-datepicker/dist/main.css';
+import { DateRangePicker } from 'react-dates';
+import 'react-calendar/dist/Calendar.css';
+import 'react-dates/lib/css/_datepicker.css';
 import AlurPendaftaran from './daftar-toko.svg';
-import { RangeDatePicker } from 'react-google-flight-datepicker';
 import React, { useState } from 'react';
+import Select from 'react-select';
 import { Link } from 'react-router-dom';
 
 const DaftarToko = () => {
@@ -15,18 +18,9 @@ const DaftarToko = () => {
         nomorTelepon: '',
         deskripsiToko: '',
         lokasiToko: '',
-        mediaToko: '',
-        paketMainan: '',
-        totalBiaya: '',
-        periodePengadaan: '',
-        estimasiKeuangan: ''
+        totalBiaya: 1000000,
+        estimasiKeuangan: '',
     });
-
-    const selectionRange = {
-        startDate: new Date(),
-        endDate: new Date(),
-        key: 'selection',
-    }
 
     const {
         namaToko,
@@ -42,8 +36,64 @@ const DaftarToko = () => {
         estimasiKeuangan
     } = formData;
 
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [focusedInput, setFocusedInput] = useState(null);
+    const handleDatesChange = ({ startDate, endDate }) => {
+        // if (startDate !== null && endDate !== null) {
+            setStartDate(startDate);
+            console.log(startDate);
+            setEndDate(endDate);
+            console.log(endDate)
+        // }
+        if (startDate !== null && endDate !== null) {
+            console.log(startDate.format("YYYY-MM-DD"));
+            console.log(endDate.format("YYYY-MM-DD"))
+        }
+    };
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    
+    let file = '';
+
+    const media = {
+        files : []
+    }
+
+    const handleChangeFile = (event) => {
+        media.files = event.target.files
+        console.log(event.target.files)
+        console.log(media.files)
+    }
+
+
+    const dataPilihanMainan = [
+        {
+          value: "PaketA",
+          label: "Paket A (2 kiddie ride + 1 claw machine)"
+        },
+        {
+          value: "PaketB",
+          label: "Paket B (2 kiddie ride )"
+        },
+        {
+          value: "PaketC",
+          label: "Paket C (1 kiddie ride + 1 claw machine)"
+        }
+      ];
+     
+      const [selectedValue, setSelectedValue] = useState("PaketA");
+     
+      const handleChange = e => {
+        setSelectedValue(e.value);
+        if (e.value === "PaketA"){
+            setFormData({totalBiaya:1000000})
+        }else if (e.value === "PaketB"){
+            setFormData({totalBiaya:900000})
+        }else {
+            setFormData({totalBiaya:800000})
+        }
+      }
 
     return (
         <div>
@@ -128,16 +178,16 @@ const DaftarToko = () => {
                                 <div className="form-group row">
                                     <label for='nomorTelepon' class="col-sm-3 col-form-label"> <span class="required"> * </span> Nomor Telepon :</label>
                                     <div class="col-sm-9">
-                                        <input
-                                            id='nomorTelepon'
-                                            className='form-control'
-                                            type='text'
-                                            placeholder='Tuliskan nomor telepon toko'
-                                            name='nomorTelepon'
-                                            value={nomorTelepon}
-                                            onChange={e => onChange(e)}
-                                            required
-                                        />
+                                            <input
+                                                id='nomorTelepon'
+                                                className='form-control'
+                                                type="number" pattern="[0-9]*" inputmode="numeric"
+                                                placeholder='Tuliskan nomor telepon toko'
+                                                name='nomorTelepon'
+                                                value={nomorTelepon}
+                                                onChange={e => onChange(e)}
+                                                required
+                                            />
                                     </div>
                                 </div>
                                 <div className="form-group row">
@@ -154,6 +204,17 @@ const DaftarToko = () => {
                                             onChange={e => onChange(e)}
                                             required
                                         />
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <label for='lokasiToko' class="col-sm-3 col-form-label"> <span class="required"> * </span>Foto/Video Toko (tampak depan/tampak belakang/video):</label>
+                                    <div class="col-sm-9">
+                                        <input  
+                                        type="file" 
+                                        name="file" 
+                                        accept="video/*,image/*" 
+                                        onChange={e => handleChangeFile(e)} 
+                                        ref={(input) => { file = input; }} multiple />
                                     </div>
                                 </div>
                                 <div className="form-group row">
@@ -183,55 +244,51 @@ const DaftarToko = () => {
                                 <div className="form-group row">
                                     <label for='paketMainan' class="col-sm-3 col-form-label"> <span class="required"> * </span> Paket Mainan :</label>
                                     <div class="col-sm-9">
-                                        <select class="custom-select paketMainan" id="paketMainan">
-                                            <option selected>Paket A (2 kiddie ride + 1 claw machine)</option>
-                                            <option value="1">Paket B (2 kiddie ride )</option>
-                                            <option value="2">Paket C ( kiddie ride + 1 claw machine)</option>
-                                        </select>
+                                        <Select 
+                                        class="form-control"
+                                        placeholder="Pilih paket Mainan"
+                                        value={dataPilihanMainan.find(obj => obj.value === selectedValue)}
+                                        options={dataPilihanMainan}
+                                        onChange={handleChange}
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label for='totalBiaya' class="col-sm-3 col-form-label"> Total Biaya pengadaan :</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" id="totalBiaya" type="text" placeholder="Rp 1.000.000" disabled />
+                                    <input class="form-control" id="totalBiaya" type="text" placeholder={totalBiaya} disabled/>
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label for='periodePengadaan' class="col-sm-3 col-form-label"> <span class="required"> * </span> Periode pengadaan :</label>
                                     <div class="col-sm-9">
-                                        {/* <RangeDatePicker
-                                            startDate={new Date()}
-                                            endDate={new Date()}
-                                            // onChange={(startDate, endDate) => onDateChange(startDate, endDate)}
-                                            minDate={new Date(1900, 1, 1)}
-                                            maxDate={new Date(2100, 1, 1)}
-                                            dateFormat="D MMM YYYY"
-                                            startDatePlaceholder="Start Date"
-                                            endDatePlaceholder="End Date"
-                                            disabled={false}
-                                            className="my-own-class-name"
-                                            startWeekDay="monday"
-                                        /> */}
-                                        {/* <DatePicker selected={tanggalMulai} onChange={date => setStartDate(date)} />    
-                                    </div>
-                                    <div class="col-sm-2"> 
-                                        <DatePicker selected={tanggalSelesai} onChange={date => setCurrentDate(date)} /> */}
+                                        <DateRangePicker
+                                            startDate={startDate}
+                                            startDateId="tata-start-date"
+                                            endDate={endDate}
+                                            endDateId="tata-end-date"
+                                            startDatePlaceholderText="Tanggal Mulai Pengadaan"
+                                            endDatePlaceholderText="Tanggal Akhir Pengadaan"
+                                            onDatesChange={handleDatesChange}
+                                            focusedInput={focusedInput}
+                                            displayFormat={() => "DD/MM/YYYY"}
+                                            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label for='estimasiKeuangan' class="col-sm-3 col-form-label"> <span class="required"> * </span> Estimasi Keuangan: :</label>
                                     <div class="col-sm-9">
-                                        <textarea
-                                            id='estimasiKeuangan'
-                                            className='form-control'
-                                            type='text'
-                                            rows='3'
-                                            placeholder='Jelaskan mekanisme ROI, Payback period, BEP, dan lain sebagainya'
-                                            name='estimasiKeuangan'
-                                            value={estimasiKeuangan}
-                                            onChange={e => onChange(e)}
-                                            required
-                                        />
+                                            <textarea
+                                                id='estimasiKeuangan'
+                                                type='text'
+                                                rows='3'
+                                                placeholder='Jelaskan mekanisme ROI, Payback period, BEP, dan lain sebagainya'
+                                                name='estimasiKeuangan'
+                                                value={estimasiKeuangan}
+                                                onChange={e => onChange(e)}
+                                                required
+                                            />
                                     </div>
                                 </div>
                             </div>
