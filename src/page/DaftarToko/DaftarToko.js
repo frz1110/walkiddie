@@ -12,7 +12,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-const DaftarToko = ({ isAuthenticated }) => {
+const DaftarToko = ({ isAuthenticated, user }) => {
 
     const [formData, setFormData] = useState({
         namaToko: '',
@@ -58,20 +58,13 @@ const DaftarToko = ({ isAuthenticated }) => {
 
     const handleDatesChange = ({ startDate, endDate }) => {
         setStartDate(startDate);
-        console.log("startDate");
-        console.log(startDate);
         setEndDate(endDate);
-        console.log("endDate")
-        console.log(endDate)
         if (startDate !== null && endDate !== null) {
             setFormData({
-                ...formData, 
-                periodePengadaanMulai: startDate.format("YYYY-MM-DD"), 
+                ...formData,
+                periodePengadaanMulai: startDate.format("YYYY-MM-DD"),
                 periodePengadaanAkhir: endDate.format("YYYY-MM-DD")
             })
-            console.log("startDate.format(YYYY-MM-DD)");
-            console.log(startDate.format("YYYY-MM-DD"));
-            console.log(endDate.format("YYYY-MM-DD"))
         }
     };
 
@@ -81,35 +74,34 @@ const DaftarToko = ({ isAuthenticated }) => {
 
     const dataPilihanMainan = [
         {
-          value: "PaketA",
-          label: "Paket A (2 kiddie ride + 1 claw machine)"
+            value: "PaketA",
+            label: "Paket A (2 kiddie ride + 1 claw machine)"
         },
         {
-          value: "PaketB",
-          label: "Paket B (2 kiddie ride )"
+            value: "PaketB",
+            label: "Paket B (2 kiddie ride )"
         },
         {
-          value: "PaketC",
-          label: "Paket C (1 kiddie ride + 1 claw machine)"
+            value: "PaketC",
+            label: "Paket C (1 kiddie ride + 1 claw machine)"
         }
-      ];
-     
-      const [selectedValue, setSelectedValue] = useState("PaketA");
-     
-      const handleChange = e => {
+    ];
+
+    const [selectedValue, setSelectedValue] = useState("PaketA");
+
+    const handleChange = e => {
         setSelectedValue(e.value);
-        if (e.value === "PaketA"){
-            setFormData({...formData, totalBiaya:1000000, paketMainan: e.value})
-        }else if (e.value === "PaketB"){
-            setFormData({...formData, totalBiaya:900000, paketMainan: e.value})
-        }else {
-            setFormData({...formData, totalBiaya:800000, paketMainan: e.value})
+        if (e.value === "PaketA") {
+            setFormData({ ...formData, totalBiaya: 1000000, paketMainan: e.value })
+        } else if (e.value === "PaketB") {
+            setFormData({ ...formData, totalBiaya: 900000, paketMainan: e.value })
+        } else {
+            setFormData({ ...formData, totalBiaya: 800000, paketMainan: e.value })
         }
-      }
+    }
 
     const handleSubmit = e => {
-        e.preventDefault();
-        // <Redirect to="/" />
+        // e.preventDefault();
         postDaftarToko();
     }
 
@@ -125,11 +117,6 @@ const DaftarToko = ({ isAuthenticated }) => {
                 }
             };
 
-            console.log("paketMainan " + paketMainan);
-            console.log("totalBiaya " + totalBiaya);
-            console.log("startDate " + startDate);
-            console.log("endDate " + endDate);
-
             formDataToSend.append('namaToko', namaToko);
             formDataToSend.append('namaCabang', namaCabang);
             formDataToSend.append('tipeUsaha', tipeUsaha);
@@ -139,6 +126,7 @@ const DaftarToko = ({ isAuthenticated }) => {
             formDataToSend.append('longitude', longitude);
             formDataToSend.append('latitude', latitude);
             formDataToSend.append('paketMainan', paketMainan);
+            // console.log("for (let file of mediaTokoList) {");
             for (let file of mediaTokoList) {
                 console.log(file);
                 formDataToSend.append('mediaToko', file);
@@ -155,17 +143,12 @@ const DaftarToko = ({ isAuthenticated }) => {
                         console.log(response);
                     }, (error) => {
                         if (error.response) {
-
                             console.log("error.response")
                             console.log(error.response)
-
                         } else if (error.request) {
-
                             console.log("error.request")
                             console.log(error.request)
-
                         } else if (error.message) {
-
                             console.log("error.message")
                             console.log(error.message)
 
@@ -182,6 +165,7 @@ const DaftarToko = ({ isAuthenticated }) => {
     }
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
+    if (user.role !== "Mitra") return <Redirect to="/" />
 
     return (
         <div>
@@ -219,8 +203,8 @@ const DaftarToko = ({ isAuthenticated }) => {
                         <form className="centered" onSubmit={handleSubmit}>
                             <div className="justify-content-center">
                                 <div className="form-group row">
-                                    <label for='namaToko' class="col-sm-3 col-form-label"> <span class="required"> * </span> Nama Toko </label>
-                                    <div class="col-sm-9">
+                                    <label htmlFor='namaToko' className="col-sm-3 col-form-label"> <span className="required"> * </span> Nama Toko </label>
+                                    <div className="col-sm-9">
                                         <input
                                             id='namaToko'
                                             className='form-control'
@@ -234,8 +218,8 @@ const DaftarToko = ({ isAuthenticated }) => {
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label for='namaCabang' class="col-sm-3 col-form-label"> Nama Cabang (pilihan) :</label>
-                                    <div class="col-sm-9">
+                                    <label htmlFor='namaCabang' className="col-sm-3 col-form-label"> Nama Cabang (pilihan) :</label>
+                                    <div className="col-sm-9">
                                         <input
                                             id='namaCabang'
                                             className='form-control'
@@ -249,8 +233,8 @@ const DaftarToko = ({ isAuthenticated }) => {
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label for='tipeUsaha' class="col-sm-3 col-form-label"> <span class="required"> * </span> Tipe Usaha :</label>
-                                    <div class="col-sm-9">
+                                    <label htmlFor='tipeUsaha' className="col-sm-3 col-form-label"> <span className="required"> * </span> Tipe Usaha :</label>
+                                    <div className="col-sm-9">
                                         <input
                                             id='tipeUsaha'
                                             className='form-control'
@@ -264,23 +248,23 @@ const DaftarToko = ({ isAuthenticated }) => {
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label for='nomorTelepon' class="col-sm-3 col-form-label"> <span class="required"> * </span> Nomor Telepon :</label>
-                                    <div class="col-sm-9">
-                                            <input
-                                                id='nomorTelepon'
-                                                className='form-control'
-                                                type="number" pattern="[0-9]*" inputmode="numeric"
-                                                placeholder='Tuliskan nomor telepon toko'
-                                                name='nomorTelepon'
-                                                value={nomorTelepon}
-                                                onChange={e => onChange(e)}
-                                                required
-                                            />
+                                    <label htmlFor='nomorTelepon' className="col-sm-3 col-form-label"> <span className="required"> * </span> Nomor Telepon :</label>
+                                    <div className="col-sm-9">
+                                        <input
+                                            id='nomorTelepon'
+                                            className='form-control'
+                                            type="number" pattern="[0-9]*" inputMode="numeric"
+                                            placeholder='Tuliskan nomor telepon toko'
+                                            name='nomorTelepon'
+                                            value={nomorTelepon}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label for='deskripsiToko' class="col-sm-3 col-form-label"> <span class="required"> * </span> Deskripsi Toko :</label>
-                                    <div class="col-sm-9">
+                                    <label htmlFor='deskripsiToko' className="col-sm-3 col-form-label"> <span className="required"> * </span> Deskripsi Toko :</label>
+                                    <div className="col-sm-9">
                                         <textarea
                                             id='deskripsiToko'
                                             className='form-control'
@@ -295,19 +279,20 @@ const DaftarToko = ({ isAuthenticated }) => {
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label for='lokasiToko' class="col-sm-3 col-form-label"> <span class="required"> * </span>Foto/Video Toko (tampak depan/tampak belakang/video):</label>
-                                    <div class="col-sm-9">
-                                        <input  
-                                        type="file" 
-                                        name="file" 
-                                        accept="video/*,image/*" 
-                                        onChange={e => handleChangeFile(e)} 
-                                        ref={(input) => { file = input; }} multiple />
+                                    <label htmlFor='mediaToko' className="col-sm-3 col-form-label"> <span className="required"> * </span>Foto/Video Toko (tampak depan/tampak belakang/video):</label>
+                                    <div className="col-sm-9">
+                                        <input
+                                            role="mediatoko"
+                                            type="file"
+                                            name="file"
+                                            accept="video/*,image/*"
+                                            onChange={e => handleChangeFile(e)}
+                                            ref={(input) => { file = input; }} multiple />
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label for='lokasiToko' class="col-sm-3 col-form-label"> <span class="required"> * </span> Lokasi Toko :</label>
-                                    <div class="col-sm-9">
+                                    <label htmlFor='lokasiToko' className="col-sm-3 col-form-label"> <span className="required"> * </span> Lokasi Toko :</label>
+                                    <div className="col-sm-9">
                                         <textarea
                                             id='lokasiToko'
                                             className='form-control'
@@ -330,26 +315,28 @@ const DaftarToko = ({ isAuthenticated }) => {
                                 <h3 className="midtext" ><span>Informasi Pengadaan</span></h3>
                                 <br></br>
                                 <div className="form-group row">
-                                    <label for='paketMainan' class="col-sm-3 col-form-label"> <span class="required"> * </span> Paket Mainan :</label>
-                                    <div class="col-sm-9">
-                                        <Select 
-                                        class="form-control"
-                                        placeholder="Pilih paket Mainan"
-                                        // value={dataPilihanMainan.find(obj => obj.value === selectedValue)}
-                                        options={dataPilihanMainan}
-                                        onChange={handleChange}
+                                    <label htmlFor='paketMainan' className="col-sm-3 col-form-label"> <span className="required"> * </span> Paket Mainan :</label>
+                                    <div className="col-sm-9">
+                                        <Select
+                                            role="paketmainan"
+                                            data-testid="select-paket-mainan"
+                                            class="form-control"
+                                            placeholder="Pilih paket Mainan"
+                                            // value={dataPilihanMainan.find(obj => obj.value === selectedValue)}
+                                            options={dataPilihanMainan}
+                                            onChange={handleChange}
                                         />
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label for='totalBiaya' class="col-sm-3 col-form-label"> Total Biaya pengadaan :</label>
-                                    <div class="col-sm-9">
-                                    <input class="form-control" id="totalBiaya" type="text" placeholder={totalBiaya} disabled/>
+                                    <label htmlFor='totalBiaya' className="col-sm-3 col-form-label"> Total Biaya pengadaan :</label>
+                                    <div className="col-sm-9">
+                                        <input className="form-control" id="totalBiaya" type="text" placeholder={totalBiaya} disabled />
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label for='periodePengadaan' class="col-sm-3 col-form-label"> <span class="required"> * </span> Periode pengadaan :</label>
-                                    <div class="col-sm-9">
+                                    <label htmlFor='periodePengadaan' className="col-sm-3 col-form-label"> <span className="required"> * </span> Periode pengadaan :</label>
+                                    <div className="col-sm-9">
                                         <DateRangePicker
                                             startDate={startDate}
                                             startDateId="tata-start-date"
@@ -365,22 +352,22 @@ const DaftarToko = ({ isAuthenticated }) => {
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label for='estimasiKeuangan' class="col-sm-3 col-form-label"> <span class="required"> * </span> Estimasi Keuangan: :</label>
-                                    <div class="col-sm-9">
-                                            <textarea
-                                                id='estimasiKeuangan'
-                                                type='text'
-                                                rows='3'
-                                                placeholder='Jelaskan mekanisme ROI, Payback period, BEP, dan lain sebagainya'
-                                                name='estimasiKeuangan'
-                                                value={estimasiKeuangan}
-                                                onChange={e => onChange(e)}
-                                                required
-                                            />
+                                    <label htmlFor='estimasiKeuangan' className="col-sm-3 col-form-label"> <span className="required"> * </span> Estimasi Keuangan :</label>
+                                    <div className="col-sm-9">
+                                        <textarea
+                                            id='estimasiKeuangan'
+                                            type='text'
+                                            rows='3'
+                                            placeholder='Jelaskan mekanisme ROI, Payback period, BEP, dan lain sebagainya'
+                                            name='estimasiKeuangan'
+                                            value={estimasiKeuangan}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                             </div>
-                            <div class="pull-right">
+                            <div className="pull-right">
                                 <button className="wkd-nav-button wkd-light-tosca-button"><Link to="/masuk">Batal</Link></button>
                                 <button className="wkd-nav-button wkd-dark-green-button" type="submit">Simpan</button>
                             </div>
@@ -393,7 +380,8 @@ const DaftarToko = ({ isAuthenticated }) => {
 }
 
 const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
 })
 
 export default connect(mapStateToProps)(DaftarToko);
