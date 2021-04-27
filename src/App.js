@@ -10,6 +10,7 @@ import RegistrasiInvestor from './page/RegistrasiInvestor/RegistrasiInvestor';
 import RegistrasiMitra from './page/RegistrasiMitra/RegistrasiMitra';
 import Profile from './page/Profile/Profile';
 import Login from './page/Login';
+import Layout from './hocs/Layout';
 import { fetch_user } from './util/prerender';
 import { Provider } from 'react-redux';
 
@@ -23,36 +24,38 @@ function App() {
     <Provider store={store}>
       <Router>
       <div className="App">
-        <Navbar />
-        <div className="content">
-          <Switch>
-            <Route path="/masuk">
-              <Login />
-            </Route>
-            <Route path="/daftar-investor">
-              <RegistrasiInvestor />
-            </Route>
-            <Route path="/daftar-mitra">
-              <RegistrasiMitra />
-            </Route>
-            <Route path="/bantuan">
+        <Layout>
+          <Navbar />
+          <div className="content">
+            <Switch>
+              <Route path="/masuk">
+                <Login />
+              </Route>
+              <Route path="/daftar-investor">
+                <RegistrasiInvestor />
+              </Route>
+              <Route path="/daftar-mitra">
+                <RegistrasiMitra />
+              </Route>
+              <Route path="/bantuan">
 
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
-            <Route path="/aktivasi/:uid/:token" component={Activate}>
-            </Route>
+              </Route>
+              <Route path="/profile">
+                <Profile />
+              </Route>
+              <Route path="/aktivasi/:uid/:token" component={Activate}>
+              </Route>
             <Route path="/daftar-toko">
               <DaftarToko />
             </Route>
-            <Route exact path="/">
-              <Home />
-            </Route>
-          </Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </div>
+          <Footer />
+        </Layout>
         </div>
-        <Footer />
-      </div>
       </Router>
     </Provider>
   );
