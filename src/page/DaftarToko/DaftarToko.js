@@ -269,8 +269,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                             type="file"
                                             name="file"
                                             accept="video/*,image/*"
-                                            onChange={e => handleChangeFile(e)}
-                                            ref={(input) => { let file = input; }} multiple />
+                                            onChange={e => handleChangeFile(e)} multiple />
                                     </div>
                                 </div>
                                 <div className="form-group row">
