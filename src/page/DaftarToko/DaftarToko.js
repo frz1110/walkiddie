@@ -65,6 +65,8 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                 periodePengadaanMulai: startDate.format("YYYY-MM-DD"),
                 periodePengadaanAkhir: endDate.format("YYYY-MM-DD")
             })
+        }else{
+            console.log("Tanggal Yang Anda masukan error")
         }
     };
 
@@ -101,7 +103,6 @@ const DaftarToko = ({ isAuthenticated, user }) => {
     }
 
     const handleSubmit = e => {
-        // e.preventDefault();
         postDaftarToko();
     }
 
@@ -126,8 +127,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
             formDataToSend.append('longitude', longitude);
             formDataToSend.append('latitude', latitude);
             formDataToSend.append('paketMainan', paketMainan);
-            // console.log("for (let file of mediaTokoList) {");
-            for (let file of mediaTokoList) {
+            for (let file in mediaTokoList) {
                 console.log(file);
                 formDataToSend.append('mediaToko', file);
             }
@@ -136,29 +136,14 @@ const DaftarToko = ({ isAuthenticated, user }) => {
             formDataToSend.append('periodePengadaanAkhir', periodePengadaanAkhir);
             formDataToSend.append('estimasiKeuangan', estimasiKeuangan);
 
-
-            try {
-                axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, formDataToSend, config)
-                    .then((response) => {
-                        console.log(response);
-                    }, (error) => {
-                        if (error.response) {
-                            console.log("error.response")
-                            console.log(error.response)
-                        } else if (error.request) {
-                            console.log("error.request")
-                            console.log(error.request)
-                        } else if (error.message) {
-                            console.log("error.message")
-                            console.log(error.message)
-
-                        }
-                        console.log(error);
-                    });
-                console.log('Success post');
-            } catch (err) {
-                console.log('Error post');
-            }
+            axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, formDataToSend, config)
+                .then((response) => {
+                    console.log(response);
+                    console.log('Success post');
+                }, (error) => {
+                    console.log(error);
+                    console.log('Error post');
+                });
         } else {
             console.log('missing token');
         }
@@ -316,10 +301,9 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                 <br></br>
                                 <div className="form-group row">
                                     <label htmlFor='paketMainan' className="col-sm-3 col-form-label"> <span className="required"> * </span> Paket Mainan :</label>
-                                    <div className="col-sm-9">
+                                    <div className="col-sm-9" data-testid="select-paket-mainan">
                                         <Select
                                             role="paketmainan"
-                                            data-testid="select-paket-mainan"
                                             class="form-control"
                                             placeholder="Pilih paket Mainan"
                                             // value={dataPilihanMainan.find(obj => obj.value === selectedValue)}
