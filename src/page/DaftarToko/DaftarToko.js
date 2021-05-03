@@ -52,8 +52,6 @@ const DaftarToko = ({ isAuthenticated, user }) => {
     const [endDate, setEndDate] = useState(null);
     const [focusedInput, setFocusedInput] = useState(null);
 
-    let file = '';
-
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleDatesChange = ({ startDate, endDate }) => {
@@ -89,10 +87,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
         }
     ];
 
-    const [selectedValue, setSelectedValue] = useState("PaketA");
-
     const handleChange = e => {
-        setSelectedValue(e.value);
         if (e.value === "PaketA") {
             setFormData({ ...formData, totalBiaya: 1000000, paketMainan: e.value })
         } else if (e.value === "PaketB") {
@@ -140,12 +135,15 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                 .then((response) => {
                     console.log(response);
                     console.log('Success post');
+                    alert('Success post')
                 }, (error) => {
                     console.log(error);
                     console.log('Error post');
+                    alert('Terdapat kesalahan saat melakukan submit. Silahkan isi ulang form')
                 });
         } else {
             console.log('missing token');
+            alert('Terdapat kesalahan pada autentikasi akun anda. Anda dapat melakukan refresh pada halaman ini')
         }
     }
 
@@ -272,7 +270,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                             name="file"
                                             accept="video/*,image/*"
                                             onChange={e => handleChangeFile(e)}
-                                            ref={(input) => { file = input; }} multiple />
+                                            ref={(input) => { let file = input; }} multiple />
                                     </div>
                                 </div>
                                 <div className="form-group row">
