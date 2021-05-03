@@ -1,10 +1,7 @@
 import DaftarToko from './DaftarToko'
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { shallow, EnzymeAdapter } from 'enzyme';
-import { DateRangePicker } from 'react-dates';
-import { render, screen, fireEvent, waitForElement } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter, Route } from 'react-router-dom'
 import axios from 'axios'
