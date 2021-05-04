@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { login as loginAction } from '../../actions/auth';
-import axios from 'axios';
 
 const initialState = {
   email: '',

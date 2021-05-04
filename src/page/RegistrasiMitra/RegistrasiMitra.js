@@ -6,7 +6,6 @@ import { Link, Redirect } from 'react-router-dom';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { signupMitra } from '../../actions/auth';
-import axios from 'axios';
 
 const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
     const [formData, setFormData] = useState({
