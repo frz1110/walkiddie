@@ -54,7 +54,7 @@ const Profile = ({ load_user, isAuthenticated }) => {
                 setIsFilled(true);
             }
             catch (err) {
-
+                setIsFilled(false);
             }
         }
 
