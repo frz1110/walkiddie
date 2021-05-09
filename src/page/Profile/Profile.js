@@ -32,7 +32,6 @@ const Profile = ({ load_user, isAuthenticated }) => {
             try {
                 setLoading(true);
                 const result = await load_user();
-                console.log(result.res.data)
                 setLoading(false);
                 setData(result.res.data);
                 setEmail(result.res.data.email);
@@ -49,7 +48,6 @@ const Profile = ({ load_user, isAuthenticated }) => {
         const fetchData = async () => {
             try {
                 const result = await load_profile()(email);
-                console.log(result.res.data)
                 setProfile(result.res.data);
                 setIsFilled(true);
             }
@@ -75,12 +73,13 @@ const Profile = ({ load_user, isAuthenticated }) => {
     
     const handleSubmit = async e => {
         e.preventDefault();
-
+        setLoading(true);
         if(!isFilled){
             const res = await post_profile(email, full_name, address, phone_number, ktp_number, birth_date, profile_picture);
             if (res.success){
                 window.location.reload(false);
             } else {
+                setLoading(false);
                 alert('Terjadi kesalahan, pastikan Anda mengisi semua data (termasuk foto profil)')
             }
         } else {
@@ -88,6 +87,7 @@ const Profile = ({ load_user, isAuthenticated }) => {
             if (res.success){
                 window.location.reload(false);
             } else {
+                setLoading(false);
                 alert('Terjadi kesalahan, data anda gagal diubah')
             }
         }
@@ -122,7 +122,7 @@ const Profile = ({ load_user, isAuthenticated }) => {
     return ( 
         <div className="profile-form">
             <form className="centered" onSubmit={handleSubmit}>
-                <h3 className="profile-header"><ChevronLeft size="40" className="chevron-left"/>Ubah Profil</h3>
+                <h3 className="profile-header"><Link to="/" style={{ color: 'rgb(0, 0, 0)' }} ><ChevronLeft size="40" className="chevron-left"/></Link>Ubah Profil</h3>
                 <Row className="justify-content-center">
                     <div className="col-lg-3">
                         <div className="square-box-1">
