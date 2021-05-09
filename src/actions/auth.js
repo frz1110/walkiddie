@@ -13,6 +13,102 @@ import {
 } from './types';
 import axios from 'axios';
 
+export const post_profile = async (email, full_name, address, phone_number, ktp_number, birth_date, profile_picture) => {
+    var formDataToSend = new FormData();
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+
+    formDataToSend.append('email', email);
+    formDataToSend.append('full_name', full_name);
+    formDataToSend.append('address', address);
+    formDataToSend.append('phone_number', phone_number);
+    formDataToSend.append('ktp_number', ktp_number);
+    formDataToSend.append('birth_date', birth_date);
+    formDataToSend.append('profile_picture', profile_picture);
+
+    try {
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/post`, formDataToSend, config);
+        
+        return {
+            success: true,
+            res
+        }
+    } catch (err) {
+        return {
+        success: false,
+        err
+        }
+    }
+};
+
+export const update_profile = async (email, full_name, address, phone_number, ktp_number, birth_date, profile_picture, imageChanged) => {
+    var formDataToSend = new FormData();
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+
+    formDataToSend.append('email', email);
+    formDataToSend.append('full_name', full_name);
+    formDataToSend.append('address', address);
+    formDataToSend.append('phone_number', phone_number);
+    formDataToSend.append('ktp_number', ktp_number);
+    formDataToSend.append('birth_date', birth_date);
+    if (imageChanged){
+        formDataToSend.append('profile_picture', profile_picture);
+    }
+    
+
+    try {
+        const res = await axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/update/${email}`, formDataToSend, config);
+        
+        return {
+            success: true,
+            res
+        }
+    } catch (err) {
+        return {
+            success: false,
+            err
+        }
+    }
+};
+
+export const load_profile = () => async (email) => {
+    if (localStorage.getItem('access')) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+                'Accept': 'application/json'
+            }
+        }; 
+
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/${email}`, config);
+
+            return {
+                success: true,
+                res
+            }
+        } catch (err) {
+            return {
+                success: false,
+                err
+            }
+        }
+    } else {
+        return {
+            success: false,
+            err: new Error('missing token')
+        }
+    }
+};
+
 export const load_user = () => async dispatch => {
     if (localStorage.getItem('access')) {
         const config = {
@@ -32,7 +128,8 @@ export const load_user = () => async dispatch => {
             });
             return {
                 login: true,
-                userLoaded: true
+                userLoaded: true,
+                res
             }
         } catch (err) {
             dispatch({
