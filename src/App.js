@@ -13,6 +13,7 @@ import Login from './page/Login';
 import Layout from './hocs/Layout';
 import { fetch_user } from './util/prerender';
 import { Provider } from 'react-redux';
+import MembuatInvestasi from './page/MembuatInvestasi/MembuatInvestasi'
 
 import store from './store';
 
@@ -45,9 +46,12 @@ function App() {
               </Route>
               <Route path="/aktivasi/:uid/:token" component={Activate}>
               </Route>
-            <Route path="/daftar-toko">
-              <DaftarToko />
-            </Route>
+              <Route path="/daftar-toko">
+                <DaftarToko />
+              </Route>
+              <Route path="/investasi">
+                <MembuatInvestasi />
+              </Route>
               <Route exact path="/">
                 <Home />
               </Route>
