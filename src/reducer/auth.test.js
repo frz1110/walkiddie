@@ -136,4 +136,50 @@ describe('auth reducer', () => {
     expect(reducer({}, {type: types.ACTIVATION_FAIL})).toEqual({})
   })
   
+  it('should put google authenticate to true and put token', () => {
+    const spy = jest.spyOn(Storage.prototype, 'setItem');
+    const user = {name: 'name'}
+    const accessToken = 'access';
+    const refreshToken = 'refresh';
+
+    expect(
+      reducer(
+        {user},
+        {
+          type: types.GOOGLE_AUTH_SUCCESS,
+          payload: {
+            access: accessToken,
+            refresh: refreshToken,
+          }
+        }
+      )
+    ).toEqual({
+      user,
+      access: accessToken,
+      refresh: refreshToken,
+      isAuthenticated: true
+    });
+
+    expect(spy.mock.calls[0]).toEqual(['access', accessToken]);
+    expect(spy.mock.calls[1]).toEqual(['refresh', refreshToken]);
+    spy.mockRestore();
+  })
+
+  it('should remove token and authentication on google auth fail', () => {
+    const spy = jest.spyOn(Storage.prototype, 'removeItem');
+    expect(reducer({
+      access: 'access',
+      refresh: 'refresh',
+      isAuthenticated: true,
+      user: {name: 'user'}
+    }, {type: types.GOOGLE_AUTH_FAIL})).toEqual({
+      access: null,
+      refresh: null,
+      isAuthenticated: false,
+      user: null
+    })
+    expect(spy.mock.calls[0]).toEqual(['access']);
+    expect(spy.mock.calls[1]).toEqual(['refresh']);
+    spy.mockRestore();
+  })
 })

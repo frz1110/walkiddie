@@ -223,7 +223,7 @@ describe('<RegistrasiMitra />', () => {
         userEvent.click(screen.getByText('Buat Akun'));
     });
 
-    test('Fail SignUp Password to similar ', () => {
+    test('Fail SignUp Password to similar', () => {
         const mockSignUp = jest.fn()
         const mockAuthenticate = jest.fn()    
         const initialState = { auth: {isAuthenticated: false}}
