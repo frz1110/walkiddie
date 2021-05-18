@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Activate from './page/Aktivasi/Aktivasi';
 import DaftarToko from './page/DaftarToko/DaftarToko';
+import HomepageInvestor from './page/HomepageInvestor/HomepageInvestor';
+import HomepagePemilikToko from './page/HomepagePemilikToko/HomepagePemilikToko';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
@@ -52,6 +54,12 @@ function App() {
               <Route path="/investasi">
                 <MembuatInvestasi />
               </Route>
+            <Route path="/investor">
+              <HomepageInvestor />
+            </Route>
+            <Route path="/pemilik-toko">
+              <HomepagePemilikToko />
+            </Route>
               <Route exact path="/">
                 <Home />
               </Route>
