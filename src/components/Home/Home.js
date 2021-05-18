@@ -3,9 +3,19 @@ import InvestorIcon from './investor-icon.svg';
 import MitraIcon from './mitra-icon.svg';
 import Sect1 from './sect-1.svg';
 import Sect2Icon from './sect-2-icon.svg';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 
-const Home = () => {
+const Home = ({user}) => {
+
+    if (user !== null) {
+        if (user.role == "Mitra") {
+            return <Redirect to="/pemilik-toko" />
+        } else if (user.role == "Investor") {
+            return <Redirect to="/investor" />
+        }
+    }
+
     return ( 
         <div>
             <div className="wkd-home-sect-1-container">
@@ -82,4 +92,8 @@ const Home = () => {
      );
 }
  
-export default Home;
+const mapStateToProps = (state) => ({
+    user: state.auth.user
+})
+
+export default connect(mapStateToProps)(Home);

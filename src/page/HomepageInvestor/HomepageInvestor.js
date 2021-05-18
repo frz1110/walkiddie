@@ -7,6 +7,9 @@ import Select from 'react-select';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import './HomepageInvestor.css'
+import '../HomepagePemilikToko/HomepagePemilikToko.css'
+import { Redirect } from 'react-router-dom';
+import _ from 'lodash';
 
 const HomepageInvestor = ({ isAuthenticated ,user }) => {
 // const HomepageInvestor = () => {
@@ -20,25 +23,9 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     let currentPosts = "";
     let postLength = 0;
-    const filterChoice = [
-        {
-          value: "aut",
-          label: "aut"
-        },
-        {
-          value: "facere",
-          label: "facere"
-        },
-        {
-          value: "qui",
-          label: "qui"
-        },
-        {
-          value: "consequatur",
-          label: "consequatur"
-        }
-    ];
+    const [filterChoice, setFilterChoice] = useState([])
 
+    // console.log(filterChoice)
     if (filteredPosts) {
         currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
         postLength = filteredPosts.length;
@@ -47,17 +34,38 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
         postLength = posts.length;
     }
 
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `JWT ${localStorage.getItem('access')}`,
+        }
+    };
+    console.log(searchTerm)
+
     useEffect(() => {
         const fetchPosts = async () => {
             // const searchData = [];
             try {
                 setLoading(true);
-                const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-                const data = filterChange(res.data, searchTerm);
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`,config);
+                const res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`,config);
+                
+                var merged = _.merge(_.keyBy(res.data, 'pk'), _.keyBy(res2.data, 'toko'));
+                var result = _.values(merged);
+
+                const data = filterChange(result, searchTerm, 'namaToko');
+        
                 setPosts(data);
                 setFilteredPosts();
-                // setPosts(res.data);
                 setLoading(false);
+
+                let allFilter = [];
+                for(let i=0; i < data.length; i++){
+                    let response = data[i];
+                    let value = response['daerah'];
+                    allFilter.push({value:value, label:value})
+                }
+                setFilterChoice(filterChoice.concat(allFilter))
             } catch {
                 alert('Terdapat kesalahan pada database. Mohon refresh ulang halaman ini')
             }
@@ -67,20 +75,23 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
     }, [searchTerm]);
 
     const handleChange = async e => {
-        console.log(e.value)
-        const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-        console.log(res.data)
-        const filterData = filterChange(res.data, e.value);
+        const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
+        const res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`,config);
+        const filterData = filterChange(res.data, e.value, 'daerah');
+        
+        var merged = _.merge(_.keyBy(filterData, 'pk'), _.keyBy(res2.data, 'toko'));
+        var result = _.values(merged);
+        
         setFilteredPosts(filterData);
         setPosts()
     }
 
-    const filterChange = (data, filterTerm) => {
+    const filterChange = (data, filterTerm, find ) => {
         const filteredData = data.filter((e) => {
             if (filterTerm === ""){
                 return e
             }
-            else if (e.title.toLowerCase().includes(filterTerm.toLowerCase())) {
+            else if (e[find].toLowerCase().includes(filterTerm.toLowerCase())) {
                 if (e) {
                     return e
                 }
@@ -91,10 +102,24 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
+    if (!isAuthenticated) return <Redirect to="/masuk" />
+    if (user.role !== "Investor") return <Redirect to="/" />
+
     return (
         <div className='container mt-5 justify-content-center'>
+            
+            <h3 className="pemilik-toko-h2 text-align-left"
+                style={{ padding: '0', margin: '0' }}
+            >Halo, <span className="pemilik-toko-text-light-green pemilik-toko-text-bold">{user.first_name} {user.last_name} !</span></h3>
+            <h6 className="text-align-left"
+                style={{ padding: '0', margin: '0' }}
+            >Selamat datang kembali di <span className="wkd-green-text pemilik-toko-text-bold">Walkiddie.</span></h6>
+            <br></br>
             <h1>Proyek Pengadaan Barang</h1>
             <Row className='justify-content-center'>
+                <button className="wkd-nav-button wkd-dark-green-button" type="submit" style ={{
+                    padding:"0 40px"
+                }}>Lihat Investasi yang Dimiliki</button>
                 <input
                     style={{
                         width: '70%',
@@ -115,14 +140,17 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
                             height: '80px'
                         }}
                     >
-                        <p>
-                            Filter Daerah
+                        <p style={{
+                            marginTop:'7px',
+                            marginBottom: '9px'
+                        }}>
+                            Atur Lokasi yang ingin dicari :
                         </p>
                         <div data-testid="select-daerah">
                             <Select 
                                 style={{
                                     width: '900px',
-                                    height: '100px'
+                                    height: '110px'
                                 }}
                                 class="form-control"
                                 placeholder="Beji,Depok"

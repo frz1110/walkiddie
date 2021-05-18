@@ -60,6 +60,12 @@ function App() {
             <Route path="/pemilik-toko">
               <HomepagePemilikToko />
             </Route>
+            <Route path="/investor">
+              <HomepageInvestor />
+            </Route>
+            <Route path="/pemilik-toko">
+              <HomepagePemilikToko />
+            </Route>
               <Route exact path="/">
                 <Home />
               </Route>
