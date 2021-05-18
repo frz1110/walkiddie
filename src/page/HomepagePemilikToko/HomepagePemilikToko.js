@@ -70,54 +70,57 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
     if (user.role !== "Mitra") return <Redirect to="/" />
 
     return (
-        <div>
-            <div className='container mt-5'>
-                <h3 className="pemilik-toko-h2 text-align-left"
-                    style={{ padding: '0', margin: '0' }}
-                >Halo, <span className="pemilik-toko-text-light-green pemilik-toko-text-bold">{user.first_name} {user.last_name} !</span></h3>
-                <h6 className="text-align-left"
-                    style={{ padding: '0', margin: '0' }}
-                >Selamat datang kembali di <span className="wkd-green-text pemilik-toko-text-bold">Walkiddie.</span></h6>
-                
-                <Link to="/daftar-toko">
-                    <img src={DaftarkanToko} alt="Daftarkan-toko" className="pemilik-toko-img-daftarkan-toko mt-5" />
-                </Link>
+        <div className='container mt-5'>
 
-                <div className="daftar-toko">
-                    <h3 className="text-align-left mt-5 mb-3" >Daftar Toko</h3>
+            <h3 className="pemilik-toko-h2 text-align-left"
+                style={{ padding: '0', margin: '0' }}
+            >Halo, <span className="pemilik-toko-text-light-green pemilik-toko-text-bold">{user.first_name} {user.last_name} !</span></h3>
+            <h6 className="text-align-left"
+                style={{ padding: '0', margin: '0' }}
+            >Selamat datang kembali di <span className="wkd-green-text pemilik-toko-text-bold">Walkiddie.</span></h6>
 
-                    <Cards posts={daftarTokoCurrentPosts} loading={daftarTokoLoading} />
-                    <Row
-                        style={{
-                            justifyContent: 'center'
-                        }}
-                    >
-                        <Pagination
-                            currentPage={daftarTokoCurrentPage}
-                            postsPerPage={daftarTokoPostsPerPage}
-                            totalPosts={daftarTokoPostLength}
-                            paginate={daftarTokoPaginate}
-                        />
-                    </Row>
-                </div>
+            <Link to="/daftar-toko">
+                <img src={DaftarkanToko} alt="Daftarkan-toko" className="pemilik-toko-img-daftarkan-toko mt-5" />
+            </Link>
 
-                <div className="daftar-toko">
-                    <h3 className="text-align-left mt-5 mb-3" >Daftar Pengadaan</h3>
+            <Link to="/daftar-toko">
+                <img src={DaftarkanToko} alt="Daftarkan-toko" className="pemilik-toko-img-daftarkan-toko mt-5" />
+            </Link>
 
-                    <Cards posts={daftarPengadaanCurrentPosts} loading={daftarPengadaanLoading} />
-                    <Row
-                        style={{
-                            justifyContent: 'center'
-                        }}
-                    >
-                        <Pagination
-                            currentPage={daftarPengadaanCurrentPage}
-                            postsPerPage={daftarPengadaanPostsPerPage}
-                            totalPosts={daftarPengadaanPostLength}
-                            paginate={daftarPengadaanPaginate}
-                        />
-                    </Row>
-                </div>
+            <div className="daftar-toko">
+                <h3 className="text-align-left mt-5 mb-3" >Daftar Toko</h3>
+
+                <Cards posts={daftarTokoCurrentPosts} loading={daftarTokoLoading} />
+                <Row
+                    style={{
+                        justifyContent: 'center'
+                    }}
+                >
+                    <Pagination
+                        currentPage={daftarTokoCurrentPage}
+                        postsPerPage={daftarTokoPostsPerPage}
+                        totalPosts={daftarTokoPostLength}
+                        paginate={daftarTokoPaginate}
+                    />
+                </Row>
+            </div>
+
+            <div className="daftar-toko">
+                <h3 className="text-align-left mt-5 mb-3" >Daftar Pengadaan</h3>
+
+                <Cards posts={daftarPengadaanCurrentPosts} loading={daftarPengadaanLoading} />
+                <Row
+                    style={{
+                        justifyContent: 'center'
+                    }}
+                >
+                    <Pagination
+                        currentPage={daftarPengadaanCurrentPage}
+                        postsPerPage={daftarPengadaanPostsPerPage}
+                        totalPosts={daftarPengadaanPostLength}
+                        paginate={daftarPengadaanPaginate}
+                    />
+                </Row>
             </div>
         </div>
     );
