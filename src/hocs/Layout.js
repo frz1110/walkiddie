@@ -16,7 +16,7 @@ const Layout = ({ isLoggedIn, googleAuthenticate, children }) => {
         console.log('Code: ' + code);
 
         if (state && code) {
-            googleAuthenticate(state, code);
+            // googleAuthenticate(state, code);
         } else {  
             load_user();
         }

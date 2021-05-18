@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { login as loginAction } from '../../actions/auth';
-import axios from 'axios';
 
 const initialState = {
   email: '',
@@ -29,15 +28,15 @@ function LoginForm({ login }) {
       }
   }
 
-  const continueWithGoogle = async () => {
-    try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?redirect_uri=http://localhost:3000`)
+  // const continueWithGoogle = async () => {
+  //   try {
+  //       const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?redirect_uri=http://localhost:3000`)
 
-        window.location.replace(res.data.authorization_url);
-    } catch (err) {
+  //       window.location.replace(res.data.authorization_url);
+  //   } catch (err) {
 
-    }
-  };
+  //   }
+  // };
 
   return (
     <div id="login">
@@ -76,7 +75,7 @@ function LoginForm({ login }) {
           <div className="line" />
         </div>
         <div id="other-method">
-          <button id="login-google" onClick={continueWithGoogle}>
+          <button id="login-google">
             <img
               id="google-logo"
               src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
