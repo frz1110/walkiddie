@@ -1,0 +1,40 @@
+.row {
+  padding: 10px;
+}
+
+.pageNumbers {
+    list-style: none;
+    display: flex;
+  }
+  
+  .pageNumbers li {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .pageNumbers li:hover {
+    background-color: #146A5F;
+    color: rgb(255, 255, 255);
+  }
+  
+  .pageNumbers li.active {
+    background-color: #146A5F;
+    color: white;
+  }
+  
+  .pageNumbers li button {
+    background-color: transparent;
+    border: none;
+    color: #146A5F;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .pageNumbers li button:hover {
+    background-color: #146A5F;
+    color: rgb(255, 255, 255);
+  }
+  .pageNumbers li button:focus {
+    outline: none;
+    background-color: #146A5F;
+    color: white;
+  }
