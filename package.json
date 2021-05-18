@@ -34,6 +34,7 @@
     "react-google-flight-datepicker": "^0.1.17",
     "react-google-maps": "^9.4.5",
     "react-redux": "^7.2.3",
+    "react-responsive-carousel": "^3.2.18",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-select": "^4.3.0",
