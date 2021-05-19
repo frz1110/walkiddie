@@ -22,14 +22,17 @@ const Aktivasi = ({ verify, match }) => {
         <div className='container'>
             <div 
                 className='d-flex flex-column justify-content-center align-items-center'
-                style={{ marginTop: '200px' }}
+                style={{ 
+                    marginTop: '20%' ,
+                    marginBottom: '20%'
+                }}
             >
                 <h1>Verifikasi akun anda</h1>
                 <button
                     onClick={verify_account}
-                    style={{ marginTop: '50px' }}
-                    type='button'
-                    className='btn btn-primary'
+                    type='button'                
+                    style={{ marginTop: '1.4%' }}
+                    class='wkd-nav-button wkd-dark-green-button'
                 >
                     Verifikasi
                 </button>
