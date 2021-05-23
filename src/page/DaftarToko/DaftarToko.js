@@ -2,12 +2,10 @@ import 'react-dates/initialize';
 import './DaftarToko.css'
 import WalkiddieGoogleMaps from './WalkiddieGoogleMaps.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { DateRangePicker } from 'react-dates';
 import 'react-calendar/dist/Calendar.css';
 import 'react-dates/lib/css/_datepicker.css';
 import AlurPendaftaran from './daftar-toko.svg';
 import React, { useState } from 'react';
-import Select from 'react-select';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -48,53 +46,10 @@ const DaftarToko = ({ isAuthenticated, user }) => {
         estimasiKeuangan
     } = formData;
 
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [focusedInput, setFocusedInput] = useState(null);
-
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const handleDatesChange = ({ startDate, endDate }) => {
-        setStartDate(startDate);
-        setEndDate(endDate);
-        if (startDate !== null && endDate !== null) {
-            setFormData({
-                ...formData,
-                periodePengadaanMulai: startDate.format("YYYY-MM-DD"),
-                periodePengadaanAkhir: endDate.format("YYYY-MM-DD")
-            })
-        }else{
-            console.log("Tanggal Yang Anda masukan error")
-        }
-    };
 
     const handleChangeFile = (event) => {
         setFormData({ ...formData, mediaTokoList: event.target.files });
-    }
-
-    const dataPilihanMainan = [
-        {
-            value: "PaketA",
-            label: "Paket A (2 kiddie ride + 1 claw machine)"
-        },
-        {
-            value: "PaketB",
-            label: "Paket B (2 kiddie ride )"
-        },
-        {
-            value: "PaketC",
-            label: "Paket C (1 kiddie ride + 1 claw machine)"
-        }
-    ];
-
-    const handleChange = e => {
-        if (e.value === "PaketA") {
-            setFormData({ ...formData, totalBiaya: 1000000, paketMainan: e.value })
-        } else if (e.value === "PaketB") {
-            setFormData({ ...formData, totalBiaya: 900000, paketMainan: e.value })
-        } else {
-            setFormData({ ...formData, totalBiaya: 800000, paketMainan: e.value })
-        }
     }
 
     const handleSubmit = e => {
@@ -262,14 +217,15 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label htmlFor='mediaToko' className="col-sm-3 col-form-label"> <span className="required"> * </span>Foto/Video Toko (tampak depan/tampak belakang/video):</label>
+                                    <label htmlFor='mediaToko' className="col-sm-3 col-form-label"> <span className="required"> * </span>Foto Profil Toko (unggah foto profil / logo toko):</label>
                                     <div className="col-sm-9">
                                         <input
                                             role="mediatoko"
                                             type="file"
                                             name="file"
                                             accept="video/*,image/*"
-                                            onChange={e => handleChangeFile(e)} multiple />
+                                            onChange={e => handleChangeFile(e)}
+                                            multiple />
                                     </div>
                                 </div>
                                 <div className="form-group row">
@@ -293,62 +249,8 @@ const DaftarToko = ({ isAuthenticated, user }) => {
 
                                     </WalkiddieGoogleMaps>
                                 </div>
-                                <br></br>
-                                <h3 className="midtext" ><span>Informasi Pengadaan</span></h3>
-                                <br></br>
-                                <div className="form-group row">
-                                    <label htmlFor='paketMainan' className="col-sm-3 col-form-label"> <span className="required"> * </span> Paket Mainan :</label>
-                                    <div className="col-sm-9" data-testid="select-paket-mainan">
-                                        <Select
-                                            role="paketmainan"
-                                            class="form-control"
-                                            placeholder="Pilih paket Mainan"
-                                            // value={dataPilihanMainan.find(obj => obj.value === selectedValue)}
-                                            options={dataPilihanMainan}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <label htmlFor='totalBiaya' className="col-sm-3 col-form-label"> Total Biaya pengadaan :</label>
-                                    <div className="col-sm-9">
-                                        <input className="form-control" id="totalBiaya" type="text" placeholder={totalBiaya} disabled />
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <label htmlFor='periodePengadaan' className="col-sm-3 col-form-label"> <span className="required"> * </span> Periode pengadaan :</label>
-                                    <div className="col-sm-9">
-                                        <DateRangePicker
-                                            startDate={startDate}
-                                            startDateId="tata-start-date"
-                                            endDate={endDate}
-                                            endDateId="tata-end-date"
-                                            startDatePlaceholderText="Tanggal Mulai Pengadaan"
-                                            endDatePlaceholderText="Tanggal Akhir Pengadaan"
-                                            onDatesChange={handleDatesChange}
-                                            focusedInput={focusedInput}
-                                            displayFormat={() => "DD/MM/YYYY"}
-                                            onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <label htmlFor='estimasiKeuangan' className="col-sm-3 col-form-label"> <span className="required"> * </span> Estimasi Keuangan :</label>
-                                    <div className="col-sm-9">
-                                        <textarea
-                                            id='estimasiKeuangan'
-                                            type='text'
-                                            rows='3'
-                                            placeholder='Jelaskan mekanisme ROI, Payback period, BEP, dan lain sebagainya'
-                                            name='estimasiKeuangan'
-                                            value={estimasiKeuangan}
-                                            onChange={e => onChange(e)}
-                                            required
-                                        />
-                                    </div>
-                                </div>
                             </div>
-                            <div className="pull-right">
+                            <div className="pull-right" style={{ marginTop: '100px' }}>
                                 <button className="wkd-nav-button wkd-light-tosca-button"><Link to="/masuk">Batal</Link></button>
                                 <button className="wkd-nav-button wkd-dark-green-button" type="submit">Simpan</button>
                             </div>
