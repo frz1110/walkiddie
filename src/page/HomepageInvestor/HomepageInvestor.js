@@ -116,7 +116,7 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
             >Selamat datang kembali di <span className="wkd-green-text pemilik-toko-text-bold">Walkiddie.</span></h6>
             <br></br>
             <h1>Proyek Pengadaan Barang</h1>
-            <Row className='justify-content-center'>
+            <Row className='justify-content-center row-homepage-investor'>
                 <button className="wkd-nav-button wkd-dark-green-button" type="submit" style ={{
                     padding:"0 40px"
                 }}>Lihat Investasi yang Dimiliki</button>
@@ -132,7 +132,7 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
                 >
                 </input>
             </Row>
-            <Row>
+            <Row className="row-homepage-investor">
                 <Col sm={4}>
                     <Card 
                         style={{
@@ -165,7 +165,7 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
                     <Cards posts={currentPosts} loading={loading} />
                 </Col>
             </Row>
-            <Row
+            <Row className="row-homepage-investor"
                 style={{
                     justifyContent: 'center'
                 }}

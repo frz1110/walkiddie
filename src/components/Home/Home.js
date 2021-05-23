@@ -9,9 +9,9 @@ import { Link, Redirect } from 'react-router-dom';
 const Home = ({user}) => {
 
     if (user !== null) {
-        if (user.role == "Mitra") {
+        if (user.role === "Mitra") {
             return <Redirect to="/pemilik-toko" />
-        } else if (user.role == "Investor") {
+        } else if (user.role === "Investor") {
             return <Redirect to="/investor" />
         }
     }

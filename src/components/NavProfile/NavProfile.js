@@ -1,3 +1,4 @@
+import './NavProfile.css';
 import React from 'react';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
