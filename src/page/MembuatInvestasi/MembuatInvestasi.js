@@ -3,30 +3,53 @@ import OptionCard from '../../components/InvestasiOptionCard/OptionCard'
 import CustomOptionCard from '../../components/InvestasiOptionCard/CustomOptionCard'
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-const MembuatInvestasi = ({ isAuthenticated, user }) => {
+export let utils = {
+    getPengadaanData: getPengadaan,
+    getTokoData: getToko,
+    getCardValue: getCheckedValue,
+    getCustomCardValue: getCustomValue,
+    postInvestasiData: postInvestasi
+}
+
+const MembuatInvestasi = ({ isAuthenticated, match }) => {
+
+    const [pengadaan, setPengadaan] = useState({'totalBiaya':0, 'estimasiKeuangan':''})
+    const [toko, setToko] = useState({})
+    
+    useEffect(() => {
+        utils.getPengadaanData(match.params.pk, setPengadaan)
+        utils.getTokoData(pengadaan.toko, setToko)
+    }, [match.params.pk, pengadaan]);
+
+    const handleSubmit = e => {
+        <Redirect to="/" />
+        utils.postInvestasiData(match.params.pk, utils.getCardValue());
+    }
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
 
     return ( 
         <div className="container mt-5 overflow-hidden mi-ctn">
-            <h4 className="mi-title">WKD-02ID021 - Cabang Maros 05</h4>
-            <h6 className="mi-subtitle">Resto Bebek H. Selamet</h6>
+            <h4 className="mi-title">{toko.namaCabang}</h4>
+            <h6 className="mi-subtitle">{toko.namaToko}</h6>
             
             <hr className="mi-title-divider"/>
 
             <div className="row row-cols-1 row-cols-lg-2 mi-text-start mt-5">
                 <div className="col px-4">
                     <div className="row row-cols-1 row-cols-sm-2 gx-2">
-                        <OptionCard ratio={5} amount={1000000} />
-                        <OptionCard ratio={10} amount={2000000} />
-                        <OptionCard ratio={20} amount={4000000} />
-                        <OptionCard ratio={50} amount={10000000} />
-                        <OptionCard ratio={70} amount={14000000} />
-                        <OptionCard ratio={100} amount={20000000} />
+                        <OptionCard ratio={5} amount={pengadaan.totalBiaya*5/100} />
+                        <OptionCard ratio={10} amount={pengadaan.totalBiaya*10/100} />
+                        <OptionCard ratio={20} amount={pengadaan.totalBiaya*20/100} />
+                        <OptionCard ratio={50} amount={pengadaan.totalBiaya*50/100} />
+                        <OptionCard ratio={70} amount={pengadaan.totalBiaya*70/100} />
+                        <OptionCard ratio={100} amount={pengadaan.totalBiaya} />
                     </div>
                     <div className="row">
-                        <CustomOptionCard />
+                        <CustomOptionCard maxx={pengadaan.totalBiaya} />
                     </div>
                 </div>
 
@@ -40,7 +63,7 @@ const MembuatInvestasi = ({ isAuthenticated, user }) => {
                     <h5 className="mt-4">Estimasi Keuangan</h5>
                     <div className="card mi-card mi-card-estimasi-keuangan">
                         <div className="card-body">
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p className="card-text">{pengadaan.estimasiKeuangan}</p>
                         </div>
                     </div>
                 </div>
@@ -48,7 +71,7 @@ const MembuatInvestasi = ({ isAuthenticated, user }) => {
             <div className="row mt-4 mb-5">
                 <div className="col">
                     <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => window.history.back()}>Kembali</button>
-                    <button className="wkd-nav-button wkd-dark-green-button" onClick={() => console.log(user)}>Buat Investasi</button>
+                    <button className="wkd-nav-button wkd-dark-green-button" onClick={() => handleSubmit()}>Buat Investasi</button>
                 </div>
             </div>
         </div>
@@ -56,8 +79,95 @@ const MembuatInvestasi = ({ isAuthenticated, user }) => {
 }
 
 const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user
+    isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps)(MembuatInvestasi);
+
+function getCheckedValue() {
+    var val;
+    var radios = document.getElementsByName("mi-amount")
+    for (var i=0, len=radios.length; i<len; i++) {
+        if ( radios[i].checked ) {
+            val = radios[i].value;
+            break;
+        }
+    }
+    return val === "custom" ? utils.getCustomCardValue() : val;
+}
+
+function getCustomValue() {
+    return document.getElementById("mi-custom-amount").value
+}
+
+function postInvestasi(pk, nominal) {
+    if (localStorage.getItem('access')) {
+        var investasiFormData = new FormData();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+            }
+        };
+        
+        investasiFormData.append('nominal', nominal);
+        investasiFormData.append('pengadaan', pk);
+
+
+        try {
+            axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/`, investasiFormData, config)
+            alert('Success post');
+        } catch (err) {
+            alert('Error post');
+        }
+    } else {
+        alert('missing token');
+    }
+}
+
+function getPengadaan(pk, callback) {
+    if (localStorage.getItem('access')) {
+        const config = {
+            headers: {
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+            }
+        };
+
+        try {
+            axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${pk}`, config)
+                .then((response) => {
+                    callback(response.data);
+                }) 
+        } catch (err) {
+            console.log('Error get pengadaan');
+            return null;
+        }
+    } else {
+        console.log('missing token');
+        return null;
+    }
+}
+
+function getToko(pk, callback) {
+    if (localStorage.getItem('access')) {
+        const config = {
+            headers: {
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+            }
+        };
+
+        try {
+            axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/${pk}`, config)
+                .then((response) => {
+                    callback(response.data);
+                }) 
+        } catch (err) {
+            console.log('Error get toko');
+            return null;
+        }
+    } else {
+        console.log('missing token');
+        return null;
+    }
+}

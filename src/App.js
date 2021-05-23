@@ -52,15 +52,8 @@ function App() {
               <Route path="/daftar-toko">
                 <DaftarToko />
               </Route>
-              <Route path="/investasi">
-                <MembuatInvestasi />
+              <Route path={"/investasi/:pk"} component={MembuatInvestasi}>
               </Route>
-            <Route path="/investor">
-              <HomepageInvestor />
-            </Route>
-            <Route path="/pemilik-toko">
-              <HomepagePemilikToko />
-            </Route>
             <Route path="/investor">
               <HomepageInvestor />
             </Route>
