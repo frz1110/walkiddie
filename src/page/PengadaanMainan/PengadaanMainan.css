@@ -1,0 +1,160 @@
+.required {
+    font-weight: bold;
+    color: #e32;
+}
+.required label:after {
+    color: #e32;
+    content: ' *';
+    display:inline;
+}
+
+.upload-button {
+    color :rgb(142, 142, 142);
+    width: 80px;
+    height: 80px;
+    margin: 10px 20px 10px 0px; 
+    background:rgb(251, 249, 249); 
+    border-radius: 10px;
+}
+
+.date-range-picker {
+    width : 40px;
+    height: 40px;
+}
+
+.DateInput.DateInput_1{
+    width: 47%; 
+    height: 40px;
+    font-size: 8px;
+    font-weight: normal;
+    line-height: normal;
+    padding: 0px;
+  }
+
+.DateInput_input.DateInput_input_1{
+    font-size: 16px;
+}
+
+.DateRangePickerInput.DateRangePickerInput_1.DateRangePickerInput__withBorder.DateRangePickerInput__withBorder_2{
+    width: 100%; 
+    height: 45px;
+    border-radius: none;
+    border: none;
+    border-color: white;
+    padding:0px;
+    align-content: center;
+}
+
+.DateRangePickerInput__withBorder {
+    border-radius: 0px;
+    padding:0px;
+    border: none;
+}
+
+#tata-start-date, #tata-end-date{
+    width: 360px; 
+    height: 35px;
+    margin: auto;
+    padding: 0px;
+    text-align: center;
+}
+
+.DateRangePickerInput_arrow.DateRangePickerInput_arrow_1{
+    margin-left: 11px;
+    margin-right: 11px;
+}
+
+.css-yk16xz-control,.css-tlfecz-indicatorContainer{
+    height: 38px;
+}
+
+.css-tj5bde-Svg{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.card-flex-item2 { 
+    min-height: 300px;  
+    display: 'flex';
+    flex-wrap: 'wrap';
+    flex: 50%;
+}
+
+.card-content-limit {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-align: left;
+}
+
+.card-text {
+    -webkit-line-clamp: 3; /* number of lines to show */
+    margin-top: 20px;
+}
+
+.card-title {
+    -webkit-line-clamp: 1; /* number of lines to show */
+}
+
+@media (max-width: 800px) {
+    .card-flex-item {
+      flex: 100%;
+    }
+}
+
+.review-pengadaan-mainan{
+    height: 20%;
+    width: 20%;
+    margin-right:1rem;
+    display: table-cell;
+}
+
+.profile-details { 
+    display: table-cell; 
+    vertical-align: top; 
+    text-align: left;
+}
+
+.profile-details-wrapper { 
+    display: table-row; 
+}
+
+
+.banner { background-color: rgb(248, 248, 248); }
+
+.wrapper { width: 30%;
+    margin: 0 auto; }
+
+.banner p {
+  font-family: "Gentium Basic";
+  font-size: 19px;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  margin-top: -10px;
+  display: block;
+ }
+ .banner span {
+  padding-top: 50px;
+  font-size: 17px;
+  vertical-align:top;
+ }
+  .banner .ban2 span {
+  padding-top: 50px;
+  font-size: 17px;
+  vertical-align:top;
+ }
+
+ .flex-wrapper {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ }
+
+ #desc {
+   flex-grow: 2;
+ }
+
+ .icon {
+   margin: 5px;
+ }
