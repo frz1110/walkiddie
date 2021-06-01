@@ -11,7 +11,12 @@ jest.mock('axios');
 function render(
     ui,
     {
-      initialState = {auth: {isAuthenticated: true}},
+      initialState = {
+        auth: {
+            isAuthenticated: true,
+            user: {role: "Investor"}
+        }
+      },
       store = createStore(state => state, initialState),
       ...renderOptions
     } = {},
@@ -89,10 +94,14 @@ describe('<Membuat Investasi />', () => {
         axios.post.mockImplementationOnce(() => Promise.resolve())
         localStorage.setItem('access', 'token')
 
-        const { getByText } = render(<MembuatInvestasi match={mockMatch} />);
+        const { getByText, getAllByTestId } = render(<MembuatInvestasi match={mockMatch} />);
         const submitButton = getByText('Buat Investasi', {selector: "button"});
+        const optionCards = getAllByTestId("mi-radio-btn");
       
-        act(() => {fireEvent.click(submitButton)});
+        act(() => {
+            fireEvent.click(optionCards[0]);
+            fireEvent.click(submitButton);
+        });
         expect(axios.post).toHaveBeenCalledTimes(1);
         expect(alert).toHaveBeenCalledTimes(1);
         alert.mockRestore();
@@ -105,10 +114,14 @@ describe('<Membuat Investasi />', () => {
         axios.post.mockImplementationOnce(() => Promise.reject());
         localStorage.setItem('access', 'token')
 
-        const { getByText } = render(<MembuatInvestasi match={mockMatch} />);
+        const { getByText, getAllByTestId } = render(<MembuatInvestasi match={mockMatch} />);
         const submitButton = getByText('Buat Investasi', {selector: "button"});
+        const optionCards = getAllByTestId("mi-radio-btn");
       
-        act(() => {fireEvent.click(submitButton)});
+        act(() => {
+            fireEvent.click(optionCards[0]);
+            fireEvent.click(submitButton);
+        });
         expect(axios.post).toHaveBeenCalledTimes(1);
         expect(alert).toHaveBeenCalledTimes(1);
         alert.mockRestore();
@@ -159,5 +172,26 @@ describe('<Membuat Investasi />', () => {
             fireEvent.click(submitButton);
         });
         expect(getCardValueMock).toHaveBeenCalled();
+    })
+    
+    test('custom investasi function returns the right value', () => {
+        const getCustomCardValueMock = jest.spyOn(utils, 'getCustomCardValue');
+        const { getAllByTestId, getByText, getByTestId } = render(<MembuatInvestasi match={mockMatch} />);
+        
+        axios.post.mockImplementationOnce(() => Promise.resolve())
+        localStorage.setItem('access', 'token')
+
+        const submitButton = getByText('Buat Investasi', {selector: "button"});
+        const optionCards = getAllByTestId("mi-radio-btn");
+        const customOptionCards = optionCards[optionCards.length-1];
+        const customValueInput = getByTestId("mi-custom-amount");
+      
+        act(() => {
+            fireEvent.click(customOptionCards);
+            fireEvent.change(customValueInput, { target : { value : 125000 } });
+            fireEvent.click(submitButton);
+        });
+        utils.getCustomCardValue()
+        expect(getCustomCardValueMock).toReturnWith("125000");
     })
 })

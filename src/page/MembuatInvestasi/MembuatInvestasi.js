@@ -14,39 +14,59 @@ export let utils = {
     postInvestasiData: postInvestasi
 }
 
-const MembuatInvestasi = ({ isAuthenticated, match }) => {
+const MembuatInvestasi = ({ isAuthenticated, match, user }) => {
 
-    const [pengadaan, setPengadaan] = useState({'totalBiaya':0, 'estimasiKeuangan':''})
+    const [pengadaan, setPengadaan] = useState({'totalBiaya':0, 'estimasiKeuangan':'', 'pk':-1, 'danaTerkumpul':0})
     const [toko, setToko] = useState({})
     
     useEffect(() => {
-        utils.getPengadaanData(match.params.pk, setPengadaan)
+        utils.getPengadaanData(match.params.pk, setPengadaanState)
         utils.getTokoData(pengadaan.toko, setToko)
     }, [match.params.pk, pengadaan]);
 
+    const setPengadaanState = (newPengadaan) => {
+        if (pengadaan.pk !== newPengadaan.pk) {
+            setPengadaan(newPengadaan)
+        }
+    }
+
     const handleSubmit = e => {
         <Redirect to="/" />
-        utils.postInvestasiData(match.params.pk, utils.getCardValue());
+        var nominal = utils.getCardValue()
+        if (nominalIsValid(nominal, pengadaan)) {
+            utils.postInvestasiData(match.params.pk, nominal);
+        } else {
+            alert("Nominal investasi melebihi nominal dana yang dibutuhkan.\nMohon sesuaikan nominal investasi Anda dan coba kembali.")
+        }
+    }
+
+    const getAmount = (percent) => {
+        return pengadaan.totalBiaya*percent/100
+    }
+
+    const amountDisabled = (percent) => {
+        return getAmount(percent) > pengadaan.totalBiaya-pengadaan.danaTerkumpul
     }
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
+    if (user.role !== "Investor") return <Redirect to="/" />
 
     return ( 
         <div className="container mt-5 overflow-hidden mi-ctn">
-            <h4 className="mi-title">{toko.namaCabang}</h4>
-            <h6 className="mi-subtitle">{toko.namaToko}</h6>
+            <h4 className="mi-title">{toko.namaToko}</h4>
+            <h6 className="mi-subtitle">{toko.namaCabang}</h6>
             
             <hr className="mi-title-divider"/>
 
             <div className="row row-cols-1 row-cols-lg-2 mi-text-start mt-5">
                 <div className="col px-4">
                     <div className="row row-cols-1 row-cols-sm-2 gx-2">
-                        <OptionCard ratio={5} amount={pengadaan.totalBiaya*5/100} />
-                        <OptionCard ratio={10} amount={pengadaan.totalBiaya*10/100} />
-                        <OptionCard ratio={20} amount={pengadaan.totalBiaya*20/100} />
-                        <OptionCard ratio={50} amount={pengadaan.totalBiaya*50/100} />
-                        <OptionCard ratio={70} amount={pengadaan.totalBiaya*70/100} />
-                        <OptionCard ratio={100} amount={pengadaan.totalBiaya} />
+                        <OptionCard ratio={5} amount={getAmount(5)} isDisabled={amountDisabled(5)}/>
+                        <OptionCard ratio={10} amount={getAmount(10)} isDisabled={amountDisabled(10)}/>
+                        <OptionCard ratio={20} amount={getAmount(20)} isDisabled={amountDisabled(20)}/>
+                        <OptionCard ratio={50} amount={getAmount(50)} isDisabled={amountDisabled(50)}/>
+                        <OptionCard ratio={70} amount={getAmount(70)} isDisabled={amountDisabled(70)}/>
+                        <OptionCard ratio={100} amount={pengadaan.totalBiaya} isDisabled={pengadaan.danaTerkumpul > 0}/>
                     </div>
                     <div className="row">
                         <CustomOptionCard maxx={pengadaan.totalBiaya} />
@@ -54,8 +74,25 @@ const MembuatInvestasi = ({ isAuthenticated, match }) => {
                 </div>
 
                 <div className="col px-5">
-                    <h5>Tata Cara Pembayaran</h5>
-                    <ol className="text-start">
+                    <h5>Status Pendanaan</h5>
+                    <table>
+                        <tr>
+                            <td>Total dana yang dibutuhkan</td>
+                            <td>: Rp {pengadaan.totalBiaya.toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Total dana yang telah terkumpul</td>
+                            <td>: Rp {pengadaan.danaTerkumpul.toLocaleString()} ({Math.floor(pengadaan.danaTerkumpul/pengadaan.totalBiaya*100)}%)</td>
+                        </tr>
+                        <hr/>
+                        <tr>
+                            <td>Sisa dana yang dibutuhkan</td>
+                            <td>: Rp {(pengadaan.totalBiaya-pengadaan.danaTerkumpul).toLocaleString()} ({Math.floor((pengadaan.totalBiaya-pengadaan.danaTerkumpul)/pengadaan.totalBiaya*100)}%)</td>
+                        </tr>
+                    </table>
+
+                    <h5 className="mt-4">Tata Cara Pembayaran</h5>
+                    <ol>
                         <li>Lakukan pembayaran dengan nominal yang sesuai ke rekening XXXX-XXXX-XXXX-XXXX (a.n. Walkiddie Toys).</li>
                         <li>Konfirmasi pembayaran melalui XXXXXXXXXXX</li>
                     </ol>
@@ -79,10 +116,15 @@ const MembuatInvestasi = ({ isAuthenticated, match }) => {
 }
 
 const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
 })
 
 export default connect(mapStateToProps)(MembuatInvestasi);
+
+function nominalIsValid(nominal, pengadaan) {
+    return nominal <= pengadaan.totalBiaya-pengadaan.danaTerkumpul
+}
 
 function getCheckedValue() {
     var val;
@@ -117,9 +159,9 @@ function postInvestasi(pk, nominal) {
 
         try {
             axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/`, investasiFormData, config)
-            alert('Success post');
+            alert('Investasi berhasil dibuat.');
         } catch (err) {
-            alert('Error post');
+            alert('Investasi gagal dibuat. Mohon coba kembali.');
         }
     } else {
         alert('missing token');
@@ -140,7 +182,7 @@ function getPengadaan(pk, callback) {
                     callback(response.data);
                 }) 
         } catch (err) {
-            console.log('Error get pengadaan');
+            console.log('Error get pengadaan', err.message);
             return null;
         }
     } else {
@@ -163,7 +205,7 @@ function getToko(pk, callback) {
                     callback(response.data);
                 }) 
         } catch (err) {
-            console.log('Error get toko');
+            console.log('Error get toko', err.message);
             return null;
         }
     } else {

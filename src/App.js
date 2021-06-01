@@ -30,54 +30,54 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div className="App">
-          <Layout>
-            <Navbar />
-            <div className="content">
-              <Switch>
-                <Route path="/masuk">
-                  <Login />
-                </Route>
-                <Route path="/daftar-investor">
-                  <RegistrasiInvestor />
-                </Route>
-                <Route path="/daftar-mitra">
-                  <RegistrasiMitra />
-                </Route>
-                <Route path="/bantuan"></Route>
-                <Route path="/profile">
-                  <Profile />
-                </Route>
-                <Route path="/aktivasi/:uid/:token" component={Activate}>
-                </Route>
-                <Route path="/daftar-toko">
-                  <DaftarToko />
-                </Route>
-                <Route path="/pengadaan-mainan">
+      <div className="App">
+        <Layout>
+          <Navbar />
+          <div className="content">
+            <Switch>
+              <Route path="/masuk">
+                <Login />
+              </Route>
+              <Route path="/daftar-investor">
+                <RegistrasiInvestor />
+              </Route>
+              <Route path="/daftar-mitra">
+                <RegistrasiMitra />
+              </Route>
+              <Route path="/bantuan"></Route>
+              <Route path="/profile">
+                <Profile />
+              </Route>
+              <Route path="/aktivasi/:uid/:token" component={Activate}>
+              </Route>
+              <Route path="/daftar-toko">
+                <DaftarToko />
+              </Route>
+              <Route path={"/investasi/:pk"} component={MembuatInvestasi}>
+              </Route>
+              <Route path="/investor">
+                <HomepageInvestor />
+              </Route>
+              <Route path="/pemilik-toko">
+                <HomepagePemilikToko />
+              </Route>
+              <Route path="/detail-pengadaan">
+                <DetailPengadaan />
+              </Route>
+              <Route path="/pengadaan-mainan">
                   <PengadaanMainan />
                 </Route>
-                <Route path={"/investasi/:pk"} component={MembuatInvestasi}>
-                </Route>
-                <Route path="/investor">
-                  <HomepageInvestor />
-                </Route>
-                <Route path="/detail-pengadaan">
-                  <DetailPengadaan />
-                </Route>
-                <Route path="/pemilik-toko">
-                  <HomepagePemilikToko />
-                </Route>
-                <Route path="/reset-password">
+              <Route path="/reset-password">
                   <ResetPassword />
                 </Route>
                 <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
-                <Route exact path="/">
-                  <Home />
-                </Route>
-              </Switch>
-            </div>
-            <Footer />
-          </Layout>
+              <Route exact path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </div>
+          <Footer />
+        </Layout>
         </div>
       </Router>
     </Provider>
