@@ -9,6 +9,10 @@ import {
   ACTIVATION_FAIL,
   GOOGLE_AUTH_SUCCESS,
   GOOGLE_AUTH_FAIL,
+  PASSWORD_RESET_FAIL,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_CONFIRM_FAIL,
+  PASSWORD_RESET_CONFIRM_SUCCESS,
   LOGOUT
 } from '../actions/types';
 
@@ -22,7 +26,7 @@ const initialState = {
 function reducer(state = initialState, action) {
   const { type, payload } = action;
 
-  switch(type) {
+  switch (type) {
     case GOOGLE_AUTH_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('access', payload.access);
@@ -35,8 +39,8 @@ function reducer(state = initialState, action) {
       }
     case SIGNUP_SUCCESS:
       return {
-          ...state,
-          isAuthenticated: false
+        ...state,
+        isAuthenticated: false
       }
     case USER_LOADED_SUCCESS:
       return {
@@ -70,6 +74,10 @@ function reducer(state = initialState, action) {
         isAuthenticated: false,
         user: null
       }
+    case PASSWORD_RESET_SUCCESS:
+    case PASSWORD_RESET_FAIL:
+    case PASSWORD_RESET_CONFIRM_SUCCESS:
+    case PASSWORD_RESET_CONFIRM_FAIL:
     case ACTIVATION_SUCCESS:
     case ACTIVATION_FAIL:
       return {

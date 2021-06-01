@@ -17,13 +17,13 @@ describe('auth reducer', () => {
 
   it('should put authenticate to true and put token', () => {
     const spy = jest.spyOn(Storage.prototype, 'setItem');
-    const user = {name: 'name'}
+    const user = { name: 'name' }
     const accessToken = 'access';
     const refreshToken = 'refresh';
 
     expect(
       reducer(
-        {user},
+        { user },
         {
           type: types.LOGIN_SUCCESS,
           payload: {
@@ -50,8 +50,8 @@ describe('auth reducer', () => {
       access: 'access',
       refresh: 'refresh',
       isAuthenticated: true,
-      user: {name: 'user'}
-    }, {type: types.LOGIN_FAIL})).toEqual({
+      user: { name: 'user' }
+    }, { type: types.LOGIN_FAIL })).toEqual({
       access: null,
       refresh: null,
       isAuthenticated: false,
@@ -68,8 +68,8 @@ describe('auth reducer', () => {
       access: 'access',
       refresh: 'refresh',
       isAuthenticated: true,
-      user: {name: 'user'}
-    }, {type: types.USER_LOADED_FAIL})).toEqual({
+      user: { name: 'user' }
+    }, { type: types.USER_LOADED_FAIL })).toEqual({
       access: 'access',
       refresh: 'refresh',
       isAuthenticated: true,
@@ -78,13 +78,13 @@ describe('auth reducer', () => {
   })
 
   it('should load user on user loaded success', () => {
-    const user = {name: 'user'}
+    const user = { name: 'user' }
     expect(reducer({
       access: 'access',
       refresh: 'refresh',
       isAuthenticated: true,
       user: null
-    }, {type: types.USER_LOADED_SUCCESS, payload: user})).toEqual({
+    }, { type: types.USER_LOADED_SUCCESS, payload: user })).toEqual({
       access: 'access',
       refresh: 'refresh',
       isAuthenticated: true,
@@ -93,14 +93,14 @@ describe('auth reducer', () => {
   })
 
   it('should remove token on logout', () => {
-    const user = {name: 'user'}
+    const user = { name: 'user' }
     const spy = jest.spyOn(Storage.prototype, 'removeItem');
     expect(reducer({
       access: 'access',
       refresh: 'refresh',
       isAuthenticated: true,
       user: user
-    }, {type: types.LOGOUT})).toEqual({
+    }, { type: types.LOGOUT })).toEqual({
       access: null,
       refresh: null,
       isAuthenticated: false,
@@ -114,13 +114,13 @@ describe('auth reducer', () => {
   it('signup success', () => {
     expect(reducer({
       isAuthenticated: false
-    }, {type: types.SIGNUP_SUCCESS})).toEqual({
+    }, { type: types.SIGNUP_SUCCESS })).toEqual({
       isAuthenticated: false
     })
   })
 
   it('signup fail', () => {
-    expect(reducer({}, {type: types.SIGNUP_FAIL})).toEqual({
+    expect(reducer({}, { type: types.SIGNUP_FAIL })).toEqual({
       "access": null,
       "isAuthenticated": false,
       "refresh": null,
@@ -129,22 +129,22 @@ describe('auth reducer', () => {
   })
 
   it('activation success', () => {
-    expect(reducer({}, {type: types.ACTIVATION_SUCCESS})).toEqual({})
+    expect(reducer({}, { type: types.ACTIVATION_SUCCESS })).toEqual({})
   })
 
   it('activation fail', () => {
-    expect(reducer({}, {type: types.ACTIVATION_FAIL})).toEqual({})
+    expect(reducer({}, { type: types.ACTIVATION_FAIL })).toEqual({})
   })
-  
+
   it('should put google authenticate to true and put token', () => {
     const spy = jest.spyOn(Storage.prototype, 'setItem');
-    const user = {name: 'name'}
+    const user = { name: 'name' }
     const accessToken = 'access';
     const refreshToken = 'refresh';
 
     expect(
       reducer(
-        {user},
+        { user },
         {
           type: types.GOOGLE_AUTH_SUCCESS,
           payload: {
@@ -171,8 +171,8 @@ describe('auth reducer', () => {
       access: 'access',
       refresh: 'refresh',
       isAuthenticated: true,
-      user: {name: 'user'}
-    }, {type: types.GOOGLE_AUTH_FAIL})).toEqual({
+      user: { name: 'user' }
+    }, { type: types.GOOGLE_AUTH_FAIL })).toEqual({
       access: null,
       refresh: null,
       isAuthenticated: false,
@@ -181,5 +181,21 @@ describe('auth reducer', () => {
     expect(spy.mock.calls[0]).toEqual(['access']);
     expect(spy.mock.calls[1]).toEqual(['refresh']);
     spy.mockRestore();
+  })
+
+  it('password reset success', () => {
+    expect(reducer({}, { type: types.PASSWORD_RESET_SUCCESS })).toEqual({})
+  })
+
+  it('password reset fail', () => {
+    expect(reducer({}, { type: types.PASSWORD_RESET_FAIL })).toEqual({})
+  })
+
+  it('password reset confirm success', () => {
+    expect(reducer({}, { type: types.PASSWORD_RESET_CONFIRM_SUCCESS })).toEqual({})
+  })
+
+  it('password reset confirm fail', () => {
+    expect(reducer({}, { type: types.PASSWORD_RESET_CONFIRM_FAIL })).toEqual({})
   })
 })
