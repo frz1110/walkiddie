@@ -14,6 +14,8 @@ import RegistrasiInvestor from './page/RegistrasiInvestor/RegistrasiInvestor';
 import RegistrasiMitra from './page/RegistrasiMitra/RegistrasiMitra';
 import Profile from './page/Profile/Profile';
 import Login from './page/Login';
+import ResetPassword from './page/ResetPassword/ResetPassword';
+import ResetPasswordConfirm from './page/ResetPassword/ResetPasswordConfirm';
 import Layout from './hocs/Layout';
 import { fetch_user } from './util/prerender';
 import { Provider } from 'react-redux';
@@ -65,6 +67,10 @@ function App() {
                 <Route path="/pemilik-toko">
                   <HomepagePemilikToko />
                 </Route>
+                <Route path="/reset-password">
+                  <ResetPassword />
+                </Route>
+                <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
                 <Route exact path="/">
                   <Home />
                 </Route>
