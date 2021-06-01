@@ -48,6 +48,10 @@
     margin-left: 10px;
 }
 
+.mi-option-radio:disabled {
+    cursor: default;
+}
+
 .mi-option-info-margin {
     margin-left: 45px;
 }
@@ -71,6 +75,20 @@
 
 .mi-card-estimasi-keuangan:hover {
     cursor: initial;
+    box-shadow: none;
+}
+
+.mi-card>.card-body>p.card-text {
+    margin-top: 0;
+}
+
+.mi-card-disabled {
+    background-color:lightgray;
+    color: gray;
+}
+
+.mi-card-disabled:hover {
+    cursor: default;
     box-shadow: none;
 }
 
