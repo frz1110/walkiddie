@@ -45,7 +45,6 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            // const searchData = [];
             try {
                 setLoading(true);
                 const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
@@ -58,18 +57,20 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 var result = _.values(merged);
 
                 const data = filterChange(result, searchTerm, 'namaToko');
-
                 setPosts(data);
                 setFilteredPosts();
                 setLoading(false);
 
                 let allFilter = [];
-                for (let i = 0; i < data.length; i++) {
-                    let response = data[i];
-                    let value = response['daerah'];
-                    allFilter.push({ value: value, label: value })
+                if (!filterChoice){
+                    for (let i = 0; i < data.length; i++) {
+                        let response = data[i];
+                        let value = response['daerah'];
+                        allFilter.push({ value: value, label: value })
+                    }
+                    const uniqueFilter = [...new Set(allFilter)];
+                    setFilterChoice(filterChoice.concat(uniqueFilter))
                 }
-                setFilterChoice(filterChoice.concat(allFilter))
             } catch {
                 alert('Terdapat kesalahan pada database. Mohon refresh ulang halaman ini')
             }
@@ -85,7 +86,7 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
 
         var merged = _.merge(_.keyBy(filterData, 'pk'), _.keyBy(res2.data, 'toko'));
         var result = _.values(merged);
-
+    
         setFilteredPosts(filterData);
         setPosts()
     }
@@ -111,75 +112,84 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
 
     return (
         <div className='container mt-5 justify-content-center'>
-
-            {/* <h3 className="pemilik-toko-h2 text-align-left"
-                style={{ padding: '0', margin: '0' }}
-            >Halo, <span className="pemilik-toko-text-light-green pemilik-toko-text-bold">{user.first_name} {user.last_name} !</span></h3>
-            <h6 className="text-align-left"
-                style={{ padding: '0', margin: '0' }}
-            >Selamat datang kembali di <span className="wkd-green-text pemilik-toko-text-bold">Walkiddie.</span></h6>
-            <br></br> */}
-            <h3 className="text-align-left list-owned-h3" ><Link to="/" style={{ color: 'rgb(0, 0, 0)' }} ><ChevronLeft size="40" className="chevron-left" /></Link>Daftar Proyek Pengadaan</h3>
-            <Row className='justify-content-center row-homepage-investor'>
-                <button className="wkd-nav-button wkd-dark-green-button" type="submit" style={{
-                    padding: "0 40px"
-                }}>Lihat Investasi yang Dimiliki</button>
-                <input
-                    style={{
-                        width: '70%',
-                        heigth: '30px'
-                    }}
-                    type="text"
-                    placeholder="Search"
-                    onChange={(event) => setSearchTerm(event.target.value)
-                    }
-                >
-                </input>
-            </Row>
-            <Row className="row-homepage-investor">
+            <h1 style={{
+                textAlign: 'left'
+            }}> Daftar Proyek Pengadaan</h1>
+            <br></br>
+            <Row>
                 <Col sm={4}>
-                    <Card
-                        style={{
-                            width: '350px',
-                            height: '80px'
-                        }}
-                    >
-                        <p style={{
-                            marginTop: '7px',
-                            marginBottom: '9px'
-                        }}>
-                            Atur Lokasi yang ingin dicari :
-                        </p>
-                        <div data-testid="select-daerah">
-                            <Select
+                    <Row>
+                        <Card
                                 style={{
-                                    width: '900px',
-                                    height: '110px'
+                                    width: '350px',
+                                    height: '80px',
+                                    backgroundColor: '#146A5F'
                                 }}
-                                class="form-control"
-                                placeholder="Beji,Depok"
-                                // value={dataPilihanMainan.find(obj => obj.value === selectedValue)}
-                                options={filterChoice}
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </Card>
+                            >
+                                <p style={{
+                                    marginTop: '7px',
+                                    marginBottom: '9px'
+                                }}
+                                className="wkd-nav-button wkd-dark-green-button"
+                                >
+                                    Atur Lokasi yang ingin dicari :
+                                </p>
+                                <div data-testid="select-daerah">
+                                    <Select
+                                        style={{
+                                            width: '900px',
+                                            height: '110px'
+                                        }}
+                                        class="form-control"
+                                        placeholder="Beji,Depok"
+                                        options={filterChoice}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                        </Card>
+                    </Row>
                 </Col>
                 <Col sm={8}>
-                    <Cards posts={currentPosts} loading={loading} />
+                    <Row
+                        className='input-investor'
+                        style={{
+
+                        }}
+                    >
+                        <input
+                            style={{
+                                width: '70%',
+                                heigth: '30px'
+                            }}
+                            type="text"
+                            placeholder="Search"
+                            onChange={(event) => setSearchTerm(event.target.value)
+                            }
+                        >
+                        </input>
+                    </Row>
+                    
+                    <Row className="row-homepage-investor"
+                        style={{
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Cards posts={currentPosts} loading={loading} />
+                    </Row>
+
+                    <Row className="row-homepage-investor"
+                        style={{
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Pagination
+                            currentPage={currentPage}
+                            postsPerPage={postsPerPage}
+                            totalPosts={postLength}
+                            paginate={paginate}
+                        />
+                    </Row>
                 </Col>
-            </Row>
-            <Row className="row-homepage-investor"
-                style={{
-                    justifyContent: 'center'
-                }}
-            >
-                <Pagination
-                    currentPage={currentPage}
-                    postsPerPage={postsPerPage}
-                    totalPosts={postLength}
-                    paginate={paginate}
-                />
             </Row>
         </div>
     );
@@ -192,6 +202,3 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps)(HomepageInvestor);
-
-
-// export default HomepageInvestor;

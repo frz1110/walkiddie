@@ -2,6 +2,11 @@
   padding: 10px;
 }
 
+.input-investor {
+  padding: 10px;
+  width: 148%;
+}
+
 .pageNumbers {
     list-style: none;
     display: flex;
