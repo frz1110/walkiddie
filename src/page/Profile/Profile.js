@@ -5,14 +5,18 @@ import { ChevronLeft } from 'react-feather';
 import React, { useState, useEffect } from 'react';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
-import { load_user, post_profile, update_profile, load_profile } from '../../actions/auth';
+import { post_profile, update_profile, load_profile } from '../../actions/auth';
 import { Link, Redirect } from 'react-router-dom';
 import loadingIcon from '../../media/loading-icon.jpg';
 
-const Profile = ({ load_user, isAuthenticated }) => {
-    const [data, setData] = useState([]);
+const Profile = ({ userData, isAuthenticated }) => {
+    const [authData, setAuthData] = useState({
+        email: '',
+        first_name: '',
+        last_name: '',
+        role: ''
+    });
     const [profile, setProfile] = useState([]);
-    const [email, setEmail] = useState('');
     const [isFilled, setIsFilled] = useState(false);
     const [imageChanged, setImageChaged] = useState(false);
     const [preview, setPreview] = useState()
@@ -21,34 +25,26 @@ const Profile = ({ load_user, isAuthenticated }) => {
         address: '',
         phone_number: '',
         ktp_number: '',
-        birth_date:'',
+        birth_date: '',
         profile_picture: null
     });
 
     const imageUploader = React.useRef(null);
+    const { email, first_name, last_name, role } = authData;
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setAuthData({
+                    email: userData.email,
+                    first_name: userData.first_name,
+                    last_name: userData.last_name,
+                    role: userData.role
+                });
                 setLoading(true);
-                const result = await load_user();
-                setLoading(false);
-                setData(result.res.data);
-                setEmail(result.res.data.email);
-            }
-            catch (err) {
-
-            }
-        }
-
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
                 const result = await load_profile()(email);
                 setProfile(result.res.data);
+                setLoading(false);
                 setIsFilled(true);
             }
             catch (err) {
@@ -70,13 +66,13 @@ const Profile = ({ load_user, isAuthenticated }) => {
         }
         setInitial();
     }, [profile]);
-    
+
     const handleSubmit = async e => {
         e.preventDefault();
         setLoading(true);
-        if(!isFilled){
+        if (!isFilled) {
             const res = await post_profile(email, full_name, address, phone_number, ktp_number, birth_date, profile_picture);
-            if (res.success){
+            if (res.success) {
                 window.location.reload(false);
             } else {
                 setLoading(false);
@@ -84,7 +80,7 @@ const Profile = ({ load_user, isAuthenticated }) => {
             }
         } else {
             const res = await update_profile(email, full_name, address, phone_number, ktp_number, birth_date, profile_picture, imageChanged);
-            if (res.success){
+            if (res.success) {
                 window.location.reload(false);
             } else {
                 setLoading(false);
@@ -99,6 +95,7 @@ const Profile = ({ load_user, isAuthenticated }) => {
     };
 
     const { address, phone_number, ktp_number, birth_date, profile_picture } = formData;
+    const full_name = first_name + " " + last_name;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -113,20 +110,18 @@ const Profile = ({ load_user, isAuthenticated }) => {
 
     }, [profile_picture])
 
-    const full_name = data.first_name + " " + data.last_name;
-
     if (!isAuthenticated) {
         return <Redirect to='/masuk' />
     }
 
-    return ( 
+    return (
         <div className="profile-form">
-            <form className="centered" onSubmit={handleSubmit}>
-                <h3 className="profile-header"><Link to="/" style={{ color: 'rgb(0, 0, 0)' }} ><ChevronLeft size="40" className="chevron-left"/></Link>Ubah Profil</h3>
+            <form className="profile-styling" onSubmit={handleSubmit}>
+                <h3 className="profile-header"><Link to="/" style={{ color: 'rgb(0, 0, 0)' }} ><ChevronLeft size="40" className="chevron-left" /></Link>Ubah Profil</h3>
                 <Row className="justify-content-center">
                     <div className="col-lg-3">
                         <div className="square-box-1">
-                            <div className="default-icon">
+                            <div className="profile-default-icon">
                                 {!profile_picture && !isFilled && <img className="profile-icon" src={defaultIcon} alt=""></img>}
                                 {!profile_picture && profile.profile_picture && <img className="profile-icon" src={profile.profile_picture} alt=""></img>}
                                 {profile_picture && <img className="profile-icon" src={preview} alt=""></img>}
@@ -134,22 +129,18 @@ const Profile = ({ load_user, isAuthenticated }) => {
                                     <img src={editIcon} alt="change icon"></img>
                                 </div>
                             </div>
-                            <h4 className="name-display">{data.first_name}</h4>
-                            <p className="email-display">{data.email}</p>
-                            <p className="midtext"></p>
+                            <h4 className="profile-name-display">{first_name}</h4>
+                            <p className="profile-email-display">{email}</p>
+                            <p className="profile-midtext"></p>
                         </div>
-                        <Row className="button-wrapper">
-                            <div className="col">
-                                <Link to="/"><button className="cancel-button" type="button"> 
-                                    Batalkan
-                                </button></Link>
-                            </div>
-                            <div className="col">
-                                <button className="save-button submit-button" type="submit"> 
-                                    Simpan
-                                </button>
-                            </div>
-                        </Row>
+                        <div className="profile-button-wrapper">
+                            <Link to="/"><button className="profile-cancel-button" type="button">
+                                Batalkan
+                            </button></Link>
+                            <button className="profile-save-button submit-button" type="submit">
+                                Simpan
+                            </button>
+                        </div>
                     </div>
                     {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
                     <div className="col-lg-9">
@@ -158,136 +149,136 @@ const Profile = ({ load_user, isAuthenticated }) => {
                                 <div className="col-sm data-type">
                                     <h3>Data Akun</h3>
                                 </div>
-                                <div className="col-sm data-type">                       
+                                <div className="col-sm data-type">
                                     <h3>Data Pribadi</h3>
                                 </div>
                             </Row>
                             <Row className="justify-content-center">
-                            <div className="col-sm">
-                                <div className="form-container centered">
-                                    <label htmlFor='full_name'> Nama Lengkap </label>
-                                    <br></br>
-                                    <input
-                                        id='full_name'
-                                        type='text'
-                                        name='full_name'
-                                        value= {full_name}
-                                        disabled
-                                    />
+                                <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='full_name'> Nama Lengkap </label>
+                                        <br></br>
+                                        <input
+                                            id='full_name'
+                                            type='text'
+                                            name='full_name'
+                                            value={full_name}
+                                            disabled
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-sm">
-                                <div className="form-container centered">
-                                    <label htmlFor='phone_number'> Nomor Handphone </label>
-                                    <br></br>
-                                    <input
-                                        id='phone_number'
-                                        type='text'
-                                        name='phone_number'
-                                        value={phone_number}
-                                        onChange={e => onChange(e)}
-                                        pattern='[0-9]*'
-                                        minLength='12'
-                                        maxLength='12'
-                                        required
-                                    />
+                                <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='phone_number'> Nomor Handphone </label>
+                                        <br></br>
+                                        <input
+                                            id='phone_number'
+                                            type='text'
+                                            name='phone_number'
+                                            value={phone_number}
+                                            onChange={e => onChange(e)}
+                                            pattern='[0-9]*'
+                                            minLength='12'
+                                            maxLength='12'
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                            </div>
                             </Row>
                             <Row className="justify-content-center">
-                            <div className="col-sm">
-                                <div className="form-container centered">
-                                    <label htmlFor='email'> Email </label>
-                                    <br></br>
-                                    <input
-                                        id='email'
-                                        type='email'
-                                        name='email'
-                                        value={data.email}
-                                        disabled
-                                    />
+                                <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='email'> Email </label>
+                                        <br></br>
+                                        <input
+                                            id='email'
+                                            type='email'
+                                            name='email'
+                                            value={email}
+                                            disabled
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-sm">
-                                <div className="form-container centered">
-                                <label htmlFor='ktp_number'> Nomor KTP </label>
-                                    <br></br>
-                                    <input
-                                        id='ktp_number'
-                                        type='text'
-                                        name='ktp_number'
-                                        value={ktp_number}
-                                        onChange={e => onChange(e)}
-                                        pattern='[0-9]*'
-                                        minLength='16'
-                                        maxLength='16'
-                                        required
-                                    />
+                                <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='ktp_number'> Nomor KTP </label>
+                                        <br></br>
+                                        <input
+                                            id='ktp_number'
+                                            type='text'
+                                            name='ktp_number'
+                                            value={ktp_number}
+                                            onChange={e => onChange(e)}
+                                            pattern='[0-9]*'
+                                            minLength='16'
+                                            maxLength='16'
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                            </div>
                             </Row>
                             <Row className="justify-content-center">
-                            <div className="col-sm">
-                                <div className="form-container centered">
-                                    <label htmlFor='password'> Kata Sandi </label>
-                                    <br></br>
-                                    <input
-                                        id='password'
-                                        type='password'
-                                        name='password'
-                                        value='useruser123'
-                                        disabled
-                                    />
+                                <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='role'> Posisi </label>
+                                        <br></br>
+                                        <input
+                                            id='role'
+                                            type='text'
+                                            name='role'
+                                            value={role}
+                                            disabled
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-sm">
-                                <div className="form-container centered">
-                                    <label htmlFor='birth_date'> Tanggal Lahir </label>
-                                    <br></br>
-                                    <input
-                                        id='birth_date'
-                                        name='birth_date'
-                                        value={birth_date}
-                                        onChange={e => onChange(e)}
-                                        required
-                                        type="date"
-                                    />
+                                <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='birth_date'> Tanggal Lahir </label>
+                                        <br></br>
+                                        <input
+                                            id='birth_date'
+                                            name='birth_date'
+                                            value={birth_date}
+                                            onChange={e => onChange(e)}
+                                            required
+                                            type="date"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
                             </Row>
                             <Row className="justify-content-center">
-                            <div className="col-sm">
-                                <div className="form-container"></div>
-                                    <Link to="/reset-password"><button className="password-button" type="button">
-                                    Lupa Kata Sandi
+                                <div className="col-sm">
+                                    <div className="profile-form-container"></div>
+                                    <Link to="/reset-password"><button className="profile-password-button" type="button">
+                                        Lupa Kata Sandi
                                     </button></Link>
-                            </div>
-                            <div className="col-sm">
-                                <div className="form-container centered">
-                                <label htmlFor='address'> Alamat Lengkap </label>
-                                    <br></br>
-                                    <textarea
-                                        id='address'
-                                        name='address'
-                                        value={address}
-                                        onChange={e => onChange(e)}
-                                        required
-                                        rows="8"
-                                        max-rows="10"
-                                    />
                                 </div>
-                            </div>
+                                <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='address'> Alamat Lengkap </label>
+                                        <br></br>
+                                        <textarea
+                                            id='address'
+                                            name='address'
+                                            value={address}
+                                            onChange={e => onChange(e)}
+                                            required
+                                            rows="8"
+                                            max-rows="10"
+                                        />
+                                    </div>
+                                </div>
                             </Row>
                             <Row className="justify-content-center">
-                            <div className="col-sm">
-                                
-                            </div>
-                            <div className="col-sm">
-                                <div className="form-container" style={{display: "none"}}>
-                                <label htmlFor='profile_picture'> Foto Profil </label>
-                                    <input type="file" id='profile_picture' accept="image/*" ref={imageUploader} onChange={onFileChange} />
+                                <div className="col-sm">
+
                                 </div>
-                            </div>
+                                <div className="col-sm">
+                                    <div className="profile-form-container" style={{ display: "none" }}>
+                                        <label htmlFor='profile_picture'> Foto Profil </label>
+                                        <input type="file" id='profile_picture' accept="image/*" ref={imageUploader} onChange={onFileChange} />
+                                    </div>
+                                </div>
                             </Row>
                         </div>
                     </div>
@@ -296,10 +287,10 @@ const Profile = ({ load_user, isAuthenticated }) => {
         </div>
     );
 }
- 
+
 const mapStateToProps = state => ({
     userData: state.auth.user,
     isAuthenticated: state.auth.isAuthenticated
-}); 
+});
 
-export default connect(mapStateToProps, { load_user })(Profile);
+export default connect(mapStateToProps)(Profile);

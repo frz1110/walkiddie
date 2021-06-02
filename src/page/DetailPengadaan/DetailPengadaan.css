@@ -1,8 +1,8 @@
-.wrapper{
-    margin-bottom: 112px;
-    margin-top: 20px;
-    margin-left: 112px;
-    margin-right: 112px;
+.detail-pengadaan-wrapper{
+    padding-top: 60px;
+    padding-bottom: 112px;
+    padding-left: 112px;
+    padding-right: 112px;
 }
 
 .back-button{
@@ -15,74 +15,64 @@
 .back-button .chevron-left{
     width: 40px;
     padding-bottom: 5px;
-
 }
 
-.store-header{
-    position: relative;
+.detail-pengadaan-store-header{
+    display: flex;
+    align-items: center;
     text-align: left;
+    padding-top: 10px;
 }
 
-.profile-image{
+.detail-pengadaan-profile-image{
     border-radius: 50%;
     height: 70px;
-    max-width: 70px;
-    object-fit: contain;
-    background-color: black;
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    width: 70px;
+    object-fit: cover;
 }
 
-.store-header > img,
-.store-header > .store-name{
-    display: inline-block;
-}
-
-.store-name{
-    padding-left: 90px;
+.detail-pengadaan-store-name{
+    padding-left: 20px;
     font-weight: 700;
     font-size: 22px;
     font-family: 'DM Sans', sans-serif;
     line-height: 80%;
 }
 
-.carousel-wrapper img{
+.detail-pengadaan-carousel-wrapper img{
     object-fit: cover;
-    max-height: 270px;
+    height: 270px;
     border-radius: 10px;
 }
 
-.box-wrapper{
+.detail-pengadaan-box-wrapper{
     text-align: start;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     padding: 31px 42px 31px;
     border-radius: 10px;
 }
 
-.box-wrapper h3{
+.detail-pengadaan-box-wrapper h3{
     font-weight: 700;
     font-size: 20px;
     font-family: 'DM Sans', sans-serif;
 }
 
-.box-wrapper p{
+.detail-pengadaan-box-wrapper p{
     font-weight: normal;
     font-size: 16px;
     font-family: 'DM Sans', sans-serif;
 }
 
-.distance{
+.detail-pengadaan-distance-row{
     padding-bottom: 20px
 }
 
-.distance-2{
-    padding-top: 35px
+.detail-pengadaan-content{
+    padding-top: 30px
 }
 
-.invest-button{
+.detail-pengadaan-invest-button{
     background-color: #146A5F;
     color: white;
     border-radius: 7.3px;
@@ -99,7 +89,7 @@
     background-color: #0f4e46;
 }
 
-.modal-text{
+.detail-pengadaan-modal-text{
     font-weight: 700;
     font-size: 20px;
     font-family: 'DM Sans', sans-serif;
@@ -108,7 +98,7 @@
     color: #1E8E7F;
 }
 
-.modal-target{
+.detail-pengadaan-modal-target{
     font-weight: 700;
     font-size: 20px;
     font-family: 'DM Sans', sans-serif;
@@ -128,7 +118,7 @@
     border-radius: 7px;
 }
 
-.modal-desc{
+.detail-pengadaan-modal-desc{
     font-weight: normal;
     font-size: 16px;
     font-family: 'DM Sans', sans-serif;
@@ -137,7 +127,7 @@
     padding-top: 5px
 }
 
-.midtext {
+.detail-pengadaan-midtext {
     width: 100%; 
     text-align: center; 
     border-bottom: 1px solid #ccc; 
@@ -188,12 +178,12 @@
     color: black;
 }
 
-.profile-details {  
+.mainan-wrapper{  
     vertical-align: top; 
     text-align: left;
 }
 
-.review-pengadaan-mainan{
+.mainan-image{
     max-height: 101px;
     max-width: 101px;
     object-fit: contain;
@@ -207,12 +197,18 @@
     align-items: center;
 }
 
-.mi-card{
+.mi-card-money{
     border: 1px solid #b5b5b5;
     border-radius: 10px;
     text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: normal;
 }
 
-.fade {
+.card-text:last-child {
+    margin-bottom: 16px !important;
+}
+
+.fade{
     transition: opacity .300s linear;
 }

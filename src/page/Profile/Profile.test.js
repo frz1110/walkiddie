@@ -16,75 +16,75 @@ const mockStore = configureStore(middlewares)
 
 describe('<Profile />', () => {
     it('renders correctly', () => {
-        const mockLoadUser = jest.fn()
+        const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: {isAuthenticated: true}}
+        const initialState = { auth: { isAuthenticated: true } }
         const store = mockStore(initialState)
 
         const { getByText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                <Profile load_user={mockLoadUser} isAuthenticated={mockAuthenticate}/>
+                    <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
         expect(getByText(/Ubah Profil/)).toBeInTheDocument();
     });
 
     it('renders the right contents', () => {
-        const mockLoadUser = jest.fn()
+        const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: {isAuthenticated: true}}
+        const initialState = { auth: { isAuthenticated: true } }
         const store = mockStore(initialState)
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                <Profile load_user={mockLoadUser} isAuthenticated={mockAuthenticate}/>
+                    <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
-            
+
         expect(screen.getByLabelText(/Nama Lengkap/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Email/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Nomor Handphone/)).toBeInTheDocument();
-        expect(screen.getByLabelText(/Kata Sandi/)).toBeInTheDocument();
+        expect(screen.getByLabelText(/Posisi/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Nomor KTP/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Tanggal Lahir/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Alamat Lengkap/)).toBeInTheDocument();
-        expect(screen.getByAltText("loading...")).toBeInTheDocument();
     });
 
     it('should redirect if not authenticated', () => {
         let loc;
-        const mockLoadUser = jest.fn()
-        const initialState = { auth: {isAuthenticated: false}}
+        const mockUser = jest.fn()
+        const initialState = { auth: { isAuthenticated: false } }
         const store = mockStore(initialState)
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                <Profile load_user={mockLoadUser} isAuthenticated={false}/>
+                    <Profile userData={mockUser} isAuthenticated={false} />
                     <Route
-                    path="*"
-                    render={({location}) => {
-                        loc = location;
-                        return null;
-                    }}
+                        path="*"
+                        render={({ location }) => {
+                            loc = location;
+                            return null;
+                        }}
                     />
                 </BrowserRouter>
             </Provider>
         );
         expect(loc.pathname).toBe('/masuk');
-      });
+    });
 
     test('useState Function testing', () => {
-        const mockLoadUser = jest.fn()
+        const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: {isAuthenticated: true}}
+        const initialState = { auth: { isAuthenticated: true } }
         const store = mockStore(initialState)
+
         const { getByLabelText } = render(
-        <Provider store={store}>
-            <BrowserRouter>
-            <Profile load_user={mockLoadUser} isAuthenticated={mockAuthenticate}/>
-            </BrowserRouter>
-        </Provider>);
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
+                </BrowserRouter>
+            </Provider>);
 
         const nomor_handphone = getByLabelText('Nomor Handphone');
         const nomor_KTP = getByLabelText('Nomor KTP');
@@ -103,30 +103,42 @@ describe('<Profile />', () => {
     });
 
     test('submit through form', () => {
-        const mockLoadUser = jest.fn()
+        const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
         global.URL.createObjectURL = jest.fn();
-        const initialState = { auth: {isAuthenticated: true}}
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    email: "user12345@gmail.com",
+                    first_name: "ihsan",
+                    last_name: "azizi",
+                    role: "Investor"
+                }
+            }
+        }
+        localStorage.setItem('access', 'token')
         const store = mockStore(initialState)
+
         const { getByLabelText } = render(
-        <Provider store={store}>
-            <BrowserRouter>
-            <Profile load_user={mockLoadUser} isAuthenticated={mockAuthenticate}/>
-            </BrowserRouter>
-        </Provider>);
-        
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
+                </BrowserRouter>
+            </Provider>);
+
         const file = new File(['user'], 'user.png', { type: 'image/png' })
 
         const profileData = {
-             data: {
-                email: "user12345@gmail.com", 
-                full_name: "User Anon", 
-                address: "Jakarta Timur", 
-                phone_number: "081316086814", 
+            data: {
+                email: "user12345@gmail.com",
+                full_name: "User Anon",
+                address: "Jakarta Timur",
+                phone_number: "081316086814",
                 ktp_number: "1234567899876543",
                 birth_date: "2021-03-21",
                 profile_picture: file
-            } 
+            }
         }
 
         const nama_lengkap = getByLabelText('Nama Lengkap');
@@ -136,9 +148,9 @@ describe('<Profile />', () => {
         const tanggal_lahir = getByLabelText('Tanggal Lahir');
         const alamat_lengkap = getByLabelText('Alamat Lengkap');
         const profile_picture = getByLabelText('Foto Profil');
-        
+
         axios.post.mockImplementationOnce(() => Promise.resolve(profileData));
-        
+
         userEvent.type(nama_lengkap, 'User Anon');
         userEvent.type(email, 'user12345@gmail.com');
         userEvent.type(nomor_handphone, '081316086814');
@@ -150,29 +162,30 @@ describe('<Profile />', () => {
         userEvent.click(screen.getByText('Simpan'));
 
         expect(axios.post).toHaveBeenCalledTimes(1);
+        localStorage.removeItem('access', 'token')
     });
-    
+
     test('Fail submit through form', () => {
-        const mockLoadUser = jest.fn()
+        const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: {isAuthenticated: true}}
+        const initialState = { auth: { isAuthenticated: true } }
         const store = mockStore(initialState)
         const { getByLabelText } = render(
-        <Provider store={store}>
-            <BrowserRouter>
-            <Profile load_user={mockLoadUser} isAuthenticated={mockAuthenticate}/>
-            </BrowserRouter>
-        </Provider>);
-            
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
+                </BrowserRouter>
+            </Provider>);
+
         const profileData = {
-             data: {
-                email: "user12345@gmail.com", 
-                full_name: "User Anon", 
-                address: "Jakarta Timur", 
-                phone_number: "081316086814", 
+            data: {
+                email: "user12345@gmail.com",
+                full_name: "User Anon",
+                address: "Jakarta Timur",
+                phone_number: "081316086814",
                 ktp_number: "1234567899876543",
                 birth_date: "2021-03-21"
-            } 
+            }
         }
 
         const nama_lengkap = getByLabelText('Nama Lengkap');
@@ -181,9 +194,9 @@ describe('<Profile />', () => {
         const nomor_KTP = getByLabelText('Nomor KTP');
         const tanggal_lahir = getByLabelText('Tanggal Lahir');
         const alamat_lengkap = getByLabelText('Alamat Lengkap');
-        
+
         axios.post.mockImplementationOnce(() => Promise.reject(profileData));
-        
+
         userEvent.type(nama_lengkap, 'User Anon');
         userEvent.type(email, 'user12345@gmail.com');
         userEvent.type(nomor_handphone, '081316086814');
@@ -196,59 +209,116 @@ describe('<Profile />', () => {
     });
 
     test('update through form', () => {
-        const mockLoadUser = jest.fn()
+        const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: {isAuthenticated: true}}
+        global.URL.createObjectURL = jest.fn();
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    email: "user12345@gmail.com",
+                    first_name: "ihsan",
+                    last_name: "azizi",
+                    role: "Investor"
+                }
+            }
+        }
         const store = mockStore(initialState)
+
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                <Profile load_user={mockLoadUser} isAuthenticated={mockAuthenticate}/>
+                    <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
-            
+
         const file = new File(['user'], 'user.png', { type: 'image/png' })
-    
+
         const profileData = {
             data: {
-            email: "user12345@gmail.com", 
-            full_name: "User Anon", 
-            address: "Jakarta Timur", 
-            phone_number: "081316086814", 
-            ktp_number: "1234567899876543",
-            birth_date: "2021-03-21",
-            profile_picture: file
-            } 
+                email: "user12345@gmail.com",
+                full_name: "User Anon",
+                address: "Jakarta Timur",
+                phone_number: "081316086814",
+                ktp_number: "1234567899876543",
+                birth_date: "2021-03-21",
+                profile_picture: file
+            }
         }
-        
+
         axios.put.mockImplementationOnce(() => Promise.resolve(profileData));
-        
+
         update_profile("user12345@gmail.com", "User Anon", "Jakarta Timur", "081316086814", "1234567899876543", "2021-03-21", file, true)
 
         expect(axios.put).toHaveBeenCalledTimes(1);
     });
 
-    it('fetches successfully data from an API', async () => {
-        const mockLoadUser = jest.fn()
+    test('fail update through form', () => {
+        const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: {isAuthenticated: true}}
+        global.URL.createObjectURL = jest.fn();
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    email: "user12345@gmail.com",
+                    first_name: "ihsan",
+                    last_name: "azizi",
+                    role: "Investor"
+                }
+            }
+        }
+        const store = mockStore(initialState)
+
+        render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
+                </BrowserRouter>
+            </Provider>);
+
+        const file = new File(['user'], 'user.png', { type: 'image/png' })
+
+        const profileData = {
+            data: {
+                email: "user12345@gmail.com",
+                full_name: "User Anon",
+                address: "Jakarta Timur",
+                phone_number: "none",
+                ktp_number: "1234567899876543",
+                birth_date: "2021-03-21",
+                profile_picture: file
+            }
+        }
+
+        axios.put.mockImplementationOnce(() => Promise.reject(profileData));
+
+        update_profile("user12345@gmail.com", "User Anon", "Jakarta Timur", "none", "1234567899876543", "2021-03-21", file, true)
+
+        expect(axios.put).toHaveBeenCalledTimes(1);
+    });
+
+    it('fetches successfully data from an API', async () => {
+        const mockUser = jest.fn()
+        const mockAuthenticate = jest.fn()
+        const initialState = { auth: { isAuthenticated: true } }
         const store = mockStore(initialState)
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                <Profile load_user={mockLoadUser} isAuthenticated={mockAuthenticate}/>
+                    <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
-            
+
         const profileData = {
-             data: {
-                email: "user12345@gmail.com", 
-                full_name: "User Anon", 
-                address: "Jakarta Timur", 
-                phone_number: "081316086814", 
+            data: {
+                email: "user12345@gmail.com",
+                full_name: "User Anon",
+                address: "Jakarta Timur",
+                phone_number: "081316086814",
                 ktp_number: "1234567899876543",
                 birth_date: "2021-03-21"
-            } 
+            }
         }
 
         axios.get.mockImplementationOnce(() => Promise.resolve(profileData));

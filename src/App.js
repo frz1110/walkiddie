@@ -53,21 +53,20 @@ function App() {
               <Route path="/daftar-toko">
                 <DaftarToko />
               </Route>
-              <Route path={"/investasi/:pk"} component={MembuatInvestasi}>
-              </Route>
-              <Route path="/investor">
-                <HomepageInvestor />
-              </Route>
-              <Route path="/pemilik-toko">
-                <HomepagePemilikToko />
-              </Route>
-              <Route path="/detail-pengadaan">
-                <DetailPengadaan />
-              </Route>
               <Route path="/pengadaan-mainan">
                   <PengadaanMainan />
                 </Route>
-              <Route path="/reset-password">
+                <Route path={"/investasi/:pk"} component={MembuatInvestasi}>
+                </Route>
+                <Route path="/investor">
+                  <HomepageInvestor />
+                </Route>
+                <Route path={"/detail-pengadaan/:pk"} component={DetailPengadaan}>
+                </Route>
+                <Route path="/pemilik-toko">
+                  <HomepagePemilikToko />
+                </Route>
+                <Route path="/reset-password">
                   <ResetPassword />
                 </Route>
                 <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />

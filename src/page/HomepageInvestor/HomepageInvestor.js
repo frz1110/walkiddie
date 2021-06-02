@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cards from '../../components/Cards/Cards';
 import Pagination from '../../components/Pagination/Pagination';
 import Card from 'react-bootstrap/Card'
-import { Row,Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import Select from 'react-select';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -11,8 +11,8 @@ import '../HomepagePemilikToko/HomepagePemilikToko.css'
 import { Redirect } from 'react-router-dom';
 import _ from 'lodash';
 
-const HomepageInvestor = ({ isAuthenticated ,user }) => {
-// const HomepageInvestor = () => {
+const HomepageInvestor = ({ isAuthenticated, user }) => {
+    // const HomepageInvestor = () => {
     const [posts, setPosts] = useState([]);
     const [filteredPosts, setFilteredPosts] = useState();
     const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
     if (filteredPosts) {
         currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
         postLength = filteredPosts.length;
-    } else if(posts !== []){
+    } else if (posts !== []) {
         currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
         postLength = posts.length;
     }
@@ -47,23 +47,26 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
             // const searchData = [];
             try {
                 setLoading(true);
-                const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`,config);
-                const res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`,config);
-                
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
+                const res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, config);
+                res2.data.forEach((item, i) => {
+                    item.pkToko = item.pk;
+                });
+
                 var merged = _.merge(_.keyBy(res.data, 'pk'), _.keyBy(res2.data, 'toko'));
                 var result = _.values(merged);
 
                 const data = filterChange(result, searchTerm, 'namaToko');
-        
+
                 setPosts(data);
                 setFilteredPosts();
                 setLoading(false);
 
                 let allFilter = [];
-                for(let i=0; i < data.length; i++){
+                for (let i = 0; i < data.length; i++) {
                     let response = data[i];
                     let value = response['daerah'];
-                    allFilter.push({value:value, label:value})
+                    allFilter.push({ value: value, label: value })
                 }
                 setFilterChoice(filterChoice.concat(allFilter))
             } catch {
@@ -76,19 +79,19 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
 
     const handleChange = async e => {
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
-        const res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`,config);
+        const res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, config);
         const filterData = filterChange(res.data, e.value, 'daerah');
-        
+
         var merged = _.merge(_.keyBy(filterData, 'pk'), _.keyBy(res2.data, 'toko'));
         var result = _.values(merged);
-        
+
         setFilteredPosts(filterData);
         setPosts()
     }
 
-    const filterChange = (data, filterTerm, find ) => {
+    const filterChange = (data, filterTerm, find) => {
         const filteredData = data.filter((e) => {
-            if (filterTerm === ""){
+            if (filterTerm === "") {
                 return e
             }
             else if (e[find].toLowerCase().includes(filterTerm.toLowerCase())) {
@@ -107,7 +110,7 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
 
     return (
         <div className='container mt-5 justify-content-center'>
-            
+
             <h3 className="pemilik-toko-h2 text-align-left"
                 style={{ padding: '0', margin: '0' }}
             >Halo, <span className="pemilik-toko-text-light-green pemilik-toko-text-bold">{user.first_name} {user.last_name} !</span></h3>
@@ -117,8 +120,8 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
             <br></br>
             <h1>Proyek Pengadaan Barang</h1>
             <Row className='justify-content-center row-homepage-investor'>
-                <button className="wkd-nav-button wkd-dark-green-button" type="submit" style ={{
-                    padding:"0 40px"
+                <button className="wkd-nav-button wkd-dark-green-button" type="submit" style={{
+                    padding: "0 40px"
                 }}>Lihat Investasi yang Dimiliki</button>
                 <input
                     style={{
@@ -134,20 +137,20 @@ const HomepageInvestor = ({ isAuthenticated ,user }) => {
             </Row>
             <Row className="row-homepage-investor">
                 <Col sm={4}>
-                    <Card 
+                    <Card
                         style={{
                             width: '350px',
                             height: '80px'
                         }}
                     >
                         <p style={{
-                            marginTop:'7px',
+                            marginTop: '7px',
                             marginBottom: '9px'
                         }}>
                             Atur Lokasi yang ingin dicari :
                         </p>
                         <div data-testid="select-daerah">
-                            <Select 
+                            <Select
                                 style={{
                                     width: '900px',
                                     height: '110px'
