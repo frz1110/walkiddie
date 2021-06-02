@@ -84,7 +84,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
     };
 
     useEffect(() => {
-        fetchDaftarTokoItems();
+        // fetchDaftarTokoItems();
         fetchDaftarPengadaanItems();
     }, []);
 
@@ -136,7 +136,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                     </div>
                 </div>
 
-                <div className="list-pemilik-toko mt-5">
+                {/* <div className="list-pemilik-toko mt-5">
                     <div className="">
                         <h3 className="text-align-left pemilik-toko-h3" >Daftar Toko</h3>
                         <Cards posts={daftarTokoCurrentPosts} loading={daftarTokoLoading} />
@@ -153,7 +153,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                             />
                         </Row>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );
