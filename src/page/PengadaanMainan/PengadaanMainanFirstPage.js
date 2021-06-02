@@ -4,36 +4,44 @@ import AlurPendaftaran from './pengadaan-mainan.svg';
 import Card from 'react-bootstrap/Card'
 import CardColumns from 'react-bootstrap/CardColumns'
 
+const PengadaanMainanFirstPage = ({ daftarMainan, setState, formData, navigation }) => {
+    const [checkedState, setCheckedState] = useState(
+        new Array(100).fill(false)
+    );
 
-const PengadaanMainanFirstPage = ({ setFormData, navigation }) => {
-    const { next } = navigation;
-    const [selectedForm ,setSelected] = useState({
-        selectedCheckboxes: []
-    });
+    const handleOnChange = (position) => {
+        const updatedCheckedState = checkedState.map((item, index) =>
+          index === position ? !item : item
+        );
     
-    const { selectedCheckboxes } = selectedForm
+        setCheckedState(updatedCheckedState);
+        
+        setState(updatedCheckedState);
+    };
 
-    const onChange = id => {
-        const { selectedCheckboxes } = selectedForm
-
-        // Find index
-        const findIdx = selectedCheckboxes.indexOf(id);
-    
-        // Index > -1 means that the item exists and that the checkbox is checked
-        // and in that case we want to remove it from the array and uncheck it
-        if (findIdx > -1) {
-            selectedCheckboxes.splice(findIdx, 1);
-        } else {
-            selectedCheckboxes.push(id);
+    function stateMainan() {
+        let state = false;
+        for (let i=0; i < checkedState.length; i++) {
+            if (checkedState[i] === true) {
+                state = true;
+            }
         }
 
-        setSelected({
-            selectedCheckboxes: selectedCheckboxes
-        });
+        if (state){
+            navigation.next()
+        } else {
+            alert("Anda belum memilih mainan")
+        }
+    }
 
-        setFormData({
-            paketMainan: selectedCheckboxes
-        })
+    function countJumlahMainan() {
+        let panjangData = 0;
+        for (let i=0; i < checkedState.length; i++) {
+            if (checkedState[i] === true) {
+                panjangData = panjangData + 1
+            }
+        }
+        return panjangData;
     }
 
     return (
@@ -79,79 +87,32 @@ const PengadaanMainanFirstPage = ({ setFormData, navigation }) => {
                             <p>Pilih pengadaan mainan yang Anda inginkan!</p>
 
                             <CardColumns>
-                            {/* {posts.map(post => ( */}
+                            {daftarMainan.map(mainan => (
                                 <Card className="card-flex-item2" 
-                                    // key={post.id}
+                                    key={mainan.id}
                                 >
-                                <Card.Img variant="top" src="https://i.stack.imgur.com/y9DpT.jpg" />
+                                <Card.Img variant="top" src={mainan.gambar_mainan}alt="https://i.stack.imgur.com/y9DpT.jpg" />
                                 <Card.Body>
                                     <Card.Title className="card-content-limit card-title">
-                                    {/* {post.title} */}
-                                    Spongebob Cart
+                                    {mainan.nama_mainan}
                                     </Card.Title>
                                     <Card.Text className="card-content-limit card-text">
-                                    {/* {post.body} */}
-                                    Bodyy
+                                    <p>{mainan.deskripsi_mainan}</p>
+                                    <h3>{mainan.harga}</h3>
                                     </Card.Text>
                                     <Form.Check 
                                         custom
                                         type='checkbox'
-                                        id={1}
-                                        onChange={() => onChange(1)}
-                                        selected={selectedCheckboxes.includes(1)}
-                                        // onChange={() => onChange(id)}
-                                        // selected={selectedCheckboxes.includes(id)}
+                                        id={mainan.id}
+                                        // onChange={() => onChange(1)}
+                                        // selected={selectedCheckboxes.includes(1)}
+                                        checked={checkedState[(mainan.id)-1]}
+                                        onChange={() => handleOnChange((mainan.id)-1)}
                                     />
                                 </Card.Body>
                                 </Card>
-                            {/* ))} */}
+                            ))}
 
-                                <Card className="card-flex-item2" 
-                                    // key={post.id}
-                                >
-                                <Card.Img variant="top" src="https://i.stack.imgur.com/y9DpT.jpg" />
-                                <Card.Body>
-                                    <Card.Title className="card-content-limit card-title">
-                                    {/* {post.title} */}
-                                    Spongebob Cart
-                                    </Card.Title>
-                                    <Card.Text className="card-content-limit card-text">
-                                    {/* {post.body} */}
-                                    Bodyy
-                                    </Card.Text>
-                                    <Form.Check 
-                                        custom
-                                        type='checkbox'
-                                        id={2}
-                                        onChange={() => onChange(2)}
-                                        selected={selectedCheckboxes.includes(2)}
-                                    />
-                                </Card.Body>
-                                </Card>
-
-                                <Card className="card-flex-item2" 
-                                    // key={post.id}
-                                >
-                                <Card.Img variant="top" src="https://i.stack.imgur.com/y9DpT.jpg" />
-                                <Card.Body>
-                                    <Card.Title className="card-content-limit card-title">
-                                    {/* {post.title} */}
-                                    Spongebob Cart
-                                    </Card.Title>
-                                    <Card.Text className="card-content-limit card-text">
-                                    {/* {post.body} */}
-                                    Bodyy
-                                    </Card.Text>
-                                    <Form.Check 
-                                        custom
-                                        type='checkbox'
-                                        id={3}
-                                        onChange={() => onChange(3)}
-                                        selected={selectedCheckboxes.includes(3)}
-                                    />
-                                </Card.Body>
-                                </Card>
-                                
                             </CardColumns>
                         </div>
                         <div
@@ -159,8 +120,8 @@ const PengadaanMainanFirstPage = ({ setFormData, navigation }) => {
                             float:'right'
                         }}
                         >
-                            <p>* Jumlah mainan : <b>{selectedCheckboxes.length} buah</b></p>
-                            <button className="wkd-nav-button wkd-dark-green-button" onClick={next}>Selanjutnya</button>
+                            <p>* Jumlah mainan : <b>{countJumlahMainan()} buah</b></p>
+                            <button className="wkd-nav-button wkd-dark-green-button" onClick={stateMainan}>Selanjutnya</button>
                         </div>
                     </div>
                 </div>

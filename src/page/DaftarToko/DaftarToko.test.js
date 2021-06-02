@@ -153,6 +153,7 @@ describe('<Daftar Toko />', () => {
                 lokasiToko: 'Margonda',
                 latitude: -6.364520803098946,
                 longitude: 106.82922538589406,
+                daerah:'jakarta',
                 mediaTokoList: files
             }
         }
@@ -165,6 +166,7 @@ describe('<Daftar Toko />', () => {
         const nomorTelepon = getByLabelText(/Nomor Telepon/);
         const deskripsiToko = getByLabelText(/Deskripsi Toko/);
         const lokasiToko = getByLabelText(/Lokasi Toko/);
+        const daerah = getByLabelText(/Daerah/);
         const mediaToko = getByRole('mediatoko');
         const tombolSimpan = getByText("Simpan");
 
@@ -173,6 +175,7 @@ describe('<Daftar Toko />', () => {
         userEvent.type(tipeUsaha, "Restoran");
         userEvent.type(nomorTelepon, "089876548796");
         userEvent.type(lokasiToko, "Margonda");
+        userEvent.type(daerah, "Beji, Depok");
         userEvent.type(deskripsiToko, "Jual bebek");
         userEvent.upload(mediaToko, mediaToko,files);
 
@@ -216,6 +219,7 @@ describe('<Daftar Toko />', () => {
                 lokasiToko: 'Margonda',
                 latitude: -6.364520803098946,
                 longitude: 106.82922538589406,
+                daerah:'jakarta',
                 mediaTokoList: files
             }
         }
@@ -228,6 +232,7 @@ describe('<Daftar Toko />', () => {
         const nomorTelepon = getByLabelText(/Nomor Telepon/);
         const deskripsiToko = getByLabelText(/Deskripsi Toko/);
         const lokasiToko = getByLabelText(/Lokasi Toko/);
+        const daerah = getByLabelText(/Daerah/);
         const mediaToko = getByRole('mediatoko');
         const tombolSimpan = getByText("Simpan");
 
@@ -236,6 +241,7 @@ describe('<Daftar Toko />', () => {
         userEvent.type(tipeUsaha, "Restoran");
         userEvent.type(nomorTelepon, "089876548796");
         userEvent.type(lokasiToko, "Margonda");
+        userEvent.type(daerah, "Beji, Depok");
         userEvent.type(deskripsiToko, "Jual bebek");
         userEvent.upload(mediaToko, mediaToko,files);
 
@@ -281,6 +287,7 @@ describe('<Daftar Toko />', () => {
                 lokasiToko: 'Margonda',
                 latitude: -6.364520803098946,
                 longitude: 106.82922538589406,
+                daerah:'jakarta',
                 mediaTokoList: files
             }
         }
@@ -293,6 +300,7 @@ describe('<Daftar Toko />', () => {
         const nomorTelepon = getByLabelText(/Nomor Telepon/);
         const deskripsiToko = getByLabelText(/Deskripsi Toko/);
         const lokasiToko = getByLabelText(/Lokasi Toko/);
+        const daerah = getByLabelText(/Daerah/);
         const mediaToko = getByRole('mediatoko');
         const tombolSimpan = getByText("Simpan");
 
@@ -301,6 +309,7 @@ describe('<Daftar Toko />', () => {
         userEvent.type(tipeUsaha, "Restoran");
         userEvent.type(nomorTelepon, "089876548796");
         userEvent.type(lokasiToko, "Margonda");
+        userEvent.type(daerah, "Beji, Depok");
         userEvent.type(deskripsiToko, "Jual bebek");
         userEvent.upload(mediaToko, mediaToko,files);
 

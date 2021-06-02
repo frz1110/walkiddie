@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { fromAddress } from 'react-geocode';
 
 const DaftarToko = ({ isAuthenticated, user }) => {
 
@@ -19,14 +20,10 @@ const DaftarToko = ({ isAuthenticated, user }) => {
         nomorTelepon: '',
         deskripsiToko: '',
         lokasiToko: '',
-        latitude: -6.364520803098946,
-        longitude: 106.82922538589406,
-        mediaTokoList: [],
-        paketMainan: '',
-        totalBiaya: '',
-        periodePengadaanMulai: '',
-        periodePengadaanAkhir: '',
-        estimasiKeuangan: ''
+        daerah: '',
+        latitude: 12.0,
+        longitude: 13.0,
+        mediaTokoList:[]
     });
 
     const {
@@ -36,14 +33,10 @@ const DaftarToko = ({ isAuthenticated, user }) => {
         nomorTelepon,
         deskripsiToko,
         lokasiToko,
+        daerah,
         latitude,
         longitude,
-        mediaTokoList,
-        paketMainan,
-        totalBiaya,
-        periodePengadaanMulai,
-        periodePengadaanAkhir,
-        estimasiKeuangan
+        mediaTokoList
     } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -53,10 +46,11 @@ const DaftarToko = ({ isAuthenticated, user }) => {
     }
 
     const handleSubmit = e => {
+        e.preventDefault();
         postDaftarToko();
     }
 
-    const postDaftarToko = () => {
+    const postDaftarToko = async () => {
         if (localStorage.getItem('access')) {
             console.log("inside if");
             var formDataToSend = new FormData();
@@ -73,28 +67,36 @@ const DaftarToko = ({ isAuthenticated, user }) => {
             formDataToSend.append('tipeUsaha', tipeUsaha);
             formDataToSend.append('nomorTelepon', nomorTelepon);
             formDataToSend.append('deskripsiToko', deskripsiToko);
+            formDataToSend.append('daerah', daerah);
             formDataToSend.append('lokasiToko', lokasiToko);
             formDataToSend.append('longitude', longitude);
             formDataToSend.append('latitude', latitude);
-            formDataToSend.append('paketMainan', paketMainan);
-            for (let file in mediaTokoList) {
-                console.log(file);
-                formDataToSend.append('mediaToko', file);
+            for(let i=0; i < mediaTokoList.length; i++){
+                formDataToSend.append('fotoProfilToko', mediaTokoList[i], mediaTokoList[i].name);
             }
-            formDataToSend.append('totalBiaya', totalBiaya);
-            formDataToSend.append('periodePengadaanMulai', periodePengadaanMulai);
-            formDataToSend.append('periodePengadaanAkhir', periodePengadaanAkhir);
-            formDataToSend.append('estimasiKeuangan', estimasiKeuangan);
-
-            axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, formDataToSend, config)
+            await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, formDataToSend, config)
                 .then((response) => {
                     console.log(response);
-                    console.log('Success post');
-                    alert('Success post')
+                    alert('Toko Anda telah ditambahkan');
                 }, (error) => {
+                    if (error.response) {
+        
+                        console.log("error.response")
+                        console.log(error.response)
+        
+                    } else if (error.request) {
+        
+                        console.log("error.request")
+                        console.log(error.request)
+        
+                    } else if (error.message) {
+        
+                        console.log("error.message")
+                        console.log(error.message)
+        
+                    }
                     console.log(error);
-                    console.log('Error post');
-                    alert('Terdapat kesalahan saat melakukan submit. Silahkan isi ulang form')
+                    alert("Terdapat kesalahan. Mohon refresh ulang halaman ini")
                 });
         } else {
             console.log('missing token');
@@ -226,6 +228,21 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                             accept="video/*,image/*"
                                             onChange={e => handleChangeFile(e)}
                                             multiple />
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <label htmlFor='daerah' className="col-sm-3 col-form-label"> <span className="required"> * </span> Daerah :</label>
+                                    <div className="col-sm-9">
+                                        <input
+                                            id='daerah'
+                                            className='form-control'
+                                            type='text'
+                                            placeholder='Tuliskan nama daerah (Contoh: Beji, Depok)  '
+                                            name='daerah'
+                                            value={daerah}
+                                            onChange={e => onChange(e)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
