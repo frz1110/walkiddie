@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reset_password_confirm as confirmAction } from '../../actions/auth';
+import loadingIcon from '../../media/loading-icon.jpg';
 import './ResetPasswordConfirm.css';
 
 const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
     const [requestSent, setRequestSent] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         new_password: '',
         re_new_password: ''
@@ -18,6 +20,7 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
 
     const onSubmit = async e => {
         e.preventDefault();
+        setLoading(true);
 
         if (new_password === re_new_password) {
             const uid = match.params.uid;
@@ -27,30 +30,22 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
             if (res.isSuccess) {
                 setIsSuccess(true)
                 setRequestSent(true);
-
-                console.log("setIsSuccess(true)")
-                console.log(setIsSuccess)
-
+                setLoading(false);
                 alert('Password berhasil diubah')
             }
             else {
                 setIsSuccess(false)
                 setRequestSent(true);
-
-                console.log("setIsSuccess(false)")
-                console.log(setIsSuccess)
-
-                alert('Terjadi kesalahan, harap coba kembali')
+                setLoading(false);
+                alert(res.error.response.data[Object.keys(res.error.response.data)[0]] + " Please repeat reset password process.")
             }
         } else {
+            setLoading(false);
             alert("Password anda harus sama")
         }
     };
 
     if (requestSent) {
-        console.log("isSuccess")
-        console.log(isSuccess)
-
         if (isSuccess) {
             return <Redirect to='/masuk' />
         } else {
@@ -77,6 +72,7 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
                             onChange={e => onChange(e)}
                             minLength='6'
                             required
+                            disabled={loading}
                         />
                     </div>
                     <div className='form-group wkd-reset-pass-input'>
@@ -91,11 +87,13 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
                             onChange={e => onChange(e)}
                             minLength='6'
                             required
+                            disabled={loading}
                         />
                     </div>
-                    <button className='wkd-nav-button wkd-dark-green-button wkd-reset-pass-btn-reset' type='submit'>
+                    <button className='wkd-nav-button wkd-dark-green-button wkd-reset-pass-btn-reset' disabled={loading} type='submit'>
                         Reset Password
                     </button>
+                    {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
                 </form>
             </div>
         </div>

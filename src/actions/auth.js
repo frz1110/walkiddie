@@ -41,8 +41,8 @@ export const post_profile = async (email, full_name, address, phone_number, ktp_
         }
     } catch (err) {
         return {
-        success: false,
-        err
+            success: false,
+            err
         }
     }
 };
@@ -61,10 +61,10 @@ export const update_profile = async (email, full_name, address, phone_number, kt
     formDataToSend.append('phone_number', phone_number);
     formDataToSend.append('ktp_number', ktp_number);
     formDataToSend.append('birth_date', birth_date);
-    if (imageChanged){
+    if (imageChanged) {
         formDataToSend.append('profile_picture', profile_picture);
     }
-    
+
 
     try {
         await axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/update/${email}`, formDataToSend, config);
@@ -88,7 +88,7 @@ export const load_profile = () => async (email) => {
                 'Authorization': `JWT ${localStorage.getItem('access')}`,
                 'Accept': 'application/json'
             }
-        }; 
+        };
 
         try {
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/${email}`, config);
@@ -291,7 +291,7 @@ export const verify = (uid, token) => async dispatch => {
         }
     };
 
-    
+
     const body = JSON.stringify({ uid, token });
 
     try {
@@ -353,7 +353,8 @@ export const reset_password_confirm = (uid, token, new_password, re_new_password
             type: PASSWORD_RESET_CONFIRM_FAIL
         });
         return {
-            isSuccess: false
+            isSuccess: false,
+            error: err
         }
     }
 };
