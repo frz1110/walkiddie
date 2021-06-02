@@ -3,10 +3,12 @@ import Cards from '../../components/Cards/Cards';
 import Pagination from '../../components/Pagination/Pagination';
 import './HomepagePemilikToko.css'
 import DaftarkanToko from './pemilik-toko-daftarkan-toko.svg';
+import LihatInvestasi from './pemilik-toko-lihat-investasi.svg';
 import axios from 'axios';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import _ from 'lodash';
 
 const HomepagePemilikToko = ({ isAuthenticated, user }) => {
     const [daftarTokoItems, setDaftarTokoItems] = useState([]);
@@ -36,6 +38,13 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
         daftarPengadaanPostLength = daftarPengadaanItems.length;
     }
 
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `JWT ${localStorage.getItem('access')}`,
+        }
+    };
+
     const fetchDaftarTokoItems = async () => {
         try {
             setDaftarTokoLoading(true);
@@ -50,8 +59,24 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
     const fetchDaftarPengadaanItems = async () => {
         try {
             setDaftarPengadaanLoading(true);
-            const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-            setDaftarPengadaanItems(res.data);
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
+            const res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, config);
+
+            console.log("api/toko")
+            console.log(res)
+            console.log("api/pengadaan")
+            console.log(res2)
+            res2.data.forEach((item, i) => {
+                item.pkToko = item.pk;
+            });
+
+            var merged = _.merge(_.keyBy(res.data, 'pk'), _.keyBy(res2.data, 'toko'));
+            var result = _.values(merged);
+
+            console.log("result")
+            console.log(result)
+
+            setDaftarPengadaanItems(result);
             setDaftarPengadaanLoading(false);
         } catch {
             alert('Terdapat kesalahan pada database. Mohon refresh ulang halaman ini')
@@ -66,61 +91,69 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
     const daftarTokoPaginate = daftarPageNumber => setDaftarTokoCurrentPage(daftarPageNumber);
     const daftarPengadaanPaginate = daftarPageNumber => setDaftarPengadaanCurrentPage(daftarPageNumber);
 
-    if (!isAuthenticated) return <Redirect to="/masuk" />
-    if (user.role !== "Mitra") return <Redirect to="/" />
+    // if (!isAuthenticated) return <Redirect to="/masuk" />
+    // if (user.role !== "Mitra") return <Redirect to="/" />
 
     return (
-        <div className='container mt-5'>
-
-            <h3 className="pemilik-toko-h2 text-align-left"
-                style={{ padding: '0', margin: '0' }}
-            >Halo, <span className="pemilik-toko-text-light-green pemilik-toko-text-bold">{user.first_name} {user.last_name} !</span></h3>
-            <h6 className="text-align-left"
-                style={{ padding: '0', margin: '0' }}
-            >Selamat datang kembali di <span className="wkd-green-text pemilik-toko-text-bold">Walkiddie.</span></h6>
-
-            <Link to="/daftar-toko">
-                <img src={DaftarkanToko} alt="Daftarkan-toko" className="pemilik-toko-img-daftarkan-toko mt-5" />
-            </Link>
-
-            <Link to="/daftar-toko">
-                <img src={DaftarkanToko} alt="Daftarkan-toko" className="pemilik-toko-img-daftarkan-toko mt-5" />
-            </Link>
-
-            <div className="daftar-toko">
-                <h3 className="text-align-left mt-5 mb-3" >Daftar Toko</h3>
-
-                <Cards posts={daftarTokoCurrentPosts} loading={daftarTokoLoading} />
-                <Row
-                    style={{
-                        justifyContent: 'center'
-                    }}
-                >
-                    <Pagination
-                        currentPage={daftarTokoCurrentPage}
-                        postsPerPage={daftarTokoPostsPerPage}
-                        totalPosts={daftarTokoPostLength}
-                        paginate={daftarTokoPaginate}
-                    />
-                </Row>
+        <div className="pemilik-toko-wrapper">
+            <div className="pemilik-toko-sect-1">
+                <div className="pemilik-toko-sect-1-content">
+                    <h3 className="investor-h2 text-align-left"
+                        style={{ padding: '0', margin: '0' }}
+                    >Halo, <span className="investor-text">{user.first_name} {user.last_name} !</span></h3>
+                    <h6 className="greeting-msg text-align-left"
+                        style={{ padding: '0', margin: '0' }}
+                    >Selamat datang kembali di <span style={{ fontWeight: "700", fontSize: "25px", color: "#146A5F" }}>Walkiddie.</span></h6>
+                </div>
             </div>
 
-            <div className="daftar-toko">
-                <h3 className="text-align-left mt-5 mb-3" >Daftar Pengadaan</h3>
+            <div className="pemilik-toko-sect-2">
+                <div className="investor-card-container">
+                    <Link to="/daftar-toko">
+                        <img src={DaftarkanToko} alt="Daftarkan-toko" className="investor-card-menu" />
+                    </Link>
+                    <Link to="/">
+                        <img src={LihatInvestasi} alt="Lihat-investasi" className="investor-card-menu" />
+                    </Link>
+                </div>
+                <div className="list-pemilik-toko">
+                    <div className="">
+                        <h3 className="text-align-left pemilik-toko-h3" >Daftar Pengadaan</h3>
 
-                <Cards posts={daftarPengadaanCurrentPosts} loading={daftarPengadaanLoading} />
-                <Row
-                    style={{
-                        justifyContent: 'center'
-                    }}
-                >
-                    <Pagination
-                        currentPage={daftarPengadaanCurrentPage}
-                        postsPerPage={daftarPengadaanPostsPerPage}
-                        totalPosts={daftarPengadaanPostLength}
-                        paginate={daftarPengadaanPaginate}
-                    />
-                </Row>
+                        <Cards posts={daftarPengadaanCurrentPosts} loading={daftarPengadaanLoading} />
+                        <Row
+                            style={{
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <Pagination
+                                currentPage={daftarPengadaanCurrentPage}
+                                postsPerPage={daftarPengadaanPostsPerPage}
+                                totalPosts={daftarPengadaanPostLength}
+                                paginate={daftarPengadaanPaginate}
+                            />
+                        </Row>
+                    </div>
+                </div>
+
+                <div className="list-pemilik-toko mt-5">
+                    <div className="">
+                        <h3 className="text-align-left pemilik-toko-h3" >Daftar Toko</h3>
+                        <Cards posts={daftarTokoCurrentPosts} loading={daftarTokoLoading} />
+                        <Row
+                            style={{
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <Pagination
+                                currentPage={daftarTokoCurrentPage}
+                                postsPerPage={daftarTokoPostsPerPage}
+                                totalPosts={daftarTokoPostLength}
+                                paginate={daftarTokoPaginate}
+                            />
+                        </Row>
+                    </div>
+                </div>
             </div>
         </div>
     );

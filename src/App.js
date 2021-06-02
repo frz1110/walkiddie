@@ -70,6 +70,9 @@ function App() {
                   <ResetPassword />
                 </Route>
                 <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
+              <Route path="/investasi">
+                <MembuatInvestasi />
+              </Route>
               <Route exact path="/">
                 <Home />
               </Route>
