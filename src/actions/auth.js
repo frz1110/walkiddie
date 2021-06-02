@@ -291,7 +291,6 @@ export const verify = (uid, token) => async dispatch => {
         }
     };
 
-
     const body = JSON.stringify({ uid, token });
 
     try {

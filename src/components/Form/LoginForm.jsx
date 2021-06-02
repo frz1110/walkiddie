@@ -43,7 +43,9 @@ function LoginForm({ login }) {
       <h1>Masuk <span id="walkiddie">Walkiddie</span></h1>
       <div id="login-option">
         <form role="form" onSubmit={handleSubmit}>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" style={{
+            textAlign:'left'
+          }}>Email</label>
           <input
             id="email"
             name="email"
@@ -54,7 +56,9 @@ function LoginForm({ login }) {
             required
             disabled={loading}
           />
-          <label htmlFor="password">Kata Sandi</label>
+          <label htmlFor="password" style={{
+            textAlign:'left'
+          }}>Kata Sandi</label>
           <input
             id="password"
             name="password"
