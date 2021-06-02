@@ -8,7 +8,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import './HomepageInvestor.css'
 import '../HomepagePemilikToko/HomepagePemilikToko.css'
-import { Redirect } from 'react-router-dom';
+import { ChevronLeft } from 'react-feather';
+import { Link, Redirect } from 'react-router-dom';
 import _ from 'lodash';
 
 const HomepageInvestor = ({ isAuthenticated, user }) => {
@@ -111,14 +112,14 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
     return (
         <div className='container mt-5 justify-content-center'>
 
-            <h3 className="pemilik-toko-h2 text-align-left"
+            {/* <h3 className="pemilik-toko-h2 text-align-left"
                 style={{ padding: '0', margin: '0' }}
             >Halo, <span className="pemilik-toko-text-light-green pemilik-toko-text-bold">{user.first_name} {user.last_name} !</span></h3>
             <h6 className="text-align-left"
                 style={{ padding: '0', margin: '0' }}
             >Selamat datang kembali di <span className="wkd-green-text pemilik-toko-text-bold">Walkiddie.</span></h6>
-            <br></br>
-            <h1>Proyek Pengadaan Barang</h1>
+            <br></br> */}
+            <h3 className="text-align-left list-owned-h3" ><Link to="/" style={{ color: 'rgb(0, 0, 0)' }} ><ChevronLeft size="40" className="chevron-left" /></Link>Daftar Proyek Pengadaan</h3>
             <Row className='justify-content-center row-homepage-investor'>
                 <button className="wkd-nav-button wkd-dark-green-button" type="submit" style={{
                     padding: "0 40px"
