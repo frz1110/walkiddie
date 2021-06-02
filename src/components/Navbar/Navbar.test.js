@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from '../../reducer';
 
-const StoreProvider = (initialState = {auth: {isAuthenticated: false}}, Router = BrowserRouter) => ({ children }) => {
+const StoreProvider = (initialState = {auth: {isLoggedIn: false}}, Router = BrowserRouter) => ({ children }) => {
   const store = createStore(reducers, initialState);
   return <Provider store={store}><Router>{children}</Router></Provider>
 }
@@ -25,7 +25,15 @@ describe('<Navbar />', () => {
     });
     
     it('should render profile button and hide login, register buttons when logged in', () => {
-        const { queryByTestId, queryByText } = render(<Navbar />, { wrapper: StoreProvider({auth: {isAuthenticated: true}}) });
+        const { queryByTestId, queryByText } = render(<Navbar />, { wrapper: StoreProvider({auth: {
+            isAuthenticated: true,
+            user: {
+                email: "user12345@gmail.com",
+                first_name: "ihsan",
+                last_name: "azizi",
+                role: "Investor"
+            }
+        }}) });
         expect(queryByTestId('nav-profile')).toBeInTheDocument();
         expect(queryByText('Masuk')).not.toBeInTheDocument();
         expect(queryByText('Buat Akun')).not.toBeInTheDocument();

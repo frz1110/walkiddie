@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 function Login({ isAuthenticated }) {
   if (isAuthenticated) return <Redirect to="/" />
   return (<main>
-    <Logo width="178px" height="178px" />
+    <Logo className="login-wkd-icon" width="178px" height="178px" />
     <LoginForm />
   </main>)
 }

@@ -34,11 +34,10 @@ export const post_profile = async (email, full_name, address, phone_number, ktp_
     formDataToSend.append('profile_picture', profile_picture);
 
     try {
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/post`, formDataToSend, config);
+        await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/post`, formDataToSend, config);
         
         return {
             success: true,
-            res
         }
     } catch (err) {
         return {
@@ -68,11 +67,10 @@ export const update_profile = async (email, full_name, address, phone_number, kt
     
 
     try {
-        const res = await axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/update/${email}`, formDataToSend, config);
+        await axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/update/${email}`, formDataToSend, config);
         
         return {
             success: true,
-            res
         }
     } catch (err) {
         return {
