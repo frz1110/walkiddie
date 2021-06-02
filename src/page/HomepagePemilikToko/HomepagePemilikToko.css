@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Nunito:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap');
+
 .pemilik-toko-h2 {
     font-family: 'Nunito', sans-serif;
     font-weight: 600;
@@ -19,8 +21,133 @@
     text-align: left;
 }
 
-.pemilik-toko-img-daftarkan-toko {
-    max-width: 40%;
-    margin-right: 20px;
-    margin-left: 20px;
+.pemilik-toko-sect-1{
+    background: #D3F1EE;
+}
+
+.pemilik-toko-sect-1-content{
+    padding-top: 75px;
+    padding-bottom: 80px;
+    padding-left: 112px;
+    padding-right: 112px;
+}
+
+.investor-h2{
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 35px;
+    margin: 0;
+}
+
+.investor-text{
+    color: #0BBBA8;
+    font-weight: 800;
+}
+
+.greeting-msg{
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.investor-card-container{
+    display: flex;
+    justify-content: center;
+    margin: -4% auto 0;
+    padding-bottom: 50px;
+}
+
+.investor-card-menu{
+    width: 95%;
+    height: 95%;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.investor-card-menu:hover{
+    transform: translateY(-5px);
+}
+
+.pemilik-toko-sect-2{
+    padding-left: 112px;
+    padding-right: 112px;
+    padding-bottom: 112px;
+}
+
+.list-pemilik-toko{
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    width: 100%;
+    padding: 30px 40px 30px;
+}
+
+.pemilik-toko-h3{
+    font-family: 'DM Sans', sans-serif;
+    font-weight: bold;
+    font-size: 23px;
+    padding-bottom: 20px;
+}
+
+.pemilik-toko-object{
+    text-align: left;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+    /* border-radius: 5px; */
+    padding: 20px 40px 20px;
+}
+
+.pemilik-toko-profil{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.pemilik-toko-profil-left{
+    display: flex;
+    align-items: center;
+}
+
+.pemilik-toko-profil-img{
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+.pemilik-toko-store-name{
+    padding-left: 14px;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 80%;
+}
+
+.pemilik-toko-status{
+    font-family: 'DM Sans', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #A40000;
+}
+
+.pemilik-toko-store-img{
+    object-fit: cover;
+    border-radius: 10px;
+    width: 300px;
+    height: 180px;
+}
+
+.pemilik-toko-store-desc-saham-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: normal;
+    font-size: 15px;
+    color: #000000;
+}
+
+.pemilik-toko-store-desc{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* number of lines to show */
+    -webkit-box-orient: vertical;
 }
