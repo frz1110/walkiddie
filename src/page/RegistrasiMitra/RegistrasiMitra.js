@@ -1,4 +1,4 @@
-import './RegistrasiMitra.css';
+import '../RegistrasiInvestor/RegistrasiInvestor.css';
 import '../../components/Form/LoginForm.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
@@ -6,6 +6,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { signupMitra } from '../../actions/auth';
+import { ChevronLeft } from 'react-feather';
+import loadingIcon from '../../media/loading-icon.jpg';
 
 const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
     const [formData, setFormData] = useState({
@@ -15,6 +17,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
         password: '',
         re_password: ''
     });
+    const [loading, setLoading] = useState(false);
 
     const { first_name, last_name, email, password, re_password } = formData;
 
@@ -24,16 +27,19 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
         e.preventDefault();
 
         if (password === re_password) {
+            setLoading(true);
             const res = await signupMitra(first_name, last_name, email, password, re_password);
             if(check(first_name,password) || check(last_name,password) || check(email,password) 
                 || check (password,first_name) || check(password,last_name) || check(password,email)){
                 alert('Password yang anda masukan terlalu mirip dengan email maupun nama anda')
             }else {
                 if (res.signup){
+                    setLoading(false);
                     alert('Anda bisa mengecek email anda untuk link aktivasi akun')
                     return <Redirect to='/masuk' />
                 }
                 else {
+                    setLoading(false);
                     alert('Email yang anda masukan telah terdaftar')
                 }
             }
@@ -62,33 +68,32 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
     // };
 
     return (
-        <div id="signup">
-            <h1>&lt; Buat Akun Baru <span id="walkiddie">Mitra</span></h1>
-            <div className="square-box">
+        <div id="regist-invest-signup">
+            <h3 className="regist-invest-title" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Buat Akun Baru <span style={{ color: "#146A5F" }}>Mitra</span></h3>
+            {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
+            <div className="regist-invest-square-box">
                 <Row className="justify-content-center">
-                    <button className="submit-button google-button" type="button"> 
-                    <img className="google-image" src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png" alt="Google.png"/>
-                    <span>
+                    <button className="submit-button regist-invest-google-button" type="button"> 
+                    <img className="regist-invest-google-image" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google.png"/>
+                    <span style={{ marginLeft: "35px" }}>
                         Daftar dengan Google
                     </span>
                     </button>
                 </Row>
                 <br></br>
                 <div id="atau">
-                    <p className="midtext" ><span>Atau Buat Akun</span></p>
+                    <p className="regist-midtext" ><span>Atau Buat Akun</span></p>
                 </div>
-                <br></br>
-                <form className="centered" onSubmit={e => onSubmit(e)}>
+                <form className="regist-centered" onSubmit={e => onSubmit(e)}>
                     <Row className="justify-content-center">
                         <div className="col-sm">
-                            <div className="form-container centered">
+                            <div className="regist-invest-form-container">
                                 <label for='nama-depan'> Nama Depan </label>
                                 <br></br>
                                 <input
                                     id='nama-depan'
-                                    className='form-control'
                                     type='text'
-                                    placeholder='Tuliskan Nama Depan'
+                                    placeholder='Tuliskan nama depan...'
                                     name='first_name'
                                     value={first_name}
                                     onChange={e => onChange(e)}
@@ -97,14 +102,13 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                             </div>
                         </div>
                         <div className="col-sm">
-                            <div className="form-container centered">                          
+                            <div className="regist-invest-form-container">                          
                                 <label for='nama-belakang'> Nama Belakang </label>
                                 <br></br>
                                 <input
                                     id='nama-belakang'
-                                    className='form-control'
                                     type='text'
-                                    placeholder='Tuliskan Nama Belakang'
+                                    placeholder='Tuliskan nama belakang...'
                                     name='last_name'
                                     value={last_name}
                                     onChange={e => onChange(e)}
@@ -115,12 +119,11 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                     </Row>
                     <Row className="justify-content-center">
                         <div className="col-sm">
-                            <div className="form-container centered">
+                            <div className="regist-invest-form-container">
                                 <label for='email'> Email </label>
                                 <br></br>
                                 <input
                                     id='email'
-                                    className='form-control'
                                     type='email'
                                     placeholder='Contoh : akun@walkiddie.com'
                                     name='email'
@@ -131,7 +134,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                             </div>
                         </div>
                         <div className="col-sm">
-                            <div className="form-container centered">                          
+                            <div className="regist-invest-form-container">                          
                                 <label>  </label>
                                 <br></br>
                             </div>
@@ -139,14 +142,13 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                     </Row>
                     <Row className="justify-content-center">
                         <div className="col-sm">
-                            <div className="form-container centered">
+                            <div className="regist-invest-form-container">
                                 <label for='i_password'> Kata Sandi </label>
                                 <br></br>
                                 <input 
                                     id='i_password'
-                                    className='form-control'
                                     type='password'
-                                    placeholder='Masukkan kata sandi'
+                                    placeholder='Masukkan kata sandi...'
                                     name='password'
                                     value={password}
                                     onChange={e => onChange(e)}
@@ -156,7 +158,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                             </div>
                         </div>
                         <div className="col-sm">
-                            <div className="form-container centered">                          
+                            <div className="regist-invest-form-container">                          
                                 <label>  </label>
                                 <br></br>
                             </div>
@@ -164,14 +166,13 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                     </Row>
                     <Row className="justify-content-center">
                         <div className="col-sm">
-                            <div className="form-container centered">
+                            <div style={{ paddingBottom: "26px" }} className="regist-invest-form-container">
                                 <label for="re_password"> Konfirmasi kata sandi </label>
                                 <br></br>
                                 <input
                                     id='re_password'
-                                    className='form-control'
                                     type='password'
-                                    placeholder='Masukkan ulang kata sandi'
+                                    placeholder='Masukkan ulang kata sandi...'
                                     name='re_password'
                                     value={re_password}
                                     onChange={e => onChange(e)}
@@ -181,20 +182,19 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                             </div>
                         </div>
                         <div className="col-sm">
-                            <div className="form-container centered">                          
+                            <div className="regist-invest-form-container">                          
                                 <label>  </label>
                                 <br></br>
                             </div>
                         </div>
                     </Row>
-                    <br></br>
                     <Row className="justify-content-center">
-                        <button className="submit-button button"type="submit"> 
+                        <button className="submit-button wkd-dark-green-button regist-invest-button"type="submit"> 
                             Buat Akun
                         </button>
                     </Row>
-                    <Row className="justify-content-center">
-                        <p>Sudah punya akun? <Link to='/masuk'>Masuk disini</Link></p>
+                    <Row className="justify-content-center regist-invest-to-login">
+                        <p>Sudah punya akun? <span><Link to='/masuk'>Masuk disini</Link></span></p>
                     </Row>
                 </form>
             </div>

@@ -52,7 +52,7 @@ export default function NavProfile(props) {
   return (
     <div className={classes.root} data-testid='nav-profile'>
       <div>
-        <div 
+        <div
           className="nav-profile"
           ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}
@@ -60,15 +60,13 @@ export default function NavProfile(props) {
           onClick={() => handleToggle(prevOpen)}
           data-testid="nav-profile-icon"
         >
-            <img src={props.image} className="navProfile-image" alt=""/>
-            {/* <p>{props.name}</p>
-            <p>{props.role}</p> */}
-            {!open && <ChevronDown className="wkd-profile-toggle" color='#146A5F'/>}
-            {open && <ChevronUp className="wkd-profile-toggle" color='#146A5F'/>}
+          <img src={props.image} className="navProfile-image" alt="" />
+          {!open && <ChevronDown className="wkd-profile-toggle" color='#146A5F' />}
+          {open && <ChevronUp className="wkd-profile-toggle" color='#146A5F' />}
         </div>
 
 
-        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal data-testid='nav-profile-dropdownmenu'>
+        <Popper className="nav-dropdown-wrapper" open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal data-testid='nav-profile-dropdownmenu'>
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}
@@ -77,9 +75,20 @@ export default function NavProfile(props) {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown} data-testid="nav-profile-menulist">
-                    <MenuItem onClick={handleClose} data-testid='profile-menu'><Link to="/profile" style={{ color: 'rgb(0, 0, 0)' }}>Profil</Link></MenuItem>
-                    <MenuItem onClick={handleClose}>Portofolio</MenuItem>
-                    <MenuItem onClick={props.handleLogout}>Keluar</MenuItem>
+                    <div className="nav-dropdown-profile">
+                      <img src={props.image} className="nav-dropdown-profile-image" alt="" />
+                      <div className="nav-dropdown-profile-name">
+                        {props.name}<br />
+                        <span style={{ fontWeight: "500", fontSize: "14px", color: "#146A5F" }}>{props.role}</span>
+                      </div>
+                    </div>
+                    <div className="nav-dropdown-sect-2">
+                      <MenuItem onClick={handleClose} data-testid='profile-menu'><Link to="/profile" style={{ color: 'rgb(0, 0, 0)' }}>Profil</Link></MenuItem>
+                      <MenuItem onClick={handleClose}>Portofolio</MenuItem>
+                    </div>
+                    <div className="nav-dropdown-sect-3">
+                      <MenuItem onClick={props.handleLogout}>Keluar</MenuItem>
+                    </div>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

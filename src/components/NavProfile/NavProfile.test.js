@@ -49,15 +49,15 @@ describe('<NavProfile />', () => {
         });        
     });
     
-    it('should close dropdown menu on tab event', async () => {
-        const { getByTestId, queryByTestId } = render(<Navbar />, { wrapper: StoreProvider({auth: {isAuthenticated: true}}) });
-        userEvent.click(getByTestId('nav-profile-icon'));
+    // it('should close dropdown menu on tab event', async () => {
+    //     const { getByTestId, queryByTestId } = render(<Navbar />, { wrapper: StoreProvider({auth: {isAuthenticated: true}}) });
+    //     userEvent.click(getByTestId('nav-profile-icon'));
 
-        userEvent.tab();
-        await waitFor(() => {
-            expect(queryByTestId('nav-profile-dropdownmenu')).not.toBeInTheDocument();
-        });        
-    });
+    //     userEvent.tab();
+    //     await waitFor(() => {
+    //         expect(queryByTestId('nav-profile-dropdownmenu')).not.toBeInTheDocument();
+    //     });        
+    // });
     
     it('should call handleLogout function on Keluar menu clicked', () => {
         const mockFn = jest.fn();

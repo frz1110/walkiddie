@@ -16,17 +16,12 @@
 
 .profile-header{
     font-weight: 700;
-    font-size: 25px;
+    font-size: 22px;
     padding-bottom: 15px;
     text-align: left;
 }
 
-.profile-header .chevron-left{
-    width: 40px;
-    padding-bottom: 5px;
-}
-
-label{
+.square-box-2 label{
     font-family: 'DM Sans', sans-serif;
     font-weight: 500;
     font-size: 14px;
@@ -36,7 +31,7 @@ label{
 .profile-password-button {
     height: 42px;
     padding: 11px 21px 11px;
-    background-color: #0BBBA8; /* Green */
+    background-color: #0BBBA8;
     border: none;
     color: white;
     font-family: 'Manrope', sans-serif;
@@ -47,14 +42,14 @@ label{
 }
 
 .profile-password-button:hover {
-    background-color: #D3F1EE;/* Green */
+    background-color: #D3F1EE;
     color: #146A5F;
 }
 
 .profile-save-button {
     height: 42px;
     width: 120px;
-    background-color:  #146A5F;/* Green */
+    background-color:  #146A5F;
     border: none;
     color:  white;
     font-family: 'Manrope', sans-serif;
@@ -65,13 +60,13 @@ label{
 }
 
 .profile-save-button:hover {
-    background-color: #0f4e46;/* Green */
+    background-color: #0f4e46;
 }
 
 .profile-cancel-button {
     height: 42px;
     width: 120px;
-    background-color: #D3F1EE; /* Green */
+    background-color: #D3F1EE;
     border: none;
     color: #146A5F;
     font-family: 'Manrope', sans-serif;
@@ -82,7 +77,7 @@ label{
 }
 
 .profile-cancel-button:hover {
-    background-color: #bbdfdb;/* Green */
+    background-color: #bbdfdb;
 }
 
 
@@ -93,7 +88,7 @@ label{
 }
 
 .square-box-1{
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
     padding: 30px 0px 0px;
     border-radius: 10px;
     width: 100%;
@@ -102,7 +97,7 @@ label{
 }
 
 .square-box-2{
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
     padding: 31px 42px 31px;
     border-radius: 10px;
     width: 100%;
@@ -134,7 +129,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input, textarea {
+.square-box-2 input, textarea {
     height: 100%;
     width: 100%;
     padding: 10px;
@@ -143,7 +138,7 @@ input, textarea {
     border-radius: 5px;
 }
 
-input[type=number] {
+.square-box-2 input[type=number] {
     -moz-appearance: textfield;
 }
 

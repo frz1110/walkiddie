@@ -9,9 +9,10 @@
 }
 
 #login h1 {
-  font-size: 30px;
+  font-size: 25px;
   margin: 20px 0px;
   font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -30,16 +31,23 @@
 }
 
 #login form input {
+  width: 100%;
   padding: 10px 15px;
   border-radius: 5px;
   border: 0.7px solid black;
 }
 
+#login label {
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 10px;
+}
+
 #login form button {
-  background: #146A5F;
-  color: white;
   padding: 10px 15px;
   border-radius: 5px;
+  border: none;
+  transition-duration: 0.3s;
 }
 
 #login form button:disabled {
@@ -64,6 +72,29 @@
   align-items: center;
 }
 
+#login-google {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  transition-duration: 0.3s;
+}
+
+#login-google:hover {
+  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
+}
+
+#login-google span {
+  display: block;
+}
+
+#google-logo {
+  margin-left: 10px;
+  width: 24px;
+  float: left;
+}
 
 #atau p {
   font-size: 12px;
@@ -78,43 +109,30 @@
   display: flex;
   flex-direction: column;
   flex-grow: 3;
-  padding: 20px 5px;
+  padding: 19px 0;
 }
 
-#reset-password a {
-  font-size: 12px;
+#reset-password {
+  font-size: 13px;
   color: #888;
+  text-align: left;
+}
+
+#reset-password a{
+  color: #888;
+  text-decoration: underline;
 }
 
 #daftar {
+  padding-top: 5px;
   text-align: center;
   font-size: initial;
+  color: black;
 }
 
 #daftar a {
-  text-decoration: none;
   font-weight: bold;
   color: #146A5F;
-}
-
-#login-google {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: normal;
-  background: white;
-  border: 1px solid black;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-#login-google span {
-  display: block;
-}
-
-#google-logo {
-  margin-left: 10px;
-  width: 24px;
-  float: left;
 }
 
 #loading-icon {

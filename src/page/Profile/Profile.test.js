@@ -298,30 +298,74 @@ describe('<Profile />', () => {
         expect(axios.put).toHaveBeenCalledTimes(1);
     });
 
-    it('fetches successfully data from an API', async () => {
+    // it('fetches successfully data from an API', async () => {
+    //     const mockUser = jest.fn()
+    //     const mockAuthenticate = jest.fn()
+    //     localStorage.setItem('access', 'token')
+    //     const initialState = { 
+    //         auth: {
+    //             isAuthenticated: true,
+    //             user: {
+    //                 email: "jflows1012@gmail.com",
+    //                 first_name: "ihsan",
+    //                 last_name: "azizi",
+    //                 role: "Investor"
+    //             }
+    //         }
+    //     }
+    //     const store = mockStore(initialState)
+    //     render(
+    //         <Provider store={store}>
+    //             <BrowserRouter>
+    //                 <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
+    //             </BrowserRouter>
+    //         </Provider>);
+
+    //     const profileData = {
+    //         data: {
+    //             email: "jflows1012@gmail.com",
+    //             full_name: "ihsan azizi",
+    //             address: "Jakarta Timur",
+    //             phone_number: "081316086814",
+    //             ktp_number: "1234567899876543",
+    //             birth_date: "2021-03-21"
+    //         }
+    //     }
+
+    //     const config = {
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data',
+    //             'Authorization': `JWT ${localStorage.getItem('access')}`,
+    //         }
+    //     };
+
+    //     var mock = new MockAdapter(axios);
+
+    //     mock.onGet(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/${email}`, config).reply(200, profileData.data);
+    //     localStorage.removeItem('access', 'token')
+    // });
+
+    test('back button work correctly', () => {
         const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
         const initialState = { auth: { isAuthenticated: true } }
+
+        localStorage.setItem('access', 'token')
         const store = mockStore(initialState)
-        render(
+        const historyBack = jest.spyOn(window.history, 'back');
+        historyBack.mockImplementation(() => { });
+
+        const { getByText } = render(
             <Provider store={store}>
                 <BrowserRouter>
                     <Profile userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
+        const backButton = getByText('Ubah Profil', { selector: "h3" });
+        userEvent.click(backButton);
 
-        const profileData = {
-            data: {
-                email: "user12345@gmail.com",
-                full_name: "User Anon",
-                address: "Jakarta Timur",
-                phone_number: "081316086814",
-                ktp_number: "1234567899876543",
-                birth_date: "2021-03-21"
-            }
-        }
-
-        axios.get.mockImplementationOnce(() => Promise.resolve(profileData));
-    });
+        expect(historyBack).toHaveBeenCalledTimes(1);
+        historyBack.mockRestore()
+    })
 
 });
