@@ -36,13 +36,13 @@ describe('<Navbar />', () => {
         }}) });
         expect(queryByTestId('nav-profile')).toBeInTheDocument();
         expect(queryByText('Masuk')).not.toBeInTheDocument();
-        expect(queryByText('Buat Akun')).not.toBeInTheDocument();
+        expect(queryByText('Daftar')).not.toBeInTheDocument();
     });
 
     test('login & register buttons have correct links', () => {
         const { getByText } = render(<Navbar />, { wrapper: StoreProvider() });
         expect(getByText('Masuk')).toHaveAttribute('href', '/masuk');
-        expect(getByText('Buat Akun')).toHaveAttribute('href', '/daftar-investor');
+        expect(getByText('Daftar')).toHaveAttribute('href', '/daftar-investor');
     });
 
     test('nav-menus have correct links', () => {
@@ -75,7 +75,7 @@ describe('<Navbar />', () => {
         expect(testLocation.pathname).toBe("/masuk");
     }); 
     
-    it('should redirect to Daftar Investor page when Buat Akun button is clicked', () => {
+    it('should redirect to Daftar Investor page when Daftar button is clicked', () => {
         let testLocation;
         const { getByText } = render(
             <MemoryRouter initialEntries={["/"]}>
@@ -91,7 +91,7 @@ describe('<Navbar />', () => {
             {wrapper: StoreProvider(undefined, ({children}) => <>{children}</>)}
         );
         
-        userEvent.click(getByText('Buat Akun'));
+        userEvent.click(getByText('Daftar'));
         expect(testLocation.pathname).toBe("/daftar-investor");
     }); 
 });

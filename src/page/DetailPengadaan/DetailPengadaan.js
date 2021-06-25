@@ -1,6 +1,6 @@
 import './DetailPengadaan.css';
 import React, { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Carousel } from "react-responsive-carousel";
 import axios from 'axios';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -10,11 +10,14 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { ChevronLeft } from 'react-feather';
+import { load_profile } from '../../actions/auth';
 
 const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
     const [toko, setToko] = useState([]);
     const [pengadaan, setPengadaan] = useState([]);
+    const [userPhone, setUserPhone] = useState('');
     const [filesPengadaan, setFilesPengadaan] = useState([]);
+    const [disable, setDisable] = useState(false);
 
     const config = {
         headers: {
@@ -37,33 +40,45 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
         }
     }
 
-    // const fetchData = async () => {
-    //     try {
-    //         const pengadaanObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/', config);
-    //         for (let i = 0; i < pengadaanObj.data.length; i++) {
-    //             if (pengadaanObj.data[i].toko == match.params.pk) {
-    //                 setPengadaan(pengadaanObj.data[i])
-    //                 setFilesPengadaan(pengadaanObj.data[i].files)
-    //                 const tokoObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/${pengadaanObj.data[i].toko}`, config);
-    //                 setToko(tokoObj.data);
-    //             }
-    //         }
-    //     }
-    //     catch (err) {
-    //         alert('Terjadi kesalahan pada database')
-    //     }
-    // }
+    const fetchData2 = async () => {
+        try {
+            const user = await load_profile()(toko.owner);
+            setUserPhone(user.res.data.phone_number);
+        }
+        catch (err) {
+            setUserPhone('-')
+        }
+    }
+
+    const investCheck = async () => {
+        try {
+            await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/`, config)
+                .then(response => {
+                    if(response.data.filter(b => b.investor === userData.email && b.pengadaan === pengadaan.pk).length !== 0){
+                        setDisable(true);
+                    }
+                });
+        }
+        catch (err) {
+            setDisable(false);
+        }
+    }
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        fetchData2();
+        investCheck();
+    }, [toko]);
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
     if (userData.role !== "Investor") return <Redirect to="/" />
 
     return (
         <div className="detail-pengadaan-wrapper">
-            <h3 className="back-button"><Link to="/" style={{ color: 'rgb(0, 0, 0)' }} ><ChevronLeft size="40" className="chevron-left" /></Link>Kembali</h3>
+            <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Kembali</h3>
             <div className="detail-pengadaan-store-header">
                 <img src={toko.fotoProfilToko} className="detail-pengadaan-profile-image" alt=""></img>
                 <div className="detail-pengadaan-store-name">
@@ -100,21 +115,24 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
                                 <p>{toko.owner}</p>
                             </div>
                         </Row>
-                        <Row>
+                        <Row style={{paddingBottom: '10px'}}>
                             <div className="col-sm">
                                 <h3>Tipe Usaha</h3>
                                 <p>{toko.tipeUsaha}</p>
                             </div>
                             <div className="col-sm">
                                 <h3>Nomor Telepon Penggalang</h3>
-                                <p>081318061867</p>
+                                <p>{userPhone}</p>
                             </div>
                         </Row>
                         <Row className="justify-content-center">
                             <div className="col-sm">
-                                <a href={"/investasi/"+match.params.pk}><button className="detail-pengadaan-invest-button" type="button">
+                                {!disable && <a href={"/investasi/"+match.params.pk}><button className="detail-pengadaan-invest-button" type="button">
                                     Ikut Investasi
-                                </button></a>
+                                </button></a>}
+                                {disable && <button className="detail-pengadaan-invest-button" type="button" disabled>
+                                    Ikut Investasi
+                                </button>}
                             </div>
                         </Row>
                     </div>

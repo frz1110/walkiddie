@@ -57,7 +57,8 @@ function LoginForm({ login }) {
             disabled={loading}
           />
           <label htmlFor="password" style={{
-            textAlign:'left'
+            textAlign:'left',
+            paddingTop: '5px'
           }}>Kata Sandi</label>
           <input
             id="password"
@@ -69,7 +70,7 @@ function LoginForm({ login }) {
             required
             disabled={loading}
           />
-          <button type="submit" disabled={loading}>Masuk</button>
+          <button className="wkd-dark-green-button" type="submit" disabled={loading}>Masuk</button>
           <p id="reset-password"><Link to="/reset-password">Lupa kata sandi?</Link></p>
           {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
         </form>
@@ -91,7 +92,7 @@ function LoginForm({ login }) {
           </button>
         </div>
       </div>
-      <p id="daftar">Belum punya akun? <Link to="/daftar-investor">daftar disini</Link></p>
+      <p id="daftar">Belum punya akun? <Link to="/daftar-investor">Daftar disini</Link></p>
     </div>
   )
 }

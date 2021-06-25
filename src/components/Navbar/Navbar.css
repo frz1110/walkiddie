@@ -3,7 +3,7 @@
 .wkd-navbar-container {
     width: 100%;
     height: 72px;
-    box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: rgb(0 0 0 / 7%) 0px 4px 6px -1px;
     position: relative;
     z-index: 6;
     background-color: white;
@@ -13,23 +13,43 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 1214px;
     height: inherit;
     margin: 0 auto;
     font-family: 'Manrope', sans-serif;
     font-weight: 600;
+    padding-left: 105px;
+    padding-right: 112px;
 }
 
 .wkd-navbar .wkd-nav-menu {
-    margin-left: auto;
+    margin-left: 442px;
     margin-right: auto;
+    padding-top: 2px;
     display: inline-flex;
     height: inherit;
     align-items: center;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.5s;
+}
+
+.wkd-navbar .wkd-nav-menu:hover {
+    border-bottom: 2px solid #146A5F;
+}
+
+.wkd-navbar .wkd-nav-menu a {
+    color: gray !important;
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    font-weight: bold;
+    transition-duration: 0.5s;
+    opacity: 0.9;
+}
+
+.wkd-navbar .wkd-nav-menu a:hover {
+    color: #146A5F !important;
+    opacity: 1;
 }
 
 .wkd-nav-logo {
-    flex: 1;
     text-align: left;
 }
 
@@ -39,32 +59,14 @@
     align-items: center;
 }
 
-.wkd-nav-buttons.wkd-guest {
-    flex: 1;
-}
-
-.wkd-nav-menu a, .wkd-nav-menu a:hover {
-    padding: 0 21px;
-    text-decoration: none;
-    color: gray;
-}
-
-.wkd-nav-menu .wkd-active {
-    padding-top: 3px;
-    height: inherit;
-    display: flex;
-    align-items: center;
-    color: #146A5F;
-    border-bottom: 3px solid #146A5F;
-}
-
 .wkd-nav-buttons button {
     margin: 0 7px;
-    width: 90px;
-    height: 40px;
+    width: 95px;
+    height: 42px;
     font-weight: 600;
     padding: 0;
     font-size: 14px;
+    transition-duration: 0.3s;
 }
 
 .wkd-nav-button {
@@ -74,12 +76,24 @@
     font-weight: 700;
     height: 49px;
     padding: 0 27px;
-    margin-right: 10px;
-    cursor: pointer;
 }
 
-.wkd-nav-profile {
+.wkd-light-tosca-button:hover {
+    background-color: #bbdfdb;
+}
+
+.wkd-dark-green-button:hover {
+    background-color: #0f4e46;
+}
+
+.wkd-tosca-button:hover {
+    background-color: #D3F1EE;
+    color: #146A5F;
+}
+
+.nav-profile {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
 }

@@ -196,6 +196,29 @@ describe('<RegistrasiInvestor />', () => {
 
         expect(axios.post).toHaveBeenCalledTimes(1);
     });
+
+    test('back button work correctly', () => {
+        const mockSignUp = jest.fn()
+        const mockAuthenticate = jest.fn()
+        const initialState = { auth: {isAuthenticated: false}}
+
+        localStorage.setItem('access', 'token')
+        const store = mockStore(initialState)
+        const historyBack = jest.spyOn(window.history, 'back');
+        historyBack.mockImplementation(() => { });
+
+        const { getByText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <RegistrasiInvestor signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                </BrowserRouter>
+            </Provider>);
+        const backButton = getByText('Buat Akun Baru', { selector: "h3" });
+        userEvent.click(backButton);
+
+        expect(historyBack).toHaveBeenCalledTimes(1);
+        historyBack.mockRestore()
+    })
     
     test('Fail SignUp Password Not Same', () => {
         const mockSignUp = jest.fn()

@@ -8,13 +8,15 @@
 .back-button{
     font-family: 'DM Sans', sans-serif;
     font-weight: 700;
-    font-size: 25px;
+    font-size: 22px;
     text-align: left;
+    cursor: pointer;
 }
 
-.back-button .chevron-left{
+.chevron-left{
     width: 40px;
     padding-bottom: 5px;
+    cursor: pointer;
 }
 
 .detail-pengadaan-store-header{
@@ -26,13 +28,13 @@
 
 .detail-pengadaan-profile-image{
     border-radius: 50%;
-    height: 70px;
-    width: 70px;
+    height: 62px;
+    width: 62px;
     object-fit: cover;
 }
 
 .detail-pengadaan-store-name{
-    padding-left: 20px;
+    padding-left: 15px;
     font-weight: 700;
     font-size: 22px;
     font-family: 'DM Sans', sans-serif;
@@ -47,7 +49,8 @@
 
 .detail-pengadaan-box-wrapper{
     text-align: start;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    height: 270px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
     padding: 31px 42px 31px;
     border-radius: 10px;
 }
@@ -77,7 +80,7 @@
     color: white;
     border-radius: 7.3px;
     width: 100%;
-    height: 42px;
+    height: 40px;
     border: none;
     font-weight: 700;
     font-size: 16px;
@@ -85,8 +88,12 @@
     transition-duration: 0.3s;
 }
 
-.invest-button:hover{
+.detail-pengadaan-invest-button:hover{
     background-color: #0f4e46;
+}
+
+.detail-pengadaan-invest-button:disabled{
+    background-color: #b8b8b8;
 }
 
 .detail-pengadaan-modal-text{
@@ -144,7 +151,7 @@
 }
 
 .nav-tabs {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
     border: none;
     font-family: 'DM Sans', sans-serif;
     font-weight: 500;

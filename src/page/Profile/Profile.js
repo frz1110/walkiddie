@@ -117,7 +117,7 @@ const Profile = ({ userData, isAuthenticated }) => {
     return (
         <div className="profile-form">
             <form className="profile-styling" onSubmit={handleSubmit}>
-                <h3 className="profile-header"><Link to="/" style={{ color: 'rgb(0, 0, 0)' }} ><ChevronLeft size="40" className="chevron-left" /></Link>Ubah Profil</h3>
+                <h3 className="profile-header" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Ubah Profil</h3>
                 <Row className="justify-content-center">
                     <div className="col-lg-3">
                         <div className="square-box-1">

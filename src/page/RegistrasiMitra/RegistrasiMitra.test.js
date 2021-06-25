@@ -249,4 +249,27 @@ describe('<RegistrasiMitra />', () => {
         userEvent.click(screen.getByText('Buat Akun'));
     });
 
+    test('back button work correctly', () => {
+        const mockSignUp = jest.fn()
+        const mockAuthenticate = jest.fn()
+        const initialState = { auth: {isAuthenticated: false}}
+
+        localStorage.setItem('access', 'token')
+        const store = mockStore(initialState)
+        const historyBack = jest.spyOn(window.history, 'back');
+        historyBack.mockImplementation(() => { });
+
+        const { getByText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                </BrowserRouter>
+            </Provider>);
+        const backButton = getByText('Buat Akun Baru', { selector: "h3" });
+        userEvent.click(backButton);
+
+        expect(historyBack).toHaveBeenCalledTimes(1);
+        historyBack.mockRestore()
+    })
+
 });
