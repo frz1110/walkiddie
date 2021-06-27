@@ -12,20 +12,72 @@ const Cards = ({ posts, loading }) => {
   return (
     <CardColumns>
       {posts.map(post => (
-        <a href={"/detail-pengadaan/"+post.pkToko} className="custom-card-walkiddie">
-          <Card className="card-flex-item" key={post.pk}>
-            <Card.Img variant="top" src={post.files[0]} />
+        <a href={"/detail-pengadaan/"+post.toko} className="custom-card-walkiddie">
+          {(post.danaTerkumpul !== post.totalBiaya) &&
+          <Card className="card-flex-item" key={post.pk}
+            style={{
+              height : '430px'
+            }}
+          >
+            <Card.Img variant="top" src={post.files[0]} 
+              style={{
+                height : '200px',
+              }}
+            />
+            {/* <Card.Img variant="top" src="https://i.stack.imgur.com/y9DpT.jpg"
+              style={{
+                height : '200px',
+              }}
+            /> */}
             <Card.Body>
               <Card.Title className="card-content-limit card-title">
                 <img className="toko-profil-img" src={post.fotoProfilToko} alt="Avatar"></img>
                 {post.namaToko}
               </Card.Title>
               <ProgressBar variant="success" now={(post.danaTerkumpul/post.totalBiaya*100) + 10} label={(post.danaTerkumpul/post.totalBiaya*100) + "%"} />
-              <Card.Text className="card-content-limit card-text">
-                {post.deskripsiToko}
+              <Card.Text>
+                <p className="card-content-limit">{post.deskripsiToko}</p>
               </Card.Text>
             </Card.Body>
           </Card>
+          }
+           {(post.danaTerkumpul === post.totalBiaya) &&
+          <Card className="card-flex-item" key={post.pk}
+            style={{
+              height : '430px',
+              backgroundColor : '#DCDCDC'
+            }}
+          >
+            <Card.Img variant="top" src={post.files[0]} 
+              style={{
+                height : '200px',
+              }}
+            />
+            {/* <Card.Img variant="top" src="https://i.stack.imgur.com/y9DpT.jpg"
+              style={{
+                height : '200px',
+              }}
+            /> */}
+            <Card.Body>
+              <Card.Title className="card-content-limit card-title">
+                <img className="toko-profil-img" src={post.fotoProfilToko} alt="Avatar"></img>
+                {post.namaToko}
+              </Card.Title>
+              <style type="text/css">
+                {`
+                .progress-bar-finished {
+                  background-color: purple;
+                  color: white;
+                }
+                `}
+              </style>
+              <ProgressBar className="finished-progress-bar" now={(post.danaTerkumpul/post.totalBiaya*100) + 10} label={(post.danaTerkumpul/post.totalBiaya*100) + "%"}/>
+              <Card.Text>
+                <p className="card-content-limit">{post.deskripsiToko}</p>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+          }
         </a>
       ))}
     </CardColumns>
