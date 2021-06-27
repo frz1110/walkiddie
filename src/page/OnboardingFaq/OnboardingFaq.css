@@ -1,0 +1,112 @@
+.faq-header{
+    background: #D3F1EE;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.faq-header-content{
+    padding: 70px 0;
+    width: 40%;
+}
+
+.faq-header-content h1{
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    color: transparent;
+    text-shadow: 0 0 1.7px #146A5F;
+    /* -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: rgb(240, 239, 239); */
+}
+
+.faq-title{
+    background-color: rgba(0,0,0,0.025);
+    padding-left: 112px;
+    padding-right: 112px;
+}
+
+.faq-title h5{
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    opacity: 0.6;
+    padding: 10px 0;
+}
+
+.faq-sect-2{
+    margin: auto 0;
+    padding-top: 30px;
+    padding-bottom: 80px;
+    padding-left: 112px;
+    padding-right: 112px;
+}
+
+.faq-content-wrapper{
+    text-align: left;
+    font-family: 'Manrope', sans-serif;
+    padding-left: 30px;
+}
+
+.faq-content-wrapper h2{
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+}
+
+.faq-content-wrapper .row-title-text{
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.faq-content-wrapper .row-content-text{
+    line-height: 1.8;
+}
+
+.faq-content-wrapper .faq-row{
+    border-bottom: 1px solid var(--N75,#E5E7E9) !important;
+}
+
+.faq-content-wrapper .faq-row-wrapper{
+    box-shadow: 0 1px 6px 0 var(--color-shadow,rgba(49,53,59,0.12));
+    border-radius: 8px;
+    padding: 0 16px;
+}
+
+.faq-content-wrapper .faq-row:last-child{
+    border: none !important;
+}
+
+.faq-investor-title{
+    font-weight: 700;
+    font-size: 23px;
+    padding-bottom: 5px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.faq-contact-wrapper{
+    padding: 5px 0;
+    /* border: 1px solid rgb(228, 228, 228); */
+    /* box-shadow: rgb(49 53 59 / 12%) 0px 1px 6px 0px; */
+    /* background-color: rgba(0,0,0,0.025); */
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.faq-contact-wrapper h5{ 
+    font-size: 16px;
+    opacity: 0.5;
+}
+
+.faq-contact-text{
+    font-size: 15px;
+    font-weight: 500;
+    opacity: 0.9;
+    padding-bottom: 25px;
+}
+
+.faq-midtext{
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid rgb(228, 228, 228);
+    padding-top: 5px;
+    line-height: 0.1em;
+}

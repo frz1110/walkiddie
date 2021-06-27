@@ -48,3 +48,8 @@
 .nav-dropdown-sect-3{
     padding-top: 5px;
 }
+
+.nav-dropdown-sect-3 a{ 
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}

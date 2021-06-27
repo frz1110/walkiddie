@@ -31,6 +31,8 @@
     font-size: 25px;
     padding-bottom: 15px;
     text-align: left;
+    max-width: fit-content;
+    cursor: pointer;
 }
 
 .regist-invest-button {

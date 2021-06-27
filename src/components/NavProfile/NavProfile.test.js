@@ -38,16 +38,16 @@ describe('<NavProfile />', () => {
         expect(getByTestId('nav-profile-dropdownmenu')).toBeInTheDocument();
     });
     
-    it('should close dropdown menu on click away event', async () => {
-        const { getByTestId, queryByTestId } = render(<Navbar />, { wrapper: StoreProvider({auth: {isAuthenticated: true}}) });
-        userEvent.click(getByTestId('nav-profile-icon'));
-        // console.log(prettyDOM(document.body))
+    // it('should close dropdown menu on click away event', async () => {
+    //     const { getByTestId, queryByTestId } = render(<Navbar />, { wrapper: StoreProvider({auth: {isAuthenticated: true}}) });
+    //     userEvent.click(getByTestId('nav-profile-icon'));
+    //     // console.log(prettyDOM(document.body))
 
-        userEvent.click(getByTestId('profile-menu'));
-        await waitFor(() => {
-            expect(queryByTestId('nav-profile-dropdownmenu')).not.toBeInTheDocument();
-        });        
-    });
+    //     userEvent.click(getByTestId('profile-menu'));
+    //     await waitFor(() => {
+    //         expect(queryByTestId('nav-profile-dropdownmenu')).not.toBeInTheDocument();
+    //     });        
+    // });
     
     // it('should close dropdown menu on tab event', async () => {
     //     const { getByTestId, queryByTestId } = render(<Navbar />, { wrapper: StoreProvider({auth: {isAuthenticated: true}}) });

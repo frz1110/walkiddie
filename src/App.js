@@ -20,7 +20,8 @@ import ResetPasswordConfirm from './page/ResetPassword/ResetPasswordConfirm';
 import Layout from './hocs/Layout';
 import { fetch_user } from './util/prerender';
 import { Provider } from 'react-redux';
-import MembuatInvestasi from './page/MembuatInvestasi/MembuatInvestasi'
+import MembuatInvestasi from './page/MembuatInvestasi/MembuatInvestasi';
+import OnboardingFaq from './page/OnboardingFaq/OnboardingFaq';
 
 import store from './store';
 
@@ -45,7 +46,9 @@ function App() {
               <Route path="/daftar-mitra">
                 <RegistrasiMitra />
               </Route>
-              <Route path="/bantuan"></Route>
+              <Route path="/bantuan">
+                <OnboardingFaq />
+              </Route>
               <Route path="/profile">
                 <Profile />
               </Route>

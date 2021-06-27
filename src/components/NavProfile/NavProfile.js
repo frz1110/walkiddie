@@ -83,11 +83,11 @@ export default function NavProfile(props) {
                       </div>
                     </div>
                     <div className="nav-dropdown-sect-2">
-                      <MenuItem onClick={handleClose} data-testid='profile-menu'><Link to="/profile" style={{ color: 'rgb(0, 0, 0)' }}>Profil</Link></MenuItem>
+                      <Link to="/profile" style={{ color: 'rgb(0, 0, 0)', textDecoration: 'none' }}><MenuItem onClick={handleClose} data-testid='profile-menu'>Profil</MenuItem></Link>
                       <MenuItem onClick={handleClose}>Portofolio</MenuItem>
                     </div>
                     <div className="nav-dropdown-sect-3">
-                      <MenuItem onClick={props.handleLogout}>Keluar</MenuItem>
+                      <Link to="/masuk"><MenuItem onClick={props.handleLogout}>Keluar</MenuItem></Link>
                     </div>
                   </MenuList>
                 </ClickAwayListener>
