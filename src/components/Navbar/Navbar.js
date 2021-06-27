@@ -38,11 +38,12 @@ const Navbar = ({isLoggedIn, handleLogout, userData}) => {
             <WalkiddieLogo />
           </NavLink>
         </div>
+        {!isLoggedIn && <div className="wkd-nav-dummy"/>}
         <div className="wkd-nav-menu">
             <NavLink to="/bantuan" activeClassName="wkd-active">Bantuan</NavLink>
         </div>
         <div className={ isLoggedIn ? "wkd-nav-buttons" : "wkd-nav-buttons wkd-guest"}>
-          {!isLoggedIn && <button className="wkd-nav-button wkd-light-tosca-button"><Link to="/masuk">Masuk</Link></button>}
+          {!isLoggedIn && <button className="wkd-nav-button wkd-light-tosca-button"><Link to="/masuk"><span>Masuk </span></Link></button>}
           {!isLoggedIn && <button className="wkd-nav-button wkd-dark-green-button"><Link to="/daftar-investor">Daftar</Link></button>}
           {isLoggedIn && <NavProfile handleLogout={handleLogout} image={image} name={name} role={role} data-testid='nav-profile'/>}
         </div>

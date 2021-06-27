@@ -1,6 +1,6 @@
 import './DetailPengadaan.css';
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory  } from 'react-router-dom';
 import { Carousel } from "react-responsive-carousel";
 import axios from 'axios';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -19,6 +19,8 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
     const [filesPengadaan, setFilesPengadaan] = useState([]);
     const [disable, setDisable] = useState(false);
 
+    let history = useHistory();
+
     const config = {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -35,8 +37,8 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
             setToko(tokoObj.data);
         }
         catch (err) {
-            alert('Terjadi kesalahan pada database')
-            return <Redirect to="/" />
+            alert('Terjadi kesalahan pada database')           
+            history.push('/')
         }
     }
 

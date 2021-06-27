@@ -16,9 +16,11 @@
 
 .profile-header{
     font-weight: 700;
-    font-size: 22px;
+    font-size: 23px;
     padding-bottom: 15px;
+    max-width: fit-content;
     text-align: left;
+    cursor: pointer;
 }
 
 .square-box-2 label{

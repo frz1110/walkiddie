@@ -46,7 +46,6 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
             }
         }
         catch (err) {
-            console.log(err)
             alert('Terjadi kesalahan pada database')
         }
     }
@@ -60,7 +59,6 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
             setToko([...toko, ...results2]);
         }
         catch (err) {
-            console.log(err)
             alert('Terjadi kesalahan pada database')
         }
     }
@@ -70,10 +68,10 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
             return (<h3 className="owned-pengadaan-status">Menunggu Persetujuan Admin</h3>)
         }
         else if (status === "TRM") {
-            return (<h3 className="owned-pengadaan-status" style={{ color: "#146A5F" }}>Diterima</h3>)
+            return (<h3 className="owned-pengadaan-status" style={{ color: "#146A5F" }}>Beroperasi Normal</h3>)
         }
         else if (status === "TLK") {
-            return (<h3 className="owned-pengadaan-status">Ditolak</h3>)
+            return (<h3 className="owned-pengadaan-status">Pengajuan Ditolak</h3>)
         }
         else {
             return "";
@@ -93,7 +91,6 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
         var result2 = _.values(_.merge(_.keyBy(investasi, 'pengadaan'), _.keyBy(pengadaan, 'pk')));
         var resultAll = _.values(_.merge(_.keyBy(result, 'pk'), _.keyBy(result2, 'pk')));
         setMerged(resultAll)
-        // console.log(resultAll)
     }, [toko]);
 
     if (!isAuthenticated) return <Redirect to="/masuk" />

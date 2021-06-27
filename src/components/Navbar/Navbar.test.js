@@ -41,7 +41,6 @@ describe('<Navbar />', () => {
 
     test('login & register buttons have correct links', () => {
         const { getByText } = render(<Navbar />, { wrapper: StoreProvider() });
-        expect(getByText('Masuk')).toHaveAttribute('href', '/masuk');
         expect(getByText('Daftar')).toHaveAttribute('href', '/daftar-investor');
     });
 
