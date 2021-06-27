@@ -1,10 +1,11 @@
 .row-homepage-investor {
-  padding: 10px;
+  padding: 5px;
 }
 
 .input-investor {
   padding: 10px;
   width: 148%;
+  height: 90%;
 }
 
 .pageNumbers {
@@ -47,3 +48,8 @@
   .css-tlfecz-indicatorContainer{
     width: 70px;
   }
+
+  .list-pengadaan-null-wrapper{
+    justify-content: center;
+    height: 350px;
+}
