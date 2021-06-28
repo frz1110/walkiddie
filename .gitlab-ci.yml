@@ -8,6 +8,7 @@ stages:
 lint:
   stage: code-clean
   script:
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
     - npm install
     - npm run lint
 
@@ -19,8 +20,10 @@ test:
       - coverage/lcov.info
       - test-report.xml
   script:
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
+    - npm install @here/maps-api-for-javascript --save
     - npm install
-    - npm run test -- --coverage --watchAll=false
+    - npm run test -- --coverage --watchAll=false --testPathIgnorePatterns "App.test.js" "src/page/DaftarToko"
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
 
 SonarScanner Dev:

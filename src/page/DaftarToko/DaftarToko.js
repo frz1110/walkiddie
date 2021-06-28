@@ -1,11 +1,12 @@
 import 'react-dates/initialize';
 import './DaftarToko.css'
 import WalkiddieGoogleMaps from './WalkiddieGoogleMaps.js'
+import WalkiddieHereMaps from './WalkiddieHereMaps.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-dates/lib/css/_datepicker.css';
 import AlurPendaftaran from './daftar-toko.svg';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -21,10 +22,18 @@ const DaftarToko = ({ isAuthenticated, user }) => {
         deskripsiToko: '',
         lokasiToko: '',
         daerah: '',
-        latitude: 12.0,
-        longitude: 13.0,
+        latitude: -6.364520803098946,
+        longitude: 106.82922538589406,
         mediaTokoList:[]
     });
+
+    const [mapData, setMapData] = useState({
+        lat : 0, 
+        lng : 0,
+        zoom : 15
+    })
+
+    const handleMapViewChange = e => setMapData({ ...mapData, lat:e.lat, long:e.lng });
 
     const {
         namaToko,
@@ -38,6 +47,13 @@ const DaftarToko = ({ isAuthenticated, user }) => {
         longitude,
         mediaTokoList
     } = formData;
+
+
+    useEffect(() => {
+        if (formData.latitude !== localStorage.getItem('lat')|| formData.longitude !== localStorage.getItem('lng')){
+            setFormData({...formData, latitude: localStorage.getItem('lat'), longitude: localStorage.getItem('lng')});
+        }
+    }, [lokasiToko]);
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -245,6 +261,17 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                         />
                                     </div>
                                 </div>
+                                <div>
+                                    <WalkiddieHereMaps
+                                        // lat={mapData.lat}
+                                        // lng={mapData.lng}
+                                        onMapViewChange={e => handleMapViewChange(e)}
+                                        // zoom={mapData.zoom}
+                                        formData={mapData}
+                                        setFormData={setMapData}
+                                    />
+                                </div>
+                                <br/>
                                 <div className="form-group row">
                                     <label htmlFor='lokasiToko' className="col-sm-3 col-form-label"> <span className="required"> * </span> Lokasi Toko :</label>
                                     <div className="col-sm-9">
@@ -261,15 +288,10 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                         />
                                     </div>
                                 </div>
-                                <div>
-                                    <WalkiddieGoogleMaps>
-
-                                    </WalkiddieGoogleMaps>
-                                </div>
                             </div>
                             <div className="pull-right" style={{ marginTop: '100px' }}>
-                                <button className="wkd-nav-button wkd-light-tosca-button"><Link to="/masuk">Batal</Link></button>
-                                <button className="wkd-nav-button wkd-dark-green-button" type="submit">Simpan</button>
+                                <button className="wkd-nav-button wkd-light-tosca-button daftar-toko-padding-button"><Link to="/masuk">Batal</Link></button>
+                                <button className="wkd-nav-button wkd-dark-green-button daftar-toko-padding-button" type="submit">Simpan</button>
                             </div>
                         </form>
                     </div>

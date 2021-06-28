@@ -91,7 +91,13 @@ const PengadaanMainanFirstPage = ({ daftarMainan, setState, formData, navigation
                                 <Card className="card-flex-item2" 
                                     key={mainan.id}
                                 >
-                                <Card.Img variant="top" src={mainan.gambar_mainan}alt="https://i.stack.imgur.com/y9DpT.jpg" />
+                                {/* <Card.Img variant="top" src={mainan.gambar_mainan} alt="https://i.stack.imgur.com/y9DpT.jpg" /> */}
+                                <Card.Img variant="top" src="mainan.gambar_mainan" 
+                                    style={{
+                                        width:"330px",
+                                        height:"180px"
+                                    }}
+                                />
                                 <Card.Body>
                                     <Card.Title className="card-content-limit card-title">
                                     {mainan.nama_mainan}

@@ -50,7 +50,6 @@ const PengadaanMainan = ({ isAuthenticated, user }) => {
                 if(response['owner'] === user.email){
                     allToko.push({value:response.pk, label:value});
                 }
-                console.log(response.pk);
             }
             setDaftarToko(allToko);
             console.log(allToko);
