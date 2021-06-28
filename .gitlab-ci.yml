@@ -61,6 +61,7 @@ StagingDeployment:
   image: ruby:2.7.1
   stage: deploy
   script:
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
@@ -73,6 +74,7 @@ ProductionDeployment:
   image: ruby:2.7.1
   stage: deploy
   script:
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
