@@ -12,28 +12,23 @@ const Cards = ({ posts, loading }) => {
   return (
     <CardColumns>
       {posts.map(post => (
-        <a href={"/detail-pengadaan/"+post.toko} className="custom-card-walkiddie">
+        <a href={"/detail-pengadaan/"+post.pk} className="custom-card-walkiddie">
           {(post.danaTerkumpul !== post.totalBiaya) &&
           <Card className="card-flex-item" key={post.pk}
             style={{
               height : '430px'
             }}
           >
-            <Card.Img variant="top" src={post.files[0]} 
-              style={{
-                height : '200px',
-              }}
-            />
-            {/* <Card.Img variant="top" src="https://i.stack.imgur.com/y9DpT.jpg"
-              style={{
-                height : '200px',
-              }}
-            /> */}
+            <Card.Img className="card-pengadaan-img" variant="top" src={post.files[0]}/>
             <Card.Body>
-              <Card.Title className="card-content-limit card-title">
+              <Card.Title className="card-content-limit card-title card-pengadaan-image">
                 <img className="toko-profil-img" src={post.fotoProfilToko} alt="Avatar"></img>
                 {post.namaToko}
               </Card.Title>
+                <div className="detail-pengadaan-store-name">
+                  <span style={{ fontWeight: "500", fontSize: "15px" }}>{post.namaCabang}</span>
+                </div>
+                <br/>
               <ProgressBar variant="success" now={(post.danaTerkumpul/post.totalBiaya*100) + 10} label={(post.danaTerkumpul/post.totalBiaya*100) + "%"} />
               <Card.Text>
                 <p className="card-content-limit">{post.deskripsiToko}</p>
@@ -48,29 +43,16 @@ const Cards = ({ posts, loading }) => {
               backgroundColor : '#DCDCDC'
             }}
           >
-            <Card.Img variant="top" src={post.files[0]} 
-              style={{
-                height : '200px',
-              }}
-            />
-            {/* <Card.Img variant="top" src="https://i.stack.imgur.com/y9DpT.jpg"
-              style={{
-                height : '200px',
-              }}
-            /> */}
+            <Card.Img className="card-pengadaan-img" variant="top" src={post.files[0]} />
             <Card.Body>
-              <Card.Title className="card-content-limit card-title">
+              <Card.Title className="card-content-limit card-title card-pengadaan-image">
                 <img className="toko-profil-img" src={post.fotoProfilToko} alt="Avatar"></img>
                 {post.namaToko}
               </Card.Title>
-              <style type="text/css">
-                {`
-                .progress-bar-finished {
-                  background-color: purple;
-                  color: white;
-                }
-                `}
-              </style>
+                <div className="detail-pengadaan-store-name">
+                  <span style={{ fontWeight: "500", fontSize: "15px" }}>{post.namaCabang}</span>
+                </div>
+                <br/>
               <ProgressBar className="finished-progress-bar" now={(post.danaTerkumpul/post.totalBiaya*100) + 10} label={(post.danaTerkumpul/post.totalBiaya*100) + "%"}/>
               <Card.Text>
                 <p className="card-content-limit">{post.deskripsiToko}</p>

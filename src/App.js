@@ -17,6 +17,7 @@ import Profile from './page/Profile/Profile';
 import Login from './page/Login';
 import ResetPassword from './page/ResetPassword/ResetPassword';
 import ResetPasswordConfirm from './page/ResetPassword/ResetPasswordConfirm';
+import RingkasanSales from './page/RingkasanSales/RingkasanSales';
 import Layout from './hocs/Layout';
 import { fetch_user } from './util/prerender';
 import { Provider } from 'react-redux';
@@ -58,27 +59,30 @@ function App() {
                 <DaftarToko />
               </Route>
               <Route path="/pengadaan-mainan">
-                  <PengadaanMainan />
-                </Route>
-                <Route path={"/investasi/:pk"} component={MembuatInvestasi}>
-                </Route>
-                <Route path="/list-pengadaan">
-                  <HomepageInvestor />
-                </Route>
-                <Route path={"/detail-pengadaan/:pk"} component={DetailPengadaan}>
-                </Route>
-                <Route path="/pemilik-toko">
-                  <HomepagePemilikToko />
-                </Route>
-                <Route path="/investor">
-                  <ListOwnedPengadaan />
-                </Route>
-                <Route path="/reset-password">
-                  <ResetPassword />
-                </Route>
-                <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
+                <PengadaanMainan />
+              </Route>
+              <Route path={"/investasi/:pk"} component={MembuatInvestasi}>
+              </Route>
+              <Route path="/list-pengadaan">
+                <HomepageInvestor />
+              </Route>
+              <Route path={"/detail-pengadaan/:pk"} component={DetailPengadaan}>
+              </Route>
+              <Route path="/pemilik-toko">
+                <HomepagePemilikToko />
+              </Route>
+              <Route path="/investor">
+                <ListOwnedPengadaan />
+              </Route>
+              <Route path="/reset-password">
+                <ResetPassword />
+              </Route>
+              <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
               <Route path="/investasi">
                 <MembuatInvestasi />
+              </Route>
+              <Route path="/ringkasan-sales">
+                <RingkasanSales />
               </Route>
               <Route exact path="/">
                 <Home />

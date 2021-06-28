@@ -26,7 +26,7 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     let currentPosts = "";
     let postLength = 0;
-    const [filterChoice, setFilterChoice] = useState([])
+    const [filterChoice, setFilterChoice] = useState([]);
 
     if (filteredPosts) {
         currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
@@ -47,6 +47,7 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
         const fetchPosts = async () => {
             try {
                 var res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
+                console.log(res.data);
                 res = res.data.filter((e) => {
                     if (e['status'] === "TRM") {
                         return e;
@@ -54,6 +55,7 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 });
                 console.log(res);
                 var res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, config);
+                console.log(res2)
                 res2 = res2.data.filter((e) => {
                     if (e['status'] === "TRM") {
                         return e;
@@ -82,16 +84,26 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 setLoading(false);
 
                 let allFilter = [];
-                if (!filterChoice){
+                if (filterChoice){
                     for (let i = 0; i < data.length; i++) {
                         let response = data[i];
                         let value = response['daerah'];
-                        allFilter.push({ value: value, label: value })
+                        if (allFilter.length > 0) {
+                            for (let j = 0; j < allFilter.length; j++){
+                                if(allFilter[j]['value'] !== value){
+                                    allFilter.push({ value: value, label: value })
+                                }
+                            }
+                        } else {
+                            allFilter.push({ value: value, label: value })
+                        }
                     }
                     const uniqueFilter = [...new Set(allFilter)];
-                    setFilterChoice(filterChoice.concat(uniqueFilter))
+                    setFilterChoice(uniqueFilter);
+                    console.log(uniqueFilter);
                 }
-                setFilterChoice(filterChoice.concat(allFilter))
+                console.log(filterChoice);
+                // setFilterChoice(filterChoice.concat(allFilter))
             } catch(e){
                 console.log(e)
                 alert('Terdapat kesalahan pada database. Mohon refresh ulang halaman ini')
@@ -154,7 +166,7 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
     if (user.role !== "Investor") return <Redirect to="/" />
 
     return (
-        <div className='container mt-5 justify-content-center'
+        <div className='detail-pengadaan-wrapper'
             style={{
                 boxSizing: 'border-box'
             }}
@@ -195,14 +207,11 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 <Col sm={8}>
                     <Row
                         className='input-investor'
-                        style={{
-
-                        }}
                     >
                         <input
                             style={{
-                                width: '70%',
-                                heigth: '30px'
+                                width: '90%',
+                                heigth: '30%'
                             }}
                             type="text"
                             placeholder="Search"
@@ -240,8 +249,7 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
             }
         </div>
     );
-
-};
+}
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,

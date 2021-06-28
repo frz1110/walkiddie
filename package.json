@@ -36,6 +36,7 @@
     "react-feather": "^2.0.9",
     "react-geocode": "^0.2.3",
     "react-google-autocomplete": "^2.1.0",
+    "react-google-charts": "^3.0.15",
     "react-google-flight-datepicker": "^0.1.17",
     "react-google-maps": "^9.4.5",
     "react-hooks-helper": "^1.6.0",
@@ -86,6 +87,12 @@
       "!src/index.js",
       "!src/reportWebVitals.js",
       "!src/page/DaftarToko/*.js",
+      "!src/page/DetailPengadaan/*.js",
+      "!src/page/HomepageInvestor/*.js",
+      "!src/page/PengadaanMainan/*.js",
+      "!src/page/RingkasanSales/*.js",
+      "!src/page/MembuatInvestasi/*.js",
+      "!src/component/Pagination/*.js",
       "!src/App.js",
       "!src/App.test.js"
     ]

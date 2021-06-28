@@ -9,6 +9,7 @@ import { Row } from "react-bootstrap";
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import Map from './Map.js'
 import { ChevronLeft } from 'react-feather';
 import { load_profile } from '../../actions/auth';
 
@@ -35,6 +36,11 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
             setFilesPengadaan(pengadaanObj.data.files)
             const tokoObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/${pengadaanObj.data.toko}`, config);
             setToko(tokoObj.data);
+            console.log(tokoObj.data);
+            localStorage.setItem('lat', tokoObj.data.latitude);
+            localStorage.setItem('long', tokoObj.data.longitude);
+            console.log(localStorage.getItem('lat'));
+            console.log(localStorage.getItem('long'));
         }
         catch (err) {
             alert('Terjadi kesalahan pada database')           
@@ -150,10 +156,11 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
                                 <span className="store-information-span">  {toko.tipeUsaha}</span><br />
                                 Nomor Telepon Toko:
                                 <span className="store-information-span">  {toko.nomorTelepon}</span><br />
-                                Lokasi Toko:
-                                <span className="store-information-span">  {toko.lokasiToko}</span><br />
                                 Deskripsi Toko:<br />
                                 <span className="store-information-span">  {toko.deskripsiToko}</span><br />
+                                Lokasi Toko:
+                                <span className="store-information-span">  {toko.lokasiToko}</span><br />
+                                <Map />
                             </div>
                         </Tab>
                         <Tab eventKey="mainan" title="Pilihan Mainan">
