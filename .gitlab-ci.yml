@@ -64,7 +64,6 @@ StagingDeployment:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - dpl --provider=heroku --app=${REPO_NAME} --api-key=${HEROKU_API}
   only:
@@ -77,7 +76,6 @@ ProductionDeployment:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - dpl --provider=heroku --app=${DEPLOYMENT_REPO_NAME} --api-key=${HEROKU_API}
   only:
