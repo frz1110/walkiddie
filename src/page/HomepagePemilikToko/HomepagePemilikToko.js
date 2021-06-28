@@ -69,7 +69,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                 // var merged = _.merge(_.keyBy(res.data, 'pk'), _.keyBy(res2.data, 'toko'));
                 var result = _.values(merged);
                 result = result.filter((e) => {
-                    if (e['fotoProfilToko']) {
+                    if (e['files']) {
                         return e;
                     }
                 });

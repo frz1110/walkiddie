@@ -13,11 +13,17 @@ import axios from 'axios';
 
 const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setFormData, totalBiayaMainan, setTotalBiayaMainan, navigation }) => {
     const { previous } = navigation;
+    const [requestSent, setRequestSent] = useState(false);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [focusedInput, setFocusedInput] = useState(null);
-    const [countPaket, setCountPaket] = useState(new Array(100).fill({value:1}));
+    const [countPaket, setCountPaket] = useState(new Array(25).fill({value:1}));
 
+    if (requestSent) {
+        setRequestSent(false);
+        return <Redirect to='/' />
+    }
+    
     if (!formData['totalBiaya']){
         let totalSemuaBiaya = 0;
         let response;
@@ -32,10 +38,11 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
         let semuaMainan = [];
         for(let i=0; i < daftarMainan.length; i++){
             if (formData['selectedCheckboxes'][(daftarMainan[i].id)-1] === true && countPaket[daftarMainan[i].id -1].value > 0){
-                semuaMainan.push(daftarMainan[i].nama_mainan)
+                semuaMainan.push({'mainan':daftarMainan[i].id,'kuantitas':countPaket[daftarMainan[i].id -1].value})
             }
         }
-        setFormData({ ...formData, paketMainan: semuaMainan.toString()});
+        console.log(semuaMainan);
+        setFormData({ ...formData, paketMainan: semuaMainan});
     }
 
     console.log(daftarToko);
@@ -65,7 +72,7 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
     const handleChangeFile = (event) => {
         setFormData({ ...formData, mediaTokoList: event.target.files });
     }
-    console.log(formData);
+    console.log(formData.paketMainan);
 
     const updateCountMainan = (id,count) => {
         console.log(countPaket);
@@ -91,7 +98,9 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                 ...formData['selectedCheckboxes'].slice(0,id-1),
                 false,
                 ...formData['selectedCheckboxes'].slice(id)
-                ]});
+                ]
+            , totalBiaya: totalSemuaBiaya
+            });
         console.log(countPaket);
         console.log(totalBiayaMainan);
     }
@@ -149,10 +158,10 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
         let semuaMainan = [];
         for(let i=0; i < daftarMainan.length; i++){
             if (formData['selectedCheckboxes'][(daftarMainan[i].id)-1] === true && countPaket[daftarMainan[i].id -1].value > 0){
-                semuaMainan.push(daftarMainan[i].nama_mainan)
+                semuaMainan.push({'mainan':daftarMainan[i].id,'kuantitas':countPaket[daftarMainan[i].id -1].value})
             }
         }
-        setFormData({ ...formData, paketMainan: semuaMainan.toString()});
+        setFormData({ ...formData, paketMainan: semuaMainan});
 
         if (localStorage.getItem('access')) {
             updatePaketMainan();
@@ -160,7 +169,11 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
             var formDataToSend = new FormData();
 
             formDataToSend.append('toko', formData['pkToko']);
-            formDataToSend.append('paketMainan', formData['paketMainan']);
+            formDataToSend.append('daftarMainan', JSON.stringify(formData['paketMainan']));
+            // for(let i=0; i < formData['paketMainan'].length; i++){
+            //     formDataToSend.append('daftarMainan', formData['paketMainan'][i]);
+            // }
+            console.log(formDataToSend.get('daftarMainan'))
             for(let i=0; i < formData['mediaTokoList'].length; i++){
                 formDataToSend.append('filePengadaan', formData['mediaTokoList'][i], formData['mediaTokoList'][i].name);
             }
@@ -169,11 +182,16 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
             formDataToSend.append('periodePengadaanAkhir', formData['periodePengadaanAkhir']);
             formDataToSend.append('estimasiKeuangan', formData['estimasiKeuangan']);
 
+            for (var pair of formDataToSend.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+
             axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, formDataToSend, config)
                 .then((response) => {
                     console.log(response);
                     console.log('Success post');
-                    alert('Success post')
+                    alert('Anda telah memasukan pengadaan mainan');
+                    setRequestSent(true);
                 }, (error) => {
                     if (error.response) {
         
@@ -241,7 +259,13 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                                     ? (<div className="profile-details-wrapper flex-wrapper">
                                         <img src={TempatSampah}onClick={() => hapus(mainan.id, mainan.harga)}  alt="Delete Icon"></img>
                                         <div className="vertical-line-pengadaan-mainan"></div>
-                                        <img src="https://i.stack.imgur.com/y9DpT.jpg" className="review-pengadaan-mainan"></img>
+                                        <img src={mainan.gambar_mainan} className="review-pengadaan-mainan"
+                                            style={{  
+                                                width:"180px",
+                                                height:"100px"
+                                            }}
+                                        ></img>
+                                        {/* <img src={mainan.gambar_mainan} className="review-pengadaan-mainan"></img> */}
                                         <div className="profile-details" id="desc">
                                             <h4>{mainan.nama_mainan}</h4>
                                             <p>{mainan.harga}</p>
