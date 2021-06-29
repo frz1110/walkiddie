@@ -11,6 +11,7 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import Map from './Map.js'
 import { ChevronLeft } from 'react-feather';
+import NumberFormat from 'react-number-format';
 import { load_profile } from '../../actions/auth';
 
 const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
@@ -107,9 +108,9 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
                     </div>
                     <h3 className="detail-pengadaan-modal-text">Kebutuhan Modal</h3>
                     <p className="detail-pengadaan-midtext"></p>
-                    <h3 className="detail-pengadaan-modal-target">Rp{pengadaan.totalBiaya},00</h3>
+                    <h3 className="detail-pengadaan-modal-target"><NumberFormat value={pengadaan.totalBiaya} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></h3>
                     <ProgressBar striped now={(pengadaan.danaTerkumpul / pengadaan.totalBiaya * 100) + 10} label={pengadaan.danaTerkumpul / pengadaan.totalBiaya * 100 + "%"} />
-                    <p className="detail-pengadaan-modal-desc">Terkumpul dari target: Rp{pengadaan.danaTerkumpul},00</p>
+                    <p className="detail-pengadaan-modal-desc">Terkumpul dari target: <NumberFormat value={pengadaan.danaTerkumpul} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></p>
                 </div>
                 <div className="col-lg-7">
                     <div className="detail-pengadaan-box-wrapper">
