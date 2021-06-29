@@ -31,26 +31,50 @@ const RingkasanSales = ({ isAuthenticated, user }) => {
         const fetchRingkasanSales = async () => {
             try {
                 var res;
-                if (filter === 'Semua'){
-                    res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/`, config);
-                    console.log("ringkasan-investor")
-                    console.log(res)
-                } else if (filter === 'Harian'){
-                    res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/day`, config);
-                    console.log("ringkasan-investor harian")
-                    console.log(res)
-                } else if (filter === 'Mingguan'){
-                    res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/week`, config);
-                    console.log("ringkasan-investor mingguan")
-                    console.log(res)
-                } else if (filter === 'Bulanan'){
-                    res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/month`, config);
-                    console.log("ringkasan-investor bulanan")
-                    console.log(res)
+                if (user.role === 'Mitra'){
+                    if (filter === 'Semua'){
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-mitra/`, config);
+                        console.log("ringkasan-mitra")
+                        console.log(res)
+                    } else if (filter === 'Harian'){
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-mitra/day`, config);
+                        console.log("ringkasan-mitra harian")
+                        console.log(res)
+                    } else if (filter === 'Mingguan'){
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-mitra/week`, config);
+                        console.log("ringkasan-mitra mingguan")
+                        console.log(res)
+                    } else if (filter === 'Bulanan'){
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-mitra/month`, config);
+                        console.log("ringkasan-mitra bulanan")
+                        console.log(res)
+                    } else {
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-mitra/year`, config);
+                        console.log("ringkasan-mitra tahunan")
+                        console.log(res)
+                    }
                 } else {
-                    res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/year`, config);
-                    console.log("ringkasan-investor tahunan")
-                    console.log(res)
+                    if (filter === 'Semua'){
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/`, config);
+                        console.log("ringkasan-investor")
+                        console.log(res)
+                    } else if (filter === 'Harian'){
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/day`, config);
+                        console.log("ringkasan-investor harian")
+                        console.log(res)
+                    } else if (filter === 'Mingguan'){
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/week`, config);
+                        console.log("ringkasan-investor mingguan")
+                        console.log(res)
+                    } else if (filter === 'Bulanan'){
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/month`, config);
+                        console.log("ringkasan-investor bulanan")
+                        console.log(res)
+                    } else {
+                        res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/year`, config);
+                        console.log("ringkasan-investor tahunan")
+                        console.log(res)
+                    }
                 }
 
                 if (res.data.length === 0) {

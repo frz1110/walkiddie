@@ -84,7 +84,7 @@ export default function NavProfile(props) {
                     </div>
                     <div className="nav-dropdown-sect-2">
                       <Link to="/profile" style={{ color: 'rgb(0, 0, 0)', textDecoration: 'none' }}><MenuItem onClick={handleClose} data-testid='profile-menu'>Profil</MenuItem></Link>
-                      <MenuItem onClick={handleClose}>Portofolio</MenuItem>
+                      <Link to="/ringkasan-sales" style={{ color: 'rgb(0, 0, 0)', textDecoration: 'none' }}><MenuItem onClick={handleClose} data-testid='profile-menu'>Portofolio</MenuItem></Link>
                     </div>
                     <div className="nav-dropdown-sect-3">
                       <Link to="/masuk"><MenuItem onClick={props.handleLogout}>Keluar</MenuItem></Link>
