@@ -1,6 +1,6 @@
 import './OnboardingFaq.css';
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { Row } from "react-bootstrap";
 import Faq from "react-faq-component";
 import { Phone, Clock, Mail } from 'react-feather';

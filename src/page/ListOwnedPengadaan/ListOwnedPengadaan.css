@@ -71,11 +71,12 @@
     text-align: left;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
     padding: 20px 40px 20px;
-    transition: all 0.2s cubic-bezier(.25,.8,.25,1);
+    transition: all 0.4s cubic-bezier(.25,.8,.25,1);
 }
 
 .owned-pengadaan-object:hover{
     box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
 }
 
 .owned-pengadaan-profil{
@@ -115,7 +116,6 @@
 .owned-pengadaan-store-img{
     object-fit: cover;
     border-radius: 10px;
-    min-width: 300px;
     width: 100%;
     height: 180px;
 }

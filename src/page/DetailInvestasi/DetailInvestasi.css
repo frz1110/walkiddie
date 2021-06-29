@@ -1,0 +1,82 @@
+.detail-investasi-wrapper{
+    padding-top: 60px;
+    padding-bottom: 80px;
+    padding-left: 112px;
+    padding-right: 112px;
+}
+
+.owned-pengadaan-object-invest{
+    text-align: left;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+    padding: 20px 40px 20px;
+}
+
+.owned-pengadaan-profil-invest{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-wrapper-invest{
+    display: flex;
+    justify-content: space-evenly;
+    align-items:flex-start;
+}
+
+.detail-investasi-table-wrapper{
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    /* box-shadow: rgb(49 53 59 / 12%) 0px 1px 6px 0px; */
+}
+
+.table-bordered td, .table-bordered th {
+    border-top: 1px solid #dee2e6;
+}
+
+.detail-investasi-table-wrapper thead{
+    font-weight: 700;
+    background-color: rgba(0,0,0,0.045);
+    opacity: 0.6;
+}
+
+.table-title-rincian{
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    padding: 10px 0;
+    font-size: 20px;
+}
+
+.detail-investasi-small-card{
+    box-shadow: 0px 1px 4px rgb(0 0 0 / 25%);
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.detail-investasi-small-card-left{
+    padding-top: 12px;
+    text-align: left;
+}
+
+.detail-investasi-small-card-title{
+    font-size: 18px;
+    font-weight: 700;
+    opacity: 0.6;
+    font-family: 'Manrope', sans-serif;
+    /* line-height: 120%; */
+}
+
+.chart-card{
+    box-shadow: 0px 1px 4px rgb(0 0 0 / 25%);
+    padding: 10px;
+}
+
+.detail-investasi-small-card-value{
+    font-family: 'DM Sans', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.detail-investasi-small-card canvas{
+    display: initial !important;
+}

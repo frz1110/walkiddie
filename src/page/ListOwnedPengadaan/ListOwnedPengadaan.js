@@ -163,7 +163,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                     <Link to="/list-pengadaan">
                         <img id="l-o-pengadaan" src={pengadaanCard} alt="" className="investor-card-menu" />
                     </Link>
-                    <Link to="/">
+                    <Link to="/ringkasan-sales">
                         <img id="l-o-laporan" src={investasiCard} alt="" className="investor-card-menu" />
                     </Link>
                 </div>
@@ -171,7 +171,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                     <h3 className="text-align-left list-owned-h3">Investasi yang dimiliki</h3>
                     {merged.map(item => (
                         <div>
-                            <div className="owned-pengadaan-object">
+                            <Link to={{ pathname: "/detail-investasi/"+item.pk, state: item }} style={{ textDecoration:"none", color: "rgb(0, 0, 0)" }}><div className="owned-pengadaan-object">
                                 <div className="owned-pengadaan-profil">
                                     <div className="owned-pengadaan-profil-left">
                                         <img src={item.fotoProfilToko} className="owned-pengadaan-profil-img" alt=""></img>
@@ -192,12 +192,12 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                                         <p className="owned-pengadaan-store-desc">{item.deskripsiToko}</p>
                                         <div className="owned-pengadaan-store-saham">
                                             <p><span style={{ fontWeight: "500" }}>Total saham dimiliki:</span> <br />{(item.nominal / item.totalBiaya) * 100}%</p>
-                                            <a href={"/detail-pengadaan/" + item.pengadaan} style={{ color: "#146A5F" }}><p className="detail-pengadaan-text">Lihat Detail Pengadaan<ChevronRight style={{ paddingBottom: '3px' }} /></p></a>
+                                            <Link to={{ pathname: "/detail-pengadaan/"+item.pengadaan }} style={{color: "#146A5F"}}><p className="detail-pengadaan-text">Lihat Detail Pengadaan<ChevronRight style={{paddingBottom: '3px'}}/></p></Link>
                                         </div>
 
                                     </div>
                                 </Row>
-                            </div>
+                            </div></Link>
                             <br />
                         </div>
                     ))}

@@ -2,8 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 import Joyride, { STATUS } from 'react-joyride';
 import './WalkiddieOnboarding.css';
+import bantuanIcon from './Questions-cuate.svg';
 
-const WalkiddieOnboarding = ({steps}) => {
+const WalkiddieOnboarding = ({ steps }) => {
     const [isRun, setIsRun] = useState(false);
 
     const handleJoyrideCallback = (data) => {
@@ -25,7 +26,7 @@ const WalkiddieOnboarding = ({steps}) => {
     };
 
     return (
-        <div>
+        <div className="onboarding-wrapper-adhyt">
             <Joyride
                 callback={handleJoyrideCallback}
                 continuous={true}
@@ -40,8 +41,11 @@ const WalkiddieOnboarding = ({steps}) => {
                     },
                 }}
             />
-            <div onClick={handleClickPetunjuk} id="petunjuk">
-                <button class="button-petunjuk">Petunjuk</button>
+            <div class="button-petunjuk" onClick={handleClickPetunjuk} id="petunjuk">
+                <div>
+                    <img class="img-petunjuk"src={bantuanIcon} alt="Bantuan"></img>
+                </div>
+                {/* <button class="button-petunjuk">Petunjuk</button> */}
             </div>
         </div>
     );
