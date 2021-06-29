@@ -6,8 +6,66 @@ import MainIcon from './main-icon.svg';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Typical from 'react-typical';
+import WalkiddieOnboarding from '../OnBoarding/WalkiddieOnboarding';
 
 const Home = ({ user }) => {
+    const onBoardingSteps = [
+        {
+            content: <h4>Selamat datang di Walkiddie</h4>,
+            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+            placement: 'center',
+            target: 'body',
+        },
+        {
+            content: 'Platform Crowdfunding Pertama dalam Industri Mainan!',
+            placement: 'left',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.wkd-home-sect-2-text p',
+            title: 'Walkiddie? Apa itu?',
+        },
+        {
+            content: 'Kamu bisa menjadi investor atau mitra. Semua pilihan ada di tangan mu!',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.wkd-home-roles-container',
+            title: 'Pengguna Walkiddie',
+        },
+        {
+            content: <p>Daftar sebagai <b>mitra</b>.</p>,
+            placement: 'right',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.wkd-home-sect-1 [title~=Mitra]',
+            title: 'Ayo raih keuntungan di Walkiddie.',
+        },
+        {
+            content: <p>Daftar sebagai <b>investor</b>.</p>,
+            placement: 'right',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.wkd-home-sect-1 [title~=Investor]',
+            title: 'Ayo raih keuntungan di Walkiddie.',
+        },
+        {
+            content: <h4>Selesai</h4>,
+            placement: 'center',
+            target: 'body',
+        },
+    ];
 
     if (user !== null) {
         if (user.role === "Mitra") {
@@ -19,6 +77,8 @@ const Home = ({ user }) => {
 
     return (
         <div>
+            <WalkiddieOnboarding steps={onBoardingSteps}/>
+
             <div className="wkd-home-sect-1-container">
                 <div className="wkd-home-sect-1">
                     <h1 className="wkd-home-headings">Platform Crowdfunding Pertama dalam Industri Mainan</h1>
@@ -28,12 +88,12 @@ const Home = ({ user }) => {
                         wrapper="p"
                         className="wkd-home-p"
                     />
-                    <button className="wkd-home-button wkd-nav-button wkd-dark-green-button">
+                    <button className="wkd-home-button wkd-nav-button wkd-dark-green-button" title="Mitra">
                         <Link to="/daftar-mitra">
                             Gabung Mitra
                         </Link>
                     </button>
-                    <button className="wkd-home-button wkd-nav-button wkd-tosca-button">
+                    <button className="wkd-home-button wkd-nav-button wkd-tosca-button" title="Investor">
                         <Link to="/daftar-investor">
                             Mulai Investasi
                         </Link>
