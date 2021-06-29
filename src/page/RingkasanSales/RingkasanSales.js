@@ -119,14 +119,13 @@ const RingkasanSales = ({ isAuthenticated, user }) => {
                 style={{
                     textAlign:'left'
                 }}>
-            <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Kembali</h3>
+            <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Ringkasan Sales Investasi</h3>
             </h2>
             
             {
                     empty && 
                     
                     <div className='d-flex flex-column justify-content-center align-items-center'>
-                        <h3>Ringkasan Sales Investasi</h3>
                         <br/>
                         <div className='ringkasan-sales-rectangle '>
                             <div className="dropdown-ringkasan-sales">

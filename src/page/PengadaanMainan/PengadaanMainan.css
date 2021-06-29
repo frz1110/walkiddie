@@ -104,11 +104,13 @@
 }
 
 .review-pengadaan-mainan{
-    height: 20%;
-    width: 20%;
+    width:"180px";
+    height:"100px";
+    margin-top: 1%;
     margin-left:2rem;
     margin-right:1rem;
     display: table-cell;
+    object-fit: cover;
 }
 
 .profile-details { 

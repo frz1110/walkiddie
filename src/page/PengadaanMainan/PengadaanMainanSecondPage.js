@@ -387,13 +387,13 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                style={{
-                                    float: 'right'
-                                }}
-                            >
-                                <button className="wkd-nav-button wkd-light-tosca-button" onClick={previous}>Sebelumnya</button>
-                                <button id="p-m-2-simpan" className="wkd-nav-button wkd-dark-green-button" type="submit">Simpan</button>
+                            <div 
+                            style={{
+                                float:'right'
+                            }}
+                            >   
+                                <button className="wkd-home-button wkd-nav-button wkd-tosca-button daftar-toko-padding-button" onClick={previous}>Sebelumnya</button>
+                                <button className="wkd-home-button wkd-nav-button wkd-dark-green-button daftar-toko-padding-button"  type="submit">Simpan</button>
                             </div>
                         </form>
                     </div>

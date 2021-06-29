@@ -131,38 +131,33 @@ const PengadaanMainanFirstPage = ({ daftarMainan, setState, formData, navigation
                             <br></br>
                             <p>Pilih pengadaan mainan yang Anda inginkan!</p>
 
-                            <CardColumns id="p-m-1-katalog">
-                                {daftarMainan.map(mainan => (
-                                    <Card className="card-flex-item2"
-                                        key={mainan.id}
-                                    >
-                                        {/* <Card.Img variant="top" src={mainan.gambar_mainan} alt="https://i.stack.imgur.com/y9DpT.jpg" /> */}
-                                        <Card.Img variant="top" src="mainan.gambar_mainan"
-                                            style={{
-                                                width: "330px",
-                                                height: "180px"
-                                            }}
-                                        />
-                                        <Card.Body>
-                                            <Card.Title className="card-content-limit card-title">
-                                                {mainan.nama_mainan}
-                                            </Card.Title>
-                                            <Card.Text className="card-content-limit card-text">
-                                                <p>{mainan.deskripsi_mainan}</p>
-                                                <h3>{mainan.harga}</h3>
-                                            </Card.Text>
-                                            <Form.Check
-                                                custom
-                                                type='checkbox'
-                                                id={mainan.id}
-                                                // onChange={() => onChange(1)}
-                                                // selected={selectedCheckboxes.includes(1)}
-                                                checked={checkedState[(mainan.id) - 1]}
-                                                onChange={() => handleOnChange((mainan.id) - 1)}
-                                            />
-                                        </Card.Body>
-                                    </Card>
-                                ))}
+                            <CardColumns>
+                            {daftarMainan.map(mainan => (
+                                <Card className="card-flex-item2" 
+                                    key={mainan.id}
+                                >
+                                {/* <Card.Img variant="top" src={mainan.gambar_mainan} alt="https://i.stack.imgur.com/y9DpT.jpg" /> */}
+                                <Card.Img className="card-pengadaan-img" variant="top" src="mainan.gambar_mainan"/>
+                                <Card.Body>
+                                    <Card.Title className="card-content-limit card-title">
+                                    {mainan.nama_mainan}
+                                    </Card.Title>
+                                    <Card.Text className="card-content-limit card-text">
+                                    <p>{mainan.deskripsi_mainan}</p>
+                                    <h3>{mainan.harga}</h3>
+                                    </Card.Text>
+                                    <Form.Check 
+                                        custom
+                                        type='checkbox'
+                                        id={mainan.id}
+                                        // onChange={() => onChange(1)}
+                                        // selected={selectedCheckboxes.includes(1)}
+                                        checked={checkedState[(mainan.id)-1]}
+                                        onChange={() => handleOnChange((mainan.id)-1)}
+                                    />
+                                </Card.Body>
+                                </Card>
+                            ))}
 
                             </CardColumns>
                         </div>

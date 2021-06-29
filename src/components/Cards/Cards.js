@@ -12,11 +12,11 @@ const Cards = ({ posts, loading }) => {
   return (
     <CardColumns>
       {posts.map(post => (
-        <a href={"/detail-pengadaan/"+post.pk} className="custom-card-walkiddie">
+        <a href={"/detail-pengadaan/"+post.toko} className="custom-card-walkiddie">
           {(post.danaTerkumpul !== post.totalBiaya) &&
           <Card className="card-flex-item" key={post.pk}
             style={{
-              height : '430px'
+              height : '470px'
             }}
           >
             <Card.Img className="card-pengadaan-img" variant="top" src={post.files[0]}/>
@@ -39,7 +39,7 @@ const Cards = ({ posts, loading }) => {
            {(post.danaTerkumpul === post.totalBiaya) &&
           <Card className="card-flex-item" key={post.pk}
             style={{
-              height : '430px',
+              height : '470px',
               backgroundColor : '#DCDCDC'
             }}
           >
