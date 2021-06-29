@@ -13,8 +13,56 @@ import emptyIcon from '../ListOwnedPengadaan/empty.svg';
 import './HomepageInvestor.css'
 import '../HomepagePemilikToko/HomepagePemilikToko.css';
 import '../ListOwnedPengadaan/ListOwnedPengadaan.css';
+import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
 const HomepageInvestor = ({ isAuthenticated, user }) => {
+    const onBoardingSteps = [
+        {
+            content: <h5>Daftar proyek pengadaan</h5>,
+            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+            placement: 'center',
+            target: 'body',
+        },
+        {
+            content: 'Cari toko yang ingin kamu investasikan.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#h-i-search',
+            title: 'Search',
+        },
+        {
+            content: 'Cari pengadaan sesuai dengan lokasi yang kamu inginkan.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#h-i-lokasi',
+            title: 'Atur Lokasi',
+        },
+        {
+            content: 'Daftar pengadaan yang tersedia. Kamu bisa melakukan investasi ke pengadaan yang belum mencapai 100%.',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#h-i-pengadaan',
+            title: 'Daftar Pengadaan',
+        },
+        {
+            content: <h4>Selesai</h4>,
+            placement: 'center',
+            target: 'body',
+        },
+    ];
+
     const [posts, setPosts] = useState([]);
     const [filteredPosts, setFilteredPosts] = useState();
     const [loading, setLoading] = useState(false);
@@ -77,20 +125,20 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 } else {
                     setEmpty(false);
                 }
-                
+
                 const data = filterChange(result, searchTerm, 'namaToko');
                 setPosts(data);
                 setFilteredPosts();
                 setLoading(false);
 
                 let allFilter = [];
-                if (filterChoice){
+                if (filterChoice) {
                     for (let i = 0; i < data.length; i++) {
                         let response = data[i];
                         let value = response['daerah'];
                         if (allFilter.length > 0) {
-                            for (let j = 0; j < allFilter.length; j++){
-                                if(allFilter[j]['value'] !== value){
+                            for (let j = 0; j < allFilter.length; j++) {
+                                if (allFilter[j]['value'] !== value) {
                                     allFilter.push({ value: value, label: value })
                                 }
                             }
@@ -104,7 +152,7 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 }
                 console.log(filterChoice);
                 // setFilterChoice(filterChoice.concat(allFilter))
-            } catch(e){
+            } catch (e) {
                 console.log(e)
                 alert('Terdapat kesalahan pada database. Mohon refresh ulang halaman ini')
             }
@@ -171,6 +219,8 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 boxSizing: 'border-box'
             }}
         >
+            <WalkiddieOnboarding steps={onBoardingSteps} />
+
             <h1 style={{
                 textAlign: 'left'
             }}> Daftar Proyek Pengadaan</h1>
@@ -179,33 +229,35 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 <Col sm={4}>
                     <Row>
                         <Card
-                                style={{
-                                    width: '350px',
-                                    height: '80px',
-                                    backgroundColor: '#146A5F'
-                                }}
-                            >
-                                <p style={{
-                                    marginTop: '7px',
-                                    marginBottom: '9px'
-                                }}
+                            id="h-i-lokasi"
+                            style={{
+                                width: '350px',
+                                height: '80px',
+                                backgroundColor: '#146A5F'
+                            }}
+                        >
+                            <p style={{
+                                marginTop: '7px',
+                                marginBottom: '9px'
+                            }}
                                 className="wkd-nav-button wkd-dark-green-button"
-                                >
-                                    Atur Lokasi yang ingin dicari :
-                                </p>
-                                <div data-testid="select-daerah">
-                                    <Select
-                                        class="form-control"
-                                        placeholder="Pilih nama daerah disini"
-                                        options={filterChoice}
-                                        onChange={handleChange}
-                                    />
-                                </div>
+                            >
+                                Atur Lokasi yang ingin dicari :
+                            </p>
+                            <div data-testid="select-daerah">
+                                <Select
+                                    class="form-control"
+                                    placeholder="Pilih nama daerah disini"
+                                    options={filterChoice}
+                                    onChange={handleChange}
+                                />
+                            </div>
                         </Card>
                     </Row>
                 </Col>
                 <Col sm={8}>
                     <Row
+                        id="h-i-search"
                         className='input-investor'
                     >
                         <input
@@ -223,23 +275,23 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                     <br></br>
                 </Col>
             </Row>
-            <br/>
-            {!empty && 
-            <Row className="row-homepage-investor"
-                style={{
-                    justifyContent: 'center'
-                }}
-            >
-                <Cards posts={currentPosts} loading={loading} />
-                
-                <Pagination
-                    currentPage={currentPage}
-                    postsPerPage={postsPerPage}
-                    totalPosts={postLength}
-                    paginate={paginate}
-                />
-            </Row>
-            } 
+            <br />
+            {!empty &&
+                <Row id="h-i-pengadaan" className="row-homepage-investor"
+                    style={{
+                        justifyContent: 'center'
+                    }}
+                >
+                    <Cards posts={currentPosts} loading={loading} />
+
+                    <Pagination
+                        currentPage={currentPage}
+                        postsPerPage={postsPerPage}
+                        totalPosts={postLength}
+                        paginate={paginate}
+                    />
+                </Row>
+            }
 
             {
                 empty && <div className="list-pengadaan-null-wrapper">

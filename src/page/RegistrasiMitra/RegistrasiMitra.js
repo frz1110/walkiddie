@@ -8,8 +8,67 @@ import { connect } from 'react-redux';
 import { signupMitra } from '../../actions/auth';
 import { ChevronLeft } from 'react-feather';
 import loadingIcon from '../../media/loading-icon.jpg';
+import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
-const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
+const RegistrasiMitra = ({ signupMitra, isAuthenticated }) => {
+    const onBoardingSteps = [
+        {
+            content: <h5>Petunjuk pembuatan akun mitra</h5>,
+            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+            placement: 'center',
+            target: 'body',
+        },
+        {
+            content: <p>Fitur ini <b>masih dalam pengembangan</b>. Harap membuat akun melalui formulir yang ada</p>,
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.regist-invest-google-button',
+            title: 'Daftar sebagai mitra',
+        },
+        {
+            content: 'Isi semua data yang diperlukan.',
+            placement: 'left',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.regist-centered',
+            title: 'Daftar sebagai mitra',
+        },
+        {
+            content: <p>Tekan "Buat Akun". Lalu, <b>cek email masuk kamu</b> untuk melakukan aktivasi akun.</p>,
+            placement: 'left',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.regist-invest-button',
+            title: 'Daftar sebagai mitra',
+        },
+        {
+            content: 'Akun mitra kamu telah berhasil dibuat!',
+            placement: 'center',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: 'body',
+            title: 'Daftar sebagai mitra',
+        },
+        {
+            content: <h4>Selesai</h4>,
+            placement: 'center',
+            target: 'body',
+        },
+    ];
+
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -22,18 +81,18 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
     const { first_name, last_name, email, password, re_password } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-    
+
     const onSubmit = async e => {
         e.preventDefault();
 
         if (password === re_password) {
             setLoading(true);
             const res = await signupMitra(first_name, last_name, email, password, re_password);
-            if(check(first_name,password) || check(last_name,password) || check(email,password) 
-                || check (password,first_name) || check(password,last_name) || check(password,email)){
+            if (check(first_name, password) || check(last_name, password) || check(email, password)
+                || check(password, first_name) || check(password, last_name) || check(password, email)) {
                 alert('Password yang anda masukan terlalu mirip dengan email maupun nama anda')
-            }else {
-                if (res.signup){
+            } else {
+                if (res.signup) {
                     setLoading(false);
                     alert('Anda bisa mengecek email anda untuk link aktivasi akun')
                     return <Redirect to='/masuk' />
@@ -43,13 +102,13 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                     alert('Email yang anda masukan telah terdaftar')
                 }
             }
-        } else{
+        } else {
             alert("Password anda harus sama")
         }
     };
 
-    function check(use,pwd){
-        return pwd.match(/[a-z]+/ig).filter(a=> a.length > 2 && use.includes(a)).length > 0? true:false;
+    function check(use, pwd) {
+        return pwd.match(/[a-z]+/ig).filter(a => a.length > 2 && use.includes(a)).length > 0 ? true : false;
     }
 
     if (isAuthenticated) {
@@ -69,15 +128,17 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
 
     return (
         <div id="regist-invest-signup">
-            <h3 className="regist-invest-title" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Buat Akun Baru <span style={{ color: "#146A5F" }}>Mitra</span></h3>
+            <WalkiddieOnboarding steps={onBoardingSteps} />
+
+            <h3 className="regist-invest-title" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left" />Buat Akun Baru <span style={{ color: "#146A5F" }}>Mitra</span></h3>
             {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
             <div className="regist-invest-square-box">
                 <Row className="justify-content-center">
-                    <button className="submit-button regist-invest-google-button" type="button"> 
-                    <img className="regist-invest-google-image" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google.png"/>
-                    <span style={{ marginLeft: "35px" }}>
-                        Daftar dengan Google
-                    </span>
+                    <button className="submit-button regist-invest-google-button" type="button">
+                        <img className="regist-invest-google-image" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google.png" />
+                        <span style={{ marginLeft: "35px" }}>
+                            Daftar dengan Google
+                        </span>
                     </button>
                 </Row>
                 <br></br>
@@ -102,7 +163,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                             </div>
                         </div>
                         <div className="col-sm">
-                            <div className="regist-invest-form-container">                          
+                            <div className="regist-invest-form-container">
                                 <label for='nama-belakang'> Nama Belakang </label>
                                 <br></br>
                                 <input
@@ -134,7 +195,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                             </div>
                         </div>
                         <div className="col-sm">
-                            <div className="regist-invest-form-container">                          
+                            <div className="regist-invest-form-container">
                                 <label>  </label>
                                 <br></br>
                             </div>
@@ -145,7 +206,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                             <div className="regist-invest-form-container">
                                 <label for='i_password'> Kata Sandi </label>
                                 <br></br>
-                                <input 
+                                <input
                                     id='i_password'
                                     type='password'
                                     placeholder='Masukkan kata sandi...'
@@ -158,7 +219,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                             </div>
                         </div>
                         <div className="col-sm">
-                            <div className="regist-invest-form-container">                          
+                            <div className="regist-invest-form-container">
                                 <label>  </label>
                                 <br></br>
                             </div>
@@ -182,14 +243,14 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
                             </div>
                         </div>
                         <div className="col-sm">
-                            <div className="regist-invest-form-container">                          
+                            <div className="regist-invest-form-container">
                                 <label>  </label>
                                 <br></br>
                             </div>
                         </div>
                     </Row>
                     <Row className="justify-content-center">
-                        <button className="submit-button wkd-dark-green-button regist-invest-button"type="submit"> 
+                        <button className="submit-button wkd-dark-green-button regist-invest-button" type="submit">
                             Buat Akun
                         </button>
                     </Row>
@@ -204,6 +265,6 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated })=> {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
-}); 
+});
 
 export default connect(mapStateToProps, { signupMitra })(RegistrasiMitra);

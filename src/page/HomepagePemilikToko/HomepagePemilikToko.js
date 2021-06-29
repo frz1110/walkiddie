@@ -10,8 +10,56 @@ import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import _ from 'lodash';
+import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
 const HomepagePemilikToko = ({ isAuthenticated, user }) => {
+    const onBoardingSteps = [
+        {
+            content: <h5>Homepage mitra</h5>,
+            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+            placement: 'center',
+            target: 'body',
+        },
+        {
+            content: 'Daftarkan toko yang kamu miliki agar dapat di investasikan.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#h-p-daftarkantoko',
+            title: 'Daftarkan Toko',
+        },
+        {
+            content: 'Lihat laporan investasi yang dimiliki.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#h-p-laporan',
+            title: 'Laporan Investasi',
+        },
+        {
+            content: 'Daftar pengadaan yang kamu miliki. ',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#h-p-pengadaan',
+            title: 'Investasi yang dimiliki',
+        },
+        {
+            content: <h4>Selesai</h4>,
+            placement: 'center',
+            target: 'body',
+        },
+    ];
+
     const [daftarTokoItems, setDaftarTokoItems] = useState([]);
     const [daftarTokoLoading, setDaftarTokoLoading] = useState(false);
     const [daftarTokoCurrentPage, setDaftarTokoCurrentPage] = useState(1);
@@ -99,6 +147,8 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
 
     return (
         <div className="pemilik-toko-wrapper">
+            <WalkiddieOnboarding steps={onBoardingSteps} />
+
             <div className="pemilik-toko-sect-1">
                 <div className="pemilik-toko-sect-1-content">
                     <h3 className="investor-h2 text-align-left"
@@ -113,13 +163,13 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
             <div className="pemilik-toko-sect-2">
                 <div className="investor-card-container">
                     <Link to="/daftar-toko">
-                        <img src={DaftarkanToko} alt="Daftarkan-toko" className="investor-card-menu" />
+                        <img id="h-p-daftarkantoko" src={DaftarkanToko} alt="Daftarkan-toko" className="investor-card-menu" />
                     </Link>
                     <Link to="/">
-                        <img src={LihatInvestasi} alt="Lihat-investasi" className="investor-card-menu" />
+                        <img id="h-p-laporan" src={LihatInvestasi} alt="Lihat-investasi" className="investor-card-menu" />
                     </Link>
                 </div>
-                <div className="list-pemilik-toko">
+                <div id="h-p-pengadaan" className="list-pemilik-toko">
                     <div className="">
                         <h3 className="text-align-left pemilik-toko-h3" >Daftar Pengadaan</h3>
 

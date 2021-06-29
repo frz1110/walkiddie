@@ -9,8 +9,56 @@ import { ChevronRight } from 'react-feather';
 import pengadaanCard from './pengadaan-icon.svg';
 import investasiCard from './investasi-icon.svg';
 import emptyIcon from './empty.svg';
+import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
 const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
+    const onBoardingSteps = [
+        {
+            content: <h5>Homepage investor</h5>,
+            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+            placement: 'center',
+            target: 'body',
+        },
+        {
+            content: 'Lihat dan cari pasar pengadaan yang bisa kamu investasikan.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#l-o-pengadaan',
+            title: 'Cari Pengadaan',
+        },
+        {
+            content: 'Lihat laporan investasi yang dimiliki.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#l-o-laporan',
+            title: 'Laporan Investasi',
+        },
+        {
+            content: 'Daftar investasi yang kamu miliki. Kamu bisa menekan salah satu investasi untuk melihat informasi detailnya.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#l-o-owned',
+            title: 'Investasi yang dimiliki',
+        },
+        {
+            content: <h4>Selesai</h4>,
+            placement: 'center',
+            target: 'body',
+        },
+    ];
+
     const [pengadaan, setPengadaan] = useState([]);
     const [toko, setToko] = useState([]);
     const [investasi, setInvestasi] = useState([]);
@@ -98,6 +146,8 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
 
     return (
         <div className="owned-pengadaan-wrapper">
+            <WalkiddieOnboarding steps={onBoardingSteps} />
+
             <div className="owned-pengadaan-sect-1">
                 <div className="owned-pengadaan-sect-1-content">
                     <h3 className="investor-h2 text-align-left"
@@ -111,13 +161,13 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
             <div className="owned-pengadaan-sect-2">
                 <div className="investor-card-container">
                     <Link to="/list-pengadaan">
-                        <img src={pengadaanCard} alt="" className="investor-card-menu" />
+                        <img id="l-o-pengadaan" src={pengadaanCard} alt="" className="investor-card-menu" />
                     </Link>
                     <Link to="/">
-                        <img src={investasiCard} alt="" className="investor-card-menu" />
+                        <img id="l-o-laporan" src={investasiCard} alt="" className="investor-card-menu" />
                     </Link>
                 </div>
-                <div className="list-owned-pengadaan">
+                <div id="l-o-owned" className="list-owned-pengadaan">
                     <h3 className="text-align-left list-owned-h3">Investasi yang dimiliki</h3>
                     {merged.map(item => (
                         <div>
@@ -142,9 +192,9 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                                         <p className="owned-pengadaan-store-desc">{item.deskripsiToko}</p>
                                         <div className="owned-pengadaan-store-saham">
                                             <p><span style={{ fontWeight: "500" }}>Total saham dimiliki:</span> <br />{(item.nominal / item.totalBiaya) * 100}%</p>
-                                            <a href={"/detail-pengadaan/"+item.pengadaan} style={{color: "#146A5F"}}><p className="detail-pengadaan-text">Lihat Detail Pengadaan<ChevronRight style={{paddingBottom: '3px'}}/></p></a>
+                                            <a href={"/detail-pengadaan/" + item.pengadaan} style={{ color: "#146A5F" }}><p className="detail-pengadaan-text">Lihat Detail Pengadaan<ChevronRight style={{ paddingBottom: '3px' }} /></p></a>
                                         </div>
-                                        
+
                                     </div>
                                 </Row>
                             </div>

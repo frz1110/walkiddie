@@ -8,8 +8,67 @@ import { connect } from 'react-redux';
 import { signup } from '../../actions/auth';
 import { ChevronLeft } from 'react-feather';
 import loadingIcon from '../../media/loading-icon.jpg';
+import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
 const RegistrasiInvestor = ({ signup, isAuthenticated }) => {
+    const onBoardingSteps = [
+        {
+            content: <h5>Petunjuk pembuatan akun investor</h5>,
+            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+            placement: 'center',
+            target: 'body',
+        },
+        {
+            content: <p>Fitur ini <b>masih dalam pengembangan</b>. Harap membuat akun melalui formulir yang ada</p>,
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#login-google',
+            title: 'Daftar sebagai investor',
+        },
+        {
+            content: 'Isi semua data yang diperlukan.',
+            placement: 'left',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.regist-centered',
+            title: 'Daftar sebagai investor',
+        },
+        {
+            content: <p>Tekan "Buat Akun". Lalu, <b>cek email masuk kamu</b> untuk melakukan aktivasi akun.</p>,
+            placement: 'left',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.regist-invest-button',
+            title: 'Daftar sebagai investor',
+        },
+        {
+            content: 'Akun investor kamu telah berhasil dibuat!',
+            placement: 'center',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: 'body',
+            title: 'Daftar sebagai investor',
+        },
+        {
+            content: <h4>Selesai</h4>,
+            placement: 'center',
+            target: 'body',
+        },
+    ];
+
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -69,7 +128,9 @@ const RegistrasiInvestor = ({ signup, isAuthenticated }) => {
 
     return (
         <div id="regist-invest-signup">
-            <h3 className="regist-invest-title" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Buat Akun Baru <span style={{ color: "#146A5F" }}>Investor</span></h3>
+            <WalkiddieOnboarding steps={onBoardingSteps} />
+
+            <h3 className="regist-invest-title" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left" />Buat Akun Baru <span style={{ color: "#146A5F" }}>Investor</span></h3>
             {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
             <div className="regist-invest-square-box">
                 <Row className="justify-content-center">

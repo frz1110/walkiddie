@@ -11,8 +11,66 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { fromAddress } from 'react-geocode';
+import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
 const DaftarToko = ({ isAuthenticated, user }) => {
+    const onBoardingSteps = [
+        {
+            content: <h5>Petunjuk pendaftaran toko</h5>,
+            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+            placement: 'center',
+            target: 'body',
+        },
+        {
+            content: 'Halaman ini adalah alur pertama yang harus ditempuh sebelum kamu dapat mengumpulkan modal pengadaan investasi.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#d-t-alur',
+            title: 'Pendaftaran Toko',
+        },
+        {
+            content: 'Kamu harus mendaftarkan toko yang kamu miliki terlebih dahulu.',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#d-t-title',
+            title: 'Pendaftaran Toko',
+        },
+        {
+            content: 'Isi semua data yang ada pada formulir.',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#d-t-form',
+            title: 'Pendaftaran Toko',
+        },
+        {
+            content: 'Jika sudah, tekan tombol "Simpan"',
+            placement: 'right',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#d-t-simpan',
+            title: 'Pendaftaran Toko',
+        },
+        {
+            content: <h4>Selesai</h4>,
+            placement: 'center',
+            target: 'body',
+        },
+    ];
 
     const [formData, setFormData] = useState({
         namaToko: '',
@@ -24,16 +82,16 @@ const DaftarToko = ({ isAuthenticated, user }) => {
         daerah: '',
         latitude: -6.364520803098946,
         longitude: 106.82922538589406,
-        mediaTokoList:[]
+        mediaTokoList: []
     });
 
     const [mapData, setMapData] = useState({
-        lat : 0, 
-        lng : 0,
-        zoom : 15
+        lat: 0,
+        lng: 0,
+        zoom: 15
     })
 
-    const handleMapViewChange = e => setMapData({ ...mapData, lat:e.lat, long:e.lng });
+    const handleMapViewChange = e => setMapData({ ...mapData, lat: e.lat, long: e.lng });
 
     const {
         namaToko,
@@ -50,8 +108,8 @@ const DaftarToko = ({ isAuthenticated, user }) => {
 
 
     useEffect(() => {
-        if (formData.latitude !== localStorage.getItem('lat')|| formData.longitude !== localStorage.getItem('lng')){
-            setFormData({...formData, latitude: localStorage.getItem('lat'), longitude: localStorage.getItem('lng')});
+        if (formData.latitude !== localStorage.getItem('lat') || formData.longitude !== localStorage.getItem('lng')) {
+            setFormData({ ...formData, latitude: localStorage.getItem('lat'), longitude: localStorage.getItem('lng') });
         }
     }, [lokasiToko]);
 
@@ -87,7 +145,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
             formDataToSend.append('lokasiToko', lokasiToko);
             formDataToSend.append('longitude', longitude);
             formDataToSend.append('latitude', latitude);
-            for(let i=0; i < mediaTokoList.length; i++){
+            for (let i = 0; i < mediaTokoList.length; i++) {
                 formDataToSend.append('fotoProfilToko', mediaTokoList[i], mediaTokoList[i].name);
             }
             await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, formDataToSend, config)
@@ -96,20 +154,20 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                     alert('Toko Anda telah ditambahkan');
                 }, (error) => {
                     if (error.response) {
-        
+
                         console.log("error.response")
                         console.log(error.response)
-        
+
                     } else if (error.request) {
-        
+
                         console.log("error.request")
                         console.log(error.request)
-        
+
                     } else if (error.message) {
-        
+
                         console.log("error.message")
                         console.log(error.message)
-        
+
                     }
                     console.log(error);
                     alert("Terdapat kesalahan. Mohon refresh ulang halaman ini")
@@ -125,6 +183,8 @@ const DaftarToko = ({ isAuthenticated, user }) => {
 
     return (
         <div>
+            <WalkiddieOnboarding steps={onBoardingSteps} />
+
             <div className="wkd-home-sect-2-bg"
                 style={{
                     height: '400px',
@@ -136,7 +196,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                         marginBottom: '100px'
                     }}
                 >
-                    <img src={AlurPendaftaran} alt="Walkiddie Icon"></img>
+                    <img id="d-t-alur" src={AlurPendaftaran} alt="Walkiddie Icon"></img>
                 </div>
             </div>
 
@@ -151,12 +211,12 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                         style={{
                             textAlign: 'left'
                         }}>
-                        <h2> Pendaftaran Toko </h2>
+                        <h2 id="d-t-title"> Pendaftaran Toko </h2>
                         <p>Daftarkan toko anda dan raih keuntungannya</p>
                         <br></br>
                         <h3 className="midtext" ><span>Informasi Toko</span></h3>
                         <br></br>
-                        <form className="centered" onSubmit={handleSubmit}>
+                        <form id="d-t-form" className="centered" onSubmit={handleSubmit}>
                             <div className="justify-content-center">
                                 <div className="form-group row">
                                     <label htmlFor='namaToko' className="col-sm-3 col-form-label"> <span className="required"> * </span> Nama Toko </label>
@@ -271,7 +331,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                         setFormData={setMapData}
                                     />
                                 </div>
-                                <br/>
+                                <br />
                                 <div className="form-group row">
                                     <label htmlFor='lokasiToko' className="col-sm-3 col-form-label"> <span className="required"> * </span> Lokasi Toko :</label>
                                     <div className="col-sm-9">
@@ -291,7 +351,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                             </div>
                             <div className="pull-right" style={{ marginTop: '100px' }}>
                                 <button className="wkd-nav-button wkd-light-tosca-button daftar-toko-padding-button"><Link to="/masuk">Batal</Link></button>
-                                <button className="wkd-nav-button wkd-dark-green-button daftar-toko-padding-button" type="submit">Simpan</button>
+                                <button id="d-t-simpan" className="wkd-nav-button wkd-dark-green-button daftar-toko-padding-button" type="submit">Simpan</button>
                             </div>
                         </form>
                     </div>

@@ -1,0 +1,13 @@
+.button-petunjuk {
+    background-color: #146A5F;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border-color: #146A5F;
+}
+
+#petunjuk {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
