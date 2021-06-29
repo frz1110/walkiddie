@@ -158,7 +158,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
                                 <span className="store-information-span">  {toko.nomorTelepon}</span><br />
                                 Deskripsi Toko:<br />
                                 <span className="store-information-span">  {toko.deskripsiToko}</span><br />
-                                Lokasi Toko:
+                                Lokasi Toko: 
                                 <span className="store-information-span">  {toko.lokasiToko}</span><br />
                                 <Map />
                             </div>
