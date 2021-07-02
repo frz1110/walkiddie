@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
-import { ChevronLeft } from 'react-feather';
-import { Link, Redirect } from 'react-router-dom';
+import { ChevronLeft, Search } from 'react-feather';
+import { Redirect } from 'react-router-dom';
 import Cards from '../../components/Cards/Cards';
 import Pagination from '../../components/Pagination/Pagination';
 import Card from 'react-bootstrap/Card'
@@ -221,65 +221,57 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
         >
             <WalkiddieOnboarding steps={onBoardingSteps} />
 
-            <h1 style={{
-                textAlign: 'left'
-            }}> Daftar Proyek Pengadaan</h1>
-            <br></br>
-            <Row>
-                <Col sm={4}>
-                    <Row>
-                        <Card
-                            id="h-i-lokasi"
-                            style={{
-                                width: '350px',
-                                height: '80px',
-                                backgroundColor: '#146A5F'
-                            }}
+            <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left" />Daftar Proyek Pengadaan</h3>
+            <Row style={{ margin: "0px", paddingTop: "5px" }} className="justify-content-center">
+                <div className="col-4">
+                    <Card
+                        id="h-i-lokasi"
+                        style={{
+                            backgroundColor: '#146A5F',
+                            fontFamily: "'Manrope', sans-serif"
+                        }}
+                    >
+                        <p style={{
+                            paddingTop: '7px',
+                        }}
+                            className="homepage-investor-filter-title"
                         >
-                            <p style={{
-                                marginTop: '7px',
-                                marginBottom: '9px'
-                            }}
-                                className="wkd-nav-button wkd-dark-green-button"
-                            >
-                                Atur Lokasi yang ingin dicari :
-                            </p>
-                            <div data-testid="select-daerah">
-                                <Select
-                                    class="form-control"
-                                    placeholder="Pilih nama daerah disini"
-                                    options={filterChoice}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </Card>
-                    </Row>
-                </Col>
-                <Col sm={8}>
-                    <Row
+                            Atur Lokasi yang ingin dicari :
+                        </p>
+                        <div data-testid="select-daerah">
+                            <Select
+                                class="form-control"
+                                placeholder="Pilih nama daerah disini"
+                                options={filterChoice}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </Card>
+                </div>
+                <div className="col-8">
+                    <div
                         id="h-i-search"
                         className='input-investor'
                     >
                         <input
-                            style={{
-                                width: '90%',
-                                heigth: '30%'
-                            }}
                             type="text"
-                            placeholder="Search"
+                            placeholder= "Cari pengadaan..."
+                            className="homepage-investor-search-bar"
                             onChange={(event) => setSearchTerm(event.target.value)
                             }
                         >
                         </input>
-                    </Row>
+                        <Search />
+                    </div>
                     <br></br>
-                </Col>
+                </div>
             </Row>
             <br />
             {!empty &&
-                <Row id="h-i-pengadaan" className="row-homepage-investor"
+                <Row id="h-i-pengadaan"
                     style={{
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        margin: "0px"
                     }}
                 >
                     <Cards posts={currentPosts} loading={loading} />

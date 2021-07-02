@@ -58,9 +58,6 @@ const Pagination = ({ currentPage, postsPerPage, totalPosts, paginate }) => {
     return (
         <nav>
         <ul className='pageNumbers'
-            style={{
-              height: '45px'
-            }}
         >
             <li>
             <button
