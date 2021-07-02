@@ -3,18 +3,28 @@
 }
 
 .input-investor {
-  padding: 10px;
-  height: 90%;
+  text-align: left;
+  position: relative;
+}
+
+.input-investor svg{
+  position: absolute;
+  left: 2%;
+  top: 25%;
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .pageNumbers {
     list-style: none;
     display: flex;
+    font-family: 'DM Sans', sans-serif;
   }
   
   .pageNumbers li {
     padding: 10px;
     cursor: pointer;
+    min-width: 40px;
+    border-radius: 10px;
   }
 
   .pageNumbers li:hover {
@@ -31,9 +41,9 @@
     background-color: transparent;
     border: none;
     color: #146A5F;
-    font-size: 1.5rem;
     cursor: pointer;
   }
+
   .pageNumbers li button:hover {
     background-color: #146A5F;
     color: rgb(255, 255, 255);
@@ -51,4 +61,18 @@
   .list-pengadaan-null-wrapper{
     justify-content: center;
     height: 350px;
+}
+
+.homepage-investor-filter-title{
+    color: white;
+    font-weight: 700;
+}
+
+.homepage-investor-search-bar{
+  min-height: 48px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 0px 45px;
+  font-family: 'DM Sans', sans-serif;
 }

@@ -124,6 +124,10 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
         ],
     };
 
+    function roundingFloat(number){
+        return Number(parseFloat(number).toFixed(2))
+    }
+
     if (!isAuthenticated) return <Redirect to="/masuk" />
     if (user.role !== "Investor") return <Redirect to="/" />
     if (data.status !== "TRM") return <Redirect to="/" />
@@ -152,10 +156,9 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                     <div className="detail-investasi-small-card-left">
                         <div className="detail-investasi-small-card-title">
                             Total Saham Dimiliki<br />
-                            {/* <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "40px", fontWeight: "700" }}>70%</span> */}
                         </div>
                         <div className="detail-investasi-small-card-value">
-                            {(data.nominal / data.totalBiaya) * 100}%
+                            {(roundingFloat(data.nominal / data.totalBiaya)) * 100}%
                             </div>
                     </div>
                     <div>
@@ -178,10 +181,10 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
             {!empty && <div>
                 <Row style={{ margin: "0px" }}>
                     <div className="col chart-card">
-                        <Line data={dataLineChart} height={200} options={optionsLineChart} />
+                        <Line data={dataLineChart} height={180} options={optionsLineChart} />
                     </div>
                     <div className="col chart-card" style={{ marginLeft: "15px" }}>
-                        <Bar data={dataBarChart} height={200} options={optionsLineChart} />
+                        <Bar data={dataBarChart} height={180} options={optionsLineChart} />
                     </div>
                 </Row>
                 <br />
@@ -192,19 +195,19 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                             <Table bordered borderless>
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th style={{ textAlign: "center" }}>No</th>
                                         <th>Tanggal</th>
                                         <th>Rincian Penjualan</th>
                                         <th>Rincian Pendapatan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {sales.map(item => (
+                                    {sales.map((item, i=0) => (
                                         <tr>
-                                            <td>1</td>
+                                            <td style={{ textAlign: "center" }}>{i + 1}</td>
                                             <td>{item.tanggalPendapatan}</td>
                                             <td><NumberFormat value={item.pendapatan} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></td>
-                                            <td style={{ fontWeight: "500" }}><NumberFormat value={String(item.bagiHasil.investor[email])} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></td>
+                                            <td style={{ fontWeight: "500" }}><NumberFormat value={String(roundingFloat(item.bagiHasil.investor[email]))} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -219,14 +222,14 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                             <div className="detail-investasi-small-card-title">
                                 Total Pendapatan:<br />
                             </div>
-                            <div className="detail-investasi-small-card-value" style={{ fontSize: "35px" }}>
-                                {<NumberFormat value={pendapatan} displayType={'text'} thousandSeparator={true} prefix={'Rp '} />}
+                            <div className="detail-investasi-small-card-value" style={{ fontSize: "25px" }}>
+                                {<NumberFormat value={roundingFloat(pendapatan)} displayType={'text'} thousandSeparator={true} prefix={'Rp '} />}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>}
-            {empty && <div className="owned-pengadaan-null-wrapper">
+            {empty && <div style={{ paddingTop: "25px" }} className="owned-pengadaan-null-wrapper">
                 <img src={emptyIcon} alt="empty data"></img>
                 <h5 className="owned-pengadaan-null">Belum memiliki pendapatan</h5>
             </div>}
