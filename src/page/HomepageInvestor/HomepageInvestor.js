@@ -95,30 +95,39 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
         const fetchPosts = async () => {
             try {
                 var res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
-                console.log(res.data);
                 res = res.data.filter((e) => {
                     if (e['status'] === "TRM") {
                         return e;
                     }
                 });
-                console.log(res);
+                console.log(res[0]);
                 var res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, config);
-                console.log(res2)
                 res2 = res2.data.filter((e) => {
                     if (e['status'] === "TRM") {
                         return e;
                     }
                 });
-                console.log(res2);
+                res2.forEach((item, i) => {
+                    item.pkPengadaan = item.pk;
+                });
+                console.log(res2[0]);
 
-                var merged = _.merge(_.keyBy(res, 'pk'), _.keyBy(res2, 'toko'));
-                var result = _.values(merged);
+                let result = [];
+                for (let i = 0; i < res2.length; i++) {
+                    for (let j = 0; j < res.length; j++) {
+                        if (res2[i].toko === res[j].pk) {
+                            var merging = Object.assign({}, res2[i], res[j]);
+                            console.log(merging);
+                            result.push(merging)
+                        }
+                    }
+                }
+
                 result = result.filter((e) => {
                     if (e['files']) {
                         return e;
                     }
                 });
-                console.log(result)
 
                 if (result.length === 0) {
                     setEmpty(true);
@@ -132,26 +141,28 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 setLoading(false);
 
                 let allFilter = [];
-                if (filterChoice) {
+                console.log([{ 'value': 123, 'label': 123 }].includes({ 'value': 123, 'label': 123 }));
+                console.log(['a', 'b', 'c'].includes('b'));
+                if (filterChoice.length === 0) {
                     for (let i = 0; i < data.length; i++) {
                         let response = data[i];
                         let value = response['daerah'];
-                        if (allFilter.length > 0) {
-                            for (let j = 0; j < allFilter.length; j++) {
-                                if (allFilter[j]['value'] !== value) {
-                                    allFilter.push({ value: value, label: value })
-                                }
+                        var found = false;
+                        for(let j = 0; j < allFilter.length; j++) {
+                            if (allFilter[j].value == value) {
+                                found = true;
+                                break;
                             }
-                        } else {
-                            allFilter.push({ value: value, label: value })
+                        }
+
+                        if (!found){
+                            allFilter.push({ 'value': value, 'label': value });
+                            console.log('masuk');
+                            console.log({ 'value': value, 'label': value })
                         }
                     }
-                    const uniqueFilter = [...new Set(allFilter)];
-                    setFilterChoice(uniqueFilter);
-                    console.log(uniqueFilter);
+                    setFilterChoice(allFilter);
                 }
-                console.log(filterChoice);
-                // setFilterChoice(filterChoice.concat(allFilter))
             } catch (e) {
                 console.log(e)
                 alert('Terdapat kesalahan pada database. Mohon refresh ulang halaman ini')
@@ -176,10 +187,18 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
         });
         const filterData = filterChange(res, e.value, 'daerah');
 
-        var merged = _.merge(_.keyBy(filterData, 'pk'), _.keyBy(res2, 'toko'));
-        var result = _.values(merged);
+        let result = [];
+        for (let i = 0; i < res2.length; i++) {
+            for (let j = 0; j < filterData.length; j++) {
+                if (res2[i].toko === filterData[j].pk) {
+                    var merging = Object.assign({}, res2[i], filterData[j]);
+                        console.log(merging);
+                    result.push(merging)
+                }
+            }
+        }
         result = result.filter((e) => {
-            if (e['fotoProfilToko']) {
+            if (e['files']) {
                 return e
             }
         });

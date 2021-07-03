@@ -17,7 +17,7 @@ const CardsDaftarToko = ({ posts, loading }) => {
               height : '470px'
             }}
           >
-            <Card.Img variant="top" src={post.files[0]} 
+            <Card.Img variant="top" src={post.fotoProfilToko} 
               style={{
                 height : '200px'
               }}

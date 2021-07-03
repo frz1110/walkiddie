@@ -155,46 +155,48 @@ const RingkasanSales = ({ isAuthenticated, user }) => {
             {
                 !empty &&
                 <div>
-                    <div className='d-flex flex-column justify-content-center align-items-center'>
-                        <div className='ringkasan-sales-rectangle '>
-                            <Row>
-                                <Col sm={8}
-                                    style={{
-                                        margin: 'auto'
-                                    }}>
-                                    <Chart
-                                        width={'600px'}
-                                        height={'400px'}
-                                        chartType="PieChart"
-                                        loader={<div>Loading Chart</div>}
-                                        data={data}
-                                        rootProps={{ 'data-testid': '1' }}
-                                    />
-                                </Col>
-                                <Col sm={4}
-                                    style={{
-                                        margin: 'auto'
-                                    }}>
-                                    <div className="dropdown-ringkasan-sales">
-                                        <Dropdown
-                                            onSelect={handleSelect}
-                                        >
-                                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                                {filter}
-                                            </Dropdown.Toggle>
+                <div className='d-flex flex-column justify-content-center align-items-center'>
+                    <h3>Ringkasan Sales Investasi</h3>
+                    <div className='ringkasan-sales-rectangle '>
+                        
+                     <div className="dropdown-ringkasan-sales">
+                                    <Dropdown
+                                        onSelect={handleSelect}
+                                    >
+                                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                            {filter}
+                                        </Dropdown.Toggle>
 
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item eventKey="Semua">Semua</Dropdown.Item>
-                                                <Dropdown.Item eventKey="Harian">Harian</Dropdown.Item>
-                                                <Dropdown.Item eventKey="Mingguan">Mingguan</Dropdown.Item>
-                                                <Dropdown.Item eventKey="Bulanan">Bulanan</Dropdown.Item>
-                                                <Dropdown.Item eventKey="Tahunan">Tahunan</Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </div>
-                                    <hr></hr>
-
-                                    {deskripsi.map(desk => (
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item eventKey="Semua">Semua</Dropdown.Item>
+                                            <Dropdown.Item eventKey="Harian">Harian</Dropdown.Item>
+                                            <Dropdown.Item eventKey="Mingguan">Mingguan</Dropdown.Item>
+                                            <Dropdown.Item eventKey="Bulanan">Bulanan</Dropdown.Item>
+                                            <Dropdown.Item eventKey="Tahunan">Tahunan</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </div>
+                        <Row>
+                            <Col sm={8} 
+                                style={{                              
+                                    margin: 'auto'
+                                }}>
+                                <Chart
+                                    width={'600px'}
+                                    height={'400px'}
+                                    chartType="PieChart"
+                                    loader={<div>Loading Chart</div>}
+                                    data={data}
+                                    rootProps={{ 'data-testid': '1' }}
+                                />
+                            </Col>
+                            <Col sm={4}
+                                style={{                              
+                                    margin: 'auto'
+                                }}>
+                                <hr></hr>
+                                
+                                {deskripsi.map(desk => (
                                         <div className="profile-details-wrapper flex-wrapper">
                                             <div className="profile-details" id="desc">
                                                 <p>{desk.namaToko}</p>
@@ -203,9 +205,9 @@ const RingkasanSales = ({ isAuthenticated, user }) => {
                                             <div className="profile-details" id="desc">
                                                 <p><NumberFormat value={desk.pendapatan} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></p>
                                             </div>
+                                            <hr></hr>
                                         </div>
-                                    ))}
-                                    <hr></hr>
+                                ))}
                                 </Col>
                             </Row>
                         </div>

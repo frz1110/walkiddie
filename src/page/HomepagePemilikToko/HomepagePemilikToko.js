@@ -54,6 +54,17 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
             title: 'Investasi yang dimiliki',
         },
         {
+            content: 'Daftar toko yang kamu miliki. ',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#h-p-toko',
+            title: 'Toko yang dimiliki',
+        },
+        {
             content: <h4>Selesai</h4>,
             placement: 'center',
             target: 'body',
@@ -97,15 +108,21 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                 setDaftarPengadaanLoading(true);
                 var res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
                 res = res.data.filter((e) => {
-                    if (e['status'] === "TRM") {
+                    if (e['status'] === "TRM" && e['owner'] === user.email) {
                         return e;
                     }
                 });
+                console.log(user.email);
+                console.log(res[0]);
                 var res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, config);
                 res2 = res2.data.filter((e) => {
                     if (e['status'] === "TRM") {
                         return e;
                     }
+                });
+                console.log(res2[0]);
+                res2.forEach((item, i) => {
+                    item.pkPengadaan = item.pk;
                 });
 
                 console.log("api/toko")
@@ -113,9 +130,16 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                 console.log("api/pengadaan")
                 console.log(res2)
 
-                var merged = _.merge(_.keyBy(res, 'pk'), _.keyBy(res2, 'toko'));
-                // var merged = _.merge(_.keyBy(res.data, 'pk'), _.keyBy(res2.data, 'toko'));
-                var result = _.values(merged);
+                let result = [];
+                for (let i = 0; i < res2.length; i++) {
+                    for (let j = 0; j < res.length; j++) {
+                        if (res2[i].toko === res[j].pk) {
+                            var merging = Object.assign({}, res2[i], res[j]);
+                            console.log(merging);
+                            result.push(merging)
+                        }
+                    }
+                }
                 result = result.filter((e) => {
                     if (e['files']) {
                         return e;
@@ -126,9 +150,9 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                 console.log(result)
 
 
-                setDaftarTokoItems(result);
+                setDaftarTokoItems(res);
                 setDaftarTokoLoading(false);
-                setDaftarPengadaanItems(res2);
+                setDaftarPengadaanItems(result);
                 setDaftarPengadaanLoading(false);
             } catch(e) {
                 console.log(e)
@@ -165,7 +189,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                     <Link to="/daftar-toko">
                         <img id="h-p-daftarkantoko" src={DaftarkanToko} alt="Daftarkan-toko" className="investor-card-menu" />
                     </Link>
-                    <Link to="/">
+                    <Link to="/ringkasan-sales">
                         <img id="h-p-laporan" src={LihatInvestasi} alt="Lihat-investasi" className="investor-card-menu" />
                     </Link>
                 </div>
@@ -189,7 +213,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                     </div>
                 </div>
 
-                <div className="list-pemilik-toko mt-5">
+                <div id="h-p-toko" className="list-pemilik-toko mt-5">
                     <div className="">
                         <h3 className="text-align-left pemilik-toko-h3" >Daftar Toko</h3>
                         <CardsDaftarToko posts={daftarTokoCurrentPosts} loading={daftarTokoLoading} />

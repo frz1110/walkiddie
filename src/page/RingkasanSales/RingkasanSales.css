@@ -47,8 +47,10 @@
 }
 
 .dropdown-ringkasan-sales {
-    float: right;
+    right: 0px;
     border: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 
 #dropdown-basic.dropdown-toggle.btn.btn-success{
