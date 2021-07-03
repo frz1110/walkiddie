@@ -83,7 +83,6 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
     }, [toko]);
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
-    if (userData.role !== "Investor") return <Redirect to="/" />
 
     return (
         <div className="detail-pengadaan-wrapper">
@@ -136,10 +135,10 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
                         </Row>
                         <Row className="justify-content-center">
                             <div className="col-sm">
-                                {!disable && <a href={"/investasi/"+match.params.pk}><button className="detail-pengadaan-invest-button" type="button">
+                                {!disable && (userData.role === 'Investor') && <a href={"/investasi/"+match.params.pk}><button className="detail-pengadaan-invest-button" type="button">
                                     Ikut Investasi
                                 </button></a>}
-                                {disable && <button className="detail-pengadaan-invest-button" type="button" disabled>
+                                {disable && (userData.role === 'Investor') && <button className="detail-pengadaan-invest-button" type="button" disabled>
                                     Ikut Investasi
                                 </button>}
                             </div>

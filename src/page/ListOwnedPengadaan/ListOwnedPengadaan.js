@@ -126,6 +126,10 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
         }
     }
 
+    function roundingFloat(number){
+        return Number(parseFloat(number).toFixed(2))
+    }
+
     useEffect(() => {
         fetchPengadaanData();
     }, []);
@@ -135,9 +139,32 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
     }, [pengadaan]);
 
     useEffect(() => {
-        var result = _.values(_.merge(_.keyBy(toko, 'pk'), _.keyBy(pengadaan, 'toko')));
-        var result2 = _.values(_.merge(_.keyBy(investasi, 'pengadaan'), _.keyBy(pengadaan, 'pk')));
-        var resultAll = _.values(_.merge(_.keyBy(result, 'pk'), _.keyBy(result2, 'pk')));
+        var merge1 = []
+        for (let i = 0; i < investasi.length; i++) {
+            for (let j = 0; j < pengadaan.length; j++) {
+                if (investasi[i].pengadaan === pengadaan[j].pk) {
+                    var merging = Object.assign({}, investasi[i], pengadaan[j]);
+                    merge1.push(merging);
+                }
+            }
+        }
+        console.log(merge1);
+        var resultAll = []
+        for (let i = 0; i < merge1.length; i++) {
+            for (let j = 0; j < toko.length; j++) {
+                if (merge1[i].toko === toko[j].pk) {
+                    var merging = Object.assign({}, merge1[i], toko[j]);
+                    resultAll.push(merging);
+                    break;
+                }
+            }
+        }
+        resultAll = resultAll.filter((e) => {
+            if (e['investor'] === user.email) {
+                return e;
+            }
+        });
+        console.log(resultAll);
         setMerged(resultAll)
     }, [toko]);
 
@@ -191,7 +218,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                                     <div className="col-8 owned-pengadaan-store-desc-saham-wrapper">
                                         <p className="owned-pengadaan-store-desc">{item.deskripsiToko}</p>
                                         <div className="owned-pengadaan-store-saham">
-                                            <p><span style={{ fontWeight: "500" }}>Total saham dimiliki:</span> <br />{(item.nominal / item.totalBiaya) * 100}%</p>
+                                            <p><span style={{ fontWeight: "500" }}>Total saham dimiliki:</span> <br />{roundingFloat(item.nominal / item.totalBiaya) * 100}%</p>
                                             <Link to={{ pathname: "/detail-pengadaan/"+item.pengadaan }} style={{color: "#146A5F"}}><p className="detail-pengadaan-text">Lihat Detail Pengadaan<ChevronRight style={{paddingBottom: '3px'}}/></p></Link>
                                         </div>
 

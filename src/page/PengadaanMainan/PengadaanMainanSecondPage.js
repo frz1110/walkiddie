@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { Link, Redirect } from 'react-router-dom';
 import { DateRangePicker } from 'react-dates';
@@ -55,36 +55,17 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
     const [focusedInput, setFocusedInput] = useState(null);
     const [countPaket, setCountPaket] = useState(new Array(25).fill({ value: 1 }));
 
-    if (requestSent) {
-        setRequestSent(false);
-        return <Redirect to='/' />
-    }
-
-    if (!formData['totalBiaya']) {
-        let totalSemuaBiaya = 0;
-        let response;
-        for (let i = 0; i < totalBiayaMainan.length; i++) {
-            response = totalBiayaMainan[i];
-            totalSemuaBiaya += response.value;
-        }
-        setFormData({ ...formData, totalBiaya: totalSemuaBiaya })
-    }
+    console.log(formData.paketMainan);
 
     const updatePaketMainan = () => {
         let semuaMainan = [];
         for (let i = 0; i < daftarMainan.length; i++) {
-            if (formData['selectedCheckboxes'][(daftarMainan[i].id) - 1] === true && countPaket[daftarMainan[i].id - 1].value > 0) {
-                semuaMainan.push({ 'mainan': daftarMainan[i].id, 'kuantitas': countPaket[daftarMainan[i].id - 1].value })
+            if (formData['selectedCheckboxes'][i] === true && countPaket[i].value > 0) {
+                semuaMainan.push({ 'mainan': daftarMainan[i].id, 'kuantitas': countPaket[i].value })
             }
         }
         console.log(semuaMainan);
         setFormData({ ...formData, paketMainan: semuaMainan });
-    }
-
-    console.log(daftarToko);
-
-    if (!formData['paketMainan']) {
-        updatePaketMainan();
     }
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -108,7 +89,6 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
     const handleChangeFile = (event) => {
         setFormData({ ...formData, mediaTokoList: event.target.files });
     }
-    console.log(formData.paketMainan);
 
     const updateCountMainan = (id, count) => {
         console.log(countPaket);
@@ -117,8 +97,10 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
             { value: count },
             ...countPaket.slice(id + 1)
         ]);
+        console.log(countPaket);
         updatePaketMainan();
     }
+    console.log(countPaket);
 
     const hapus = (id, hargaMainan) => {
         updateCountMainan(id - 1, 0);
@@ -126,8 +108,10 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
         let totalSemuaBiaya = 0;
         let response;
         for (let i = 0; i < totalBiayaMainan.length; i++) {
-            response = totalBiayaMainan[i];
-            totalSemuaBiaya += response.value;
+            if (formData['selectedCheckboxes'][i] === true) {
+                response = totalBiayaMainan[i];
+                totalSemuaBiaya += response.value;
+            }
         }
         setFormData({
             ...formData,
@@ -149,10 +133,13 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
         let totalSemuaBiaya = 0;
         let response;
         for (let i = 0; i < totalBiayaMainan.length; i++) {
-            response = totalBiayaMainan[i];
-            totalSemuaBiaya += response.value;
+            if (formData['selectedCheckboxes'][i] === true) {
+                response = totalBiayaMainan[i];
+                totalSemuaBiaya += response.value;
+            }
         }
         setFormData({ ...formData, totalBiaya: totalSemuaBiaya });
+        console.log(totalSemuaBiaya);
         console.log(countPaket);
         console.log(totalBiayaMainan);
     }
@@ -164,10 +151,13 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
         let totalSemuaBiaya = 0;
         let response;
         for (let i = 0; i < totalBiayaMainan.length; i++) {
-            response = totalBiayaMainan[i];
-            totalSemuaBiaya += response.value;
+            if (formData['selectedCheckboxes'][i] === true) {
+                response = totalBiayaMainan[i];
+                totalSemuaBiaya += response.value;
+            }
         }
         setFormData({ ...formData, totalBiaya: totalSemuaBiaya });
+        console.log(totalSemuaBiaya);
         console.log(countPaket);
         console.log(totalBiayaMainan);
     }
@@ -191,6 +181,35 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
         }
     };
 
+    useEffect(() => {
+        updatePaketMainan();
+    }, [countPaket]);
+
+    
+
+    useEffect(() => {
+        if(!formData['paketMainan']) {
+            updatePaketMainan();
+        }
+
+        if(!formData['totalBiaya']) {
+            let totalSemuaBiaya = 0;
+            let response;
+            for (let i = 0; i < totalBiayaMainan.length; i++) {
+                if (formData['selectedCheckboxes'][i] === true){
+                    response = totalBiayaMainan[i];
+                    totalSemuaBiaya += response.value;
+                }
+            }
+            setFormData({ ...formData, totalBiaya: totalSemuaBiaya })
+        }
+
+        if (requestSent) {
+            setRequestSent(false);
+            return <Redirect to='/' />
+        }
+    }, [requestSent]);
+
     const postPengadaanMainan = () => {
         let semuaMainan = [];
         for (let i = 0; i < daftarMainan.length; i++) {
@@ -207,9 +226,6 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
 
             formDataToSend.append('toko', formData['pkToko']);
             formDataToSend.append('daftarMainan', JSON.stringify(formData['paketMainan']));
-            // for(let i=0; i < formData['paketMainan'].length; i++){
-            //     formDataToSend.append('daftarMainan', formData['paketMainan'][i]);
-            // }
             console.log(formDataToSend.get('daftarMainan'))
             for (let i = 0; i < formData['mediaTokoList'].length; i++) {
                 formDataToSend.append('filePengadaan', formData['mediaTokoList'][i], formData['mediaTokoList'][i].name);
@@ -249,6 +265,8 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                     console.log(error);
                     alert("Terdapat kesalahan. Mohon refresh ulang halaman ini")
                 });
+                
+            setRequestSent(true);
         } else {
             console.log('missing token');
             alert('Terdapat kesalahan pada autentikasi akun anda. Anda dapat melakukan refresh pada halaman ini')

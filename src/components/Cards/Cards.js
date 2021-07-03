@@ -12,7 +12,7 @@ const Cards = ({ posts, loading }) => {
   return (
     <CardColumns>
       {posts.map(post => (
-        <a href={"/detail-pengadaan/"+post.toko} className="custom-card-walkiddie">
+        <a href={"/detail-pengadaan/"+post.pkPengadaan} className="custom-card-walkiddie">
           {(post.danaTerkumpul !== post.totalBiaya) &&
           <Card className="card-flex-item" key={post.pk}
             style={{

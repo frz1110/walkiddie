@@ -62,6 +62,8 @@ const PengadaanMainanFirstPage = ({ daftarMainan, setState, formData, navigation
         setState(updatedCheckedState);
     };
 
+    console.log(checkedState);
+
     function stateMainan() {
         let state = false;
         for (let i = 0; i < checkedState.length; i++) {
@@ -135,9 +137,12 @@ const PengadaanMainanFirstPage = ({ daftarMainan, setState, formData, navigation
                             {daftarMainan.map(mainan => (
                                 <Card className="card-flex-item2" 
                                     key={mainan.id}
+                                    style={{
+                                      height : '470px'
+                                    }}
                                 >
                                 {/* <Card.Img variant="top" src={mainan.gambar_mainan} alt="https://i.stack.imgur.com/y9DpT.jpg" /> */}
-                                <Card.Img className="card-pengadaan-img" variant="top" src="mainan.gambar_mainan"/>
+                                <Card.Img className="card-pengadaan-img" variant="top" src={mainan.gambar_mainan}/>
                                 <Card.Body>
                                     <Card.Title className="card-content-limit card-title">
                                     {mainan.nama_mainan}

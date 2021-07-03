@@ -52,8 +52,8 @@ const PengadaanMainan = ({ isAuthenticated, user }) => {
                 }
             }
             setDaftarToko(allToko);
-            console.log(allToko);
-            console.log(daftarToko);
+            // console.log(allToko);
+            // console.log(daftarToko);
         } catch {
             alert('Terdapat kesalahan pada database. Mohon refresh ulang halaman ini')
         }
@@ -66,6 +66,7 @@ const PengadaanMainan = ({ isAuthenticated, user }) => {
         try {
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/mainan/`, config);
             setDaftarMainan(res.data);
+            console.log(res.data);
             let totalBiaya = [];
             for(let i=0; i < res.data.length; i++){
                 let response = res.data[i];

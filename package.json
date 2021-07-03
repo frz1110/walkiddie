@@ -90,7 +90,7 @@
       "src/**/*.{js,jsx}",
       "!src/index.js",
       "!src/reportWebVitals.js",
-      "!src/DetailInvestasi.js",
+      "!src/page/DetailInvestasi/*.js",
       "!src/page/DaftarToko/*.js",
       "!src/page/DetailPengadaan/*.js",
       "!src/page/HomepageInvestor/*.js",
