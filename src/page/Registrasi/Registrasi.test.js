@@ -49,21 +49,6 @@ describe('<Registrasi />', () => {
         expect(getByText(/Investor/)).toBeInTheDocument();
     });
 
-    it('renders correctly', () => {
-        const mockSignUp = jest.fn()
-        const mockAuthenticate = jest.fn()
-        const initialState = { auth: {isAuthenticated: false}}
-        const store = mockStore(initialState)
-        const { getByText } = render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <Registrasi role="Mitra" signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
-                </BrowserRouter>
-            </Provider>);
-        expect(getByText(/Buat Akun Baru/)).toBeInTheDocument();
-        expect(getByText(/Mitra/)).toBeInTheDocument();
-    });
-
     it('should redirect if authenticated', () => {
         let loc;
         const mockSignUp = jest.fn()

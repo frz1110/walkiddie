@@ -130,7 +130,7 @@ describe('signup', () => {
     axios.post.mockImplementationOnce(() => Promise.resolve(signupData));
 
     const store = mockStore({})
-    return store.dispatch(actions.signup("Udma", "Wijaya", "ajiinisti12@gmail.com", "MyAwesome123", "MyAwesome123")).then(() => {
+    return store.dispatch(actions.signup("Udma", "Wijaya", "ajiinisti12@gmail.com", "MyAwesome123", "MyAwesome123","Investor")).then(() => {
       expect(store.getActions()).toEqual(expectedActions)
     })
   })
@@ -171,7 +171,7 @@ describe('signup mitra', () => {
     axios.post.mockImplementationOnce(() => Promise.resolve(signupData));
 
     const store = mockStore({})
-    return store.dispatch(actions.signupMitra("Udma", "Wijaya", "ajiinisti12@gmail.com", "MyAwesome123", "MyAwesome123")).then(() => {
+    return store.dispatch(actions.signup("Udma", "Wijaya", "ajiinisti12@gmail.com", "MyAwesome123", "MyAwesome123","Mitra")).then(() => {
       expect(store.getActions()).toEqual(expectedActions)
     })
   })
@@ -185,7 +185,7 @@ describe('signup mitra', () => {
     axios.post.mockImplementationOnce(() => Promise.reject());
 
     const store = mockStore({})
-    return store.dispatch(actions.signupMitra("Udma", "Wijaya", "ajiinisti12@gmail.com", "MyAwesome123", "MyAwesome123")).then(() => {
+    return store.dispatch(actions.signup("Udma", "Wijaya", "ajiinisti12@gmail.com", "MyAwesome123", "MyAwesome123","Mitra")).then(() => {
       expect(store.getActions()).toEqual(expectedActions)
     })
 
