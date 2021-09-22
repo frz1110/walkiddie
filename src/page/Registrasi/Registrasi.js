@@ -1,19 +1,19 @@
-import '../RegistrasiInvestor/RegistrasiInvestor.css';
+import './Registrasi.css';
 import '../../components/Form/LoginForm.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
-import { signupMitra } from '../../actions/auth';
+import { signup } from '../../actions/auth';
 import { ChevronLeft } from 'react-feather';
 import loadingIcon from '../../media/loading-icon.jpg';
 import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
-const RegistrasiMitra = ({ signupMitra, isAuthenticated }) => {
+const Registrasi = ({ signup, isAuthenticated, role }) => {
     const onBoardingSteps = [
         {
-            content: <h5>Petunjuk pembuatan akun mitra</h5>,
+            content: <h5>Petunjuk pembuatan akun investor</h5>,
             locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
             placement: 'center',
             target: 'body',
@@ -26,8 +26,8 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated }) => {
                     width: 300,
                 },
             },
-            target: '.regist-invest-google-button',
-            title: 'Daftar sebagai mitra',
+            target: '#login-google',
+            title: 'Daftar sebagai investor',
         },
         {
             content: 'Isi semua data yang diperlukan.',
@@ -38,7 +38,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated }) => {
                 },
             },
             target: '.regist-centered',
-            title: 'Daftar sebagai mitra',
+            title: 'Daftar sebagai investor',
         },
         {
             content: <p>Tekan "Buat Akun". Lalu, <b>cek email masuk kamu</b> untuk melakukan aktivasi akun.</p>,
@@ -49,10 +49,10 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated }) => {
                 },
             },
             target: '.regist-invest-button',
-            title: 'Daftar sebagai mitra',
+            title: 'Daftar sebagai investor',
         },
         {
-            content: 'Akun mitra kamu telah berhasil dibuat!',
+            content: 'Akun investor kamu telah berhasil dibuat!',
             placement: 'center',
             styles: {
                 options: {
@@ -60,7 +60,7 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated }) => {
                 },
             },
             target: 'body',
-            title: 'Daftar sebagai mitra',
+            title: 'Daftar sebagai investor',
         },
         {
             content: <h4>Selesai</h4>,
@@ -81,13 +81,14 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated }) => {
     const { first_name, last_name, email, password, re_password } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    
+    console.log(role);
 
     const onSubmit = async e => {
         e.preventDefault();
-
         if (password === re_password) {
             setLoading(true);
-            const res = await signupMitra(first_name, last_name, email, password, re_password);
+            const res = await signup(first_name, last_name, email, password, re_password, role);
             if (check(first_name, password) || check(last_name, password) || check(email, password)
                 || check(password, first_name) || check(password, last_name) || check(password, email)) {
                 alert('Password yang anda masukan terlalu mirip dengan email maupun nama anda')
@@ -130,14 +131,18 @@ const RegistrasiMitra = ({ signupMitra, isAuthenticated }) => {
         <div id="regist-invest-signup">
             <WalkiddieOnboarding steps={onBoardingSteps} />
 
-            <h3 className="regist-invest-title" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left" />Buat Akun Baru <span style={{ color: "#146A5F" }}>Mitra</span></h3>
+            <h3 className="regist-invest-title" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left" />Buat Akun Baru <span style={{ color: "#146A5F" }}>{role}</span></h3>
             {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
             <div className="regist-invest-square-box">
                 <Row className="justify-content-center">
-                    <button className="submit-button regist-invest-google-button" type="button">
-                        <img className="regist-invest-google-image" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google.png" />
-                        <span style={{ marginLeft: "35px" }}>
-                            Daftar dengan Google
+                    <button style={{ width: "280px", height: "52px", fontSize: "15px" }} id="login-google">
+                        <img
+                            id="google-logo"
+                            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                            alt="google logo"
+                        />
+                        <span>
+                            Daftar dengan google
                         </span>
                     </button>
                 </Row>
@@ -267,4 +272,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, { signupMitra })(RegistrasiMitra);
+export default connect(mapStateToProps, { signup })(Registrasi);

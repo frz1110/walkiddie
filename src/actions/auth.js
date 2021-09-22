@@ -17,6 +17,7 @@ import {
 } from './types';
 import axios from 'axios';
 
+
 export const post_profile = async (email, full_name, address, phone_number, ktp_number, birth_date, profile_picture) => {
     var formDataToSend = new FormData();
     const config = {
@@ -226,47 +227,17 @@ export const logout = () => ({
     type: LOGOUT
 })
 
-export const signup = (first_name, last_name, email, password, re_password) => async dispatch => {
+export const signup = (first_name, last_name, email, password, re_password, role) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     };
 
-    const body = JSON.stringify({ first_name, last_name, email, password, re_password, "role": "Investor" });
+    const body = JSON.stringify({ first_name, last_name, email, password, re_password, role});
 
     try {
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/auth/users/`, body, config);
-        // const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/`, body, config);
-        dispatch({
-            type: SIGNUP_SUCCESS,
-            payload: res.data
-        });
-        return {
-            signup: true
-        }
-    } catch (err) {
-        dispatch({
-            type: SIGNUP_FAIL
-        })
-        return {
-            signup: false
-        }
-    }
-};
-
-export const signupMitra = (first_name, last_name, email, password, re_password) => async dispatch => {
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
-    const body = JSON.stringify({ first_name, last_name, email, password, re_password, "role": "Mitra" });
-
-    try {
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/auth/users/`, body, config);
-        // const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/`, body, config);
         dispatch({
             type: SIGNUP_SUCCESS,
             payload: res.data

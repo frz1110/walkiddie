@@ -11,8 +11,7 @@ import HomepagePemilikToko from './page/HomepagePemilikToko/HomepagePemilikToko'
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
-import RegistrasiInvestor from './page/RegistrasiInvestor/RegistrasiInvestor';
-import RegistrasiMitra from './page/RegistrasiMitra/RegistrasiMitra';
+import Registrasi from './page/Registrasi/Registrasi';
 import Profile from './page/Profile/Profile';
 import Login from './page/Login';
 import ResetPassword from './page/ResetPassword/ResetPassword';
@@ -43,10 +42,13 @@ function App() {
                 <Login />
               </Route>
               <Route path="/daftar-investor">
-                <RegistrasiInvestor />
+                <Registrasi role="Investor" />
               </Route>
               <Route path="/daftar-mitra">
-                <RegistrasiMitra />
+                <Registrasi role="Mitra" />
+              </Route>
+              <Route path="/daftar-operator">
+                <Registrasi role="Operator" />
               </Route>
               <Route path="/bantuan">
                 <OnboardingFaq />
