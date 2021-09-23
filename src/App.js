@@ -42,13 +42,10 @@ function App() {
                 <Login />
               </Route>
               <Route path="/daftar-investor">
-                <Registrasi role="Investor" />
+                <Registrasi />
               </Route>
               <Route path="/daftar-mitra">
-                <Registrasi role="Mitra" />
-              </Route>
-              <Route path="/daftar-operator">
-                <Registrasi role="Operator" />
+                <Registrasi />
               </Route>
               <Route path="/bantuan">
                 <OnboardingFaq />

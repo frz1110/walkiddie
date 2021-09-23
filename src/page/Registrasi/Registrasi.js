@@ -10,7 +10,7 @@ import { ChevronLeft } from 'react-feather';
 import loadingIcon from '../../media/loading-icon.jpg';
 import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
-const Registrasi = ({ signup, isAuthenticated, role }) => {
+const Registrasi = ({ signup, isAuthenticated }) => {
     const onBoardingSteps = [
         {
             content: <h5>Petunjuk pembuatan akun investor</h5>,
@@ -82,13 +82,12 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     
-    console.log(role);
 
     const onSubmit = async e => {
         e.preventDefault();
         if (password === re_password) {
             setLoading(true);
-            const res = await signup(first_name, last_name, email, password, re_password, role);
+            const res = await signup(first_name, last_name, email, password, re_password);
             if (check(first_name, password) || check(last_name, password) || check(email, password)
                 || check(password, first_name) || check(password, last_name) || check(password, email)) {
                 alert('Password yang anda masukan terlalu mirip dengan email maupun nama anda')
@@ -131,7 +130,7 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
         <div id="regist-invest-signup">
             <WalkiddieOnboarding steps={onBoardingSteps} />
 
-            <h3 className="regist-invest-title" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left" />Buat Akun Baru <span style={{ color: "#146A5F" }}>{role}</span></h3>
+            <h3 className="regist-invest-title" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left" />Buat Akun Baru <span style={{ color: "#146A5F" }}></span></h3>
             {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
             <div className="regist-invest-square-box">
                 <Row className="justify-content-center">
