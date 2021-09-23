@@ -49,7 +49,43 @@ describe('<Registrasi />', () => {
         expect(getByText(/Investor/)).toBeInTheDocument();
     });
 
+    it('renders operator page correctly', () => {
+        const mockSignUp = jest.fn()
+        const mockAuthenticate = jest.fn()
+        const initialState = { auth: {isAuthenticated: false}}
+        const store = mockStore(initialState)
+        const { getByText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Registrasi role="Operator" signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                </BrowserRouter>
+            </Provider>);
+        expect(getByText(/Buat Akun Baru/)).toBeInTheDocument();
+        expect(getByText(/Operator/)).toBeInTheDocument();
+    });
 
+    it('should redirect if authenticated', () => {
+        let loc;
+        const mockSignUp = jest.fn()
+        const initialState = { auth: {isAuthenticated: true}}
+        const store = mockStore(initialState)
+        render(
+            <Provider store={store}>
+                <BrowserRouter>
+                <Registrasi signup={mockSignUp} isAuthenticated={true} role="Operator"/>
+                    <Route
+                    path="*"
+                    render={({location}) => {
+                        loc = location;
+                        return null;
+                    }}
+                    />
+                </BrowserRouter>
+            </Provider>
+        );
+        expect(loc.pathname).toBe('/');
+      })
+    
 
     test('button should have the corrrect link', () => {
         const mockSignUp = jest.fn()
@@ -96,6 +132,84 @@ describe('<Registrasi />', () => {
         expect(screen.getByLabelText('Konfirmasi kata sandi')).toHaveValue('MyAwesome123');
     });
 
+    test('submit through form', () => {
+        const mockSignUp = jest.fn()
+        const mockAuthenticate = jest.fn()
+        const initialState = { auth: {isAuthenticated: false}}
+        const store = mockStore(initialState)
+        const { getByLabelText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                </BrowserRouter>
+            </Provider>);
+    
+        const signupData = {
+             data: {
+                first_name: "Udma", 
+                last_name: "Wijaya", 
+                role: "Operator", 
+                email: "ajiinisti12@gmail.com", 
+                id: 1
+            } 
+        }
+        const nama_depan = getByLabelText('Nama Depan');
+        const nama_belakang = getByLabelText('Nama Belakang');
+        const email = getByLabelText('Email');
+        const password = getByLabelText('Kata Sandi');
+        const re_password = getByLabelText('Konfirmasi kata sandi');
+        
+        axios.post.mockImplementationOnce(() => Promise.resolve(signupData));
+        
+        userEvent.type(nama_depan, "doe");
+        userEvent.type(nama_belakang, 'joe');
+        userEvent.type(email, 'doe@joe.com');
+        userEvent.type(password, 'MyAwesome123');
+        userEvent.type(re_password, 'MyAwesome123');
+        userEvent.click(screen.getByText('Buat Akun'));
+
+        expect(axios.post).toHaveBeenCalledTimes(1);
+    });
+
+    test('Fail submit through form', () => {
+        const mockSignUp = jest.fn()
+        const mockAuthenticate = jest.fn()
+        const initialState = { auth: {isAuthenticated: false}}
+        const store = mockStore(initialState)
+        const { getByLabelText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                </BrowserRouter>
+            </Provider>);
+            
+        const signupData = {
+             data: {
+                first_name: "Udma", 
+                last_name: "Wijaya", 
+                role: "Operator", 
+                email: "ajiinisti12@gmail.com", 
+                id: 1
+            } 
+        }
+
+        const nama_depan = getByLabelText('Nama Depan');
+        const nama_belakang = getByLabelText('Nama Belakang');
+        const email = getByLabelText('Email');
+        const password = getByLabelText('Kata Sandi');
+        const re_password = getByLabelText('Konfirmasi kata sandi');
+        
+        axios.post.mockImplementationOnce(() => Promise.reject(signupData));
+        
+        userEvent.type(nama_depan, "doe");
+        userEvent.type(nama_belakang, 'joe');
+        userEvent.type(email, 'doe@joe.com');
+        userEvent.type(password, 'MyAwesome123');
+        userEvent.type(re_password, 'MyAwesome123');
+        userEvent.click(screen.getByText('Buat Akun'));
+
+        expect(axios.post).toHaveBeenCalledTimes(1);
+    });
 
     test('back button work correctly', () => {
         const mockSignUp = jest.fn()
@@ -147,6 +261,7 @@ describe('<Registrasi />', () => {
     });
 
     test('Fail SignUp Password to similar', () => {
+        
         const mockSignUp = jest.fn()
         const mockAuthenticate = jest.fn()    
         const initialState = { auth: {isAuthenticated: false}}
