@@ -25,6 +25,7 @@ import OnboardingFaq from './page/OnboardingFaq/OnboardingFaq';
 import DetailInvestasi from './page/DetailInvestasi/DetailInvestasi';
 
 import store from './store';
+import HomepageOperator from './page/HomepageOperator/HomepageOperator';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -78,6 +79,9 @@ function App() {
                 </Route>
                 <Route path="/investor">
                   <ListOwnedPengadaan />
+                </Route>
+                <Route path="/operator">
+                  <HomepageOperator isAuthenticated={true} />
                 </Route>
                 <Route path="/reset-password">
                   <ResetPassword />
