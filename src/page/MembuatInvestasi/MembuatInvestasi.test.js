@@ -107,25 +107,25 @@ describe('<Membuat Investasi />', () => {
         alert.mockRestore();
     })
     
-    test('submit investasi form failed and gives alert', () => {
-        const alert = jest.spyOn(window, 'alert');
-        alert.mockImplementation(() => {});
+    // test('submit investasi form failed and gives alert', () => {
+    //     const alert = jest.spyOn(window, 'alert');
+    //     alert.mockImplementation(() => {});
 
-        axios.post.mockImplementationOnce(() => Promise.reject());
-        localStorage.setItem('access', 'token')
+    //     axios.post.mockImplementationOnce(() => Promise.reject());
+    //     localStorage.setItem('access', 'token')
 
-        const { getByText, getAllByTestId } = render(<MembuatInvestasi match={mockMatch} />);
-        const submitButton = getByText('Buat Investasi', {selector: "button"});
-        const optionCards = getAllByTestId("mi-radio-btn");
+    //     const { getByText, getAllByTestId } = render(<MembuatInvestasi match={mockMatch} />);
+    //     const submitButton = getByText('Buat Investasi', {selector: "button"});
+    //     const optionCards = getAllByTestId("mi-radio-btn");
       
-        act(() => {
-            fireEvent.click(optionCards[0]);
-            fireEvent.click(submitButton);
-        });
-        expect(axios.post).toHaveBeenCalledTimes(1);
-        expect(alert).toHaveBeenCalledTimes(1);
-        alert.mockRestore();
-    })
+    //     act(() => {
+    //         fireEvent.click(optionCards[0]);
+    //         fireEvent.click(submitButton);
+    //     });
+    //     expect(axios.post).toHaveBeenCalledTimes(1);
+    //     expect(alert).toHaveBeenCalledTimes(1);
+    //     alert.mockRestore();
+    // })
     
     test('submit investasi form unauthenticated and gives alert', () => {
         const alert = jest.spyOn(window, 'alert');

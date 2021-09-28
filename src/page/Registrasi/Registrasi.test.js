@@ -1,4 +1,4 @@
-import RegistrasiMitra from './RegistrasiMitra';
+import Registrasi from './Registrasi';
 import { render,screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
@@ -13,7 +13,7 @@ jest.mock('axios')
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 
-describe('<RegistrasiMitra />', () => {
+describe('<Registrasi />', () => {
 
     it('renders the right contents', () => {
         const mockSignUp = jest.fn()
@@ -23,7 +23,7 @@ describe('<RegistrasiMitra />', () => {
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                    <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
                 </BrowserRouter>
             </Provider>);
 
@@ -34,7 +34,7 @@ describe('<RegistrasiMitra />', () => {
         expect(screen.getByLabelText(/Konfirmasi kata sandi/)).toBeInTheDocument();
     });
 
-    it('renders correctly', () => {
+    it('renders investor page correctly', () => {
         const mockSignUp = jest.fn()
         const mockAuthenticate = jest.fn()
         const initialState = { auth: {isAuthenticated: false}}
@@ -42,11 +42,26 @@ describe('<RegistrasiMitra />', () => {
         const { getByText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                    <Registrasi role="Investor" signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
                 </BrowserRouter>
             </Provider>);
         expect(getByText(/Buat Akun Baru/)).toBeInTheDocument();
-        expect(getByText(/Mitra/)).toBeInTheDocument();
+        expect(getByText(/Investor/)).toBeInTheDocument();
+    });
+
+    it('renders operator page correctly', () => {
+        const mockSignUp = jest.fn()
+        const mockAuthenticate = jest.fn()
+        const initialState = { auth: {isAuthenticated: false}}
+        const store = mockStore(initialState)
+        const { getByText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Registrasi role="Operator" signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                </BrowserRouter>
+            </Provider>);
+        expect(getByText(/Buat Akun Baru/)).toBeInTheDocument();
+        expect(getByText(/Operator/)).toBeInTheDocument();
     });
 
     it('should redirect if authenticated', () => {
@@ -57,7 +72,7 @@ describe('<RegistrasiMitra />', () => {
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                <RegistrasiMitra signup={mockSignUp} isAuthenticated={true}/>
+                <Registrasi signup={mockSignUp} isAuthenticated={true} role="Operator"/>
                     <Route
                     path="*"
                     render={({location}) => {
@@ -80,7 +95,7 @@ describe('<RegistrasiMitra />', () => {
         const { getByText } = render(
         <Provider store={store}>
             <BrowserRouter>
-                <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
             </BrowserRouter>
         </Provider>);
         expect(getByText('Masuk disini')).toHaveAttribute("href", '/masuk');
@@ -94,7 +109,7 @@ describe('<RegistrasiMitra />', () => {
         const { getByLabelText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                    <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
                 </BrowserRouter>
             </Provider>);
             
@@ -125,20 +140,19 @@ describe('<RegistrasiMitra />', () => {
         const { getByLabelText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                    <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
                 </BrowserRouter>
             </Provider>);
-            
+    
         const signupData = {
              data: {
                 first_name: "Udma", 
                 last_name: "Wijaya", 
-                role: "Mitra", 
+                role: "Operator", 
                 email: "ajiinisti12@gmail.com", 
                 id: 1
             } 
         }
-
         const nama_depan = getByLabelText('Nama Depan');
         const nama_belakang = getByLabelText('Nama Belakang');
         const email = getByLabelText('Email');
@@ -165,7 +179,7 @@ describe('<RegistrasiMitra />', () => {
         const { getByLabelText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                    <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
                 </BrowserRouter>
             </Provider>);
             
@@ -173,7 +187,7 @@ describe('<RegistrasiMitra />', () => {
              data: {
                 first_name: "Udma", 
                 last_name: "Wijaya", 
-                role: "Mitra", 
+                role: "Operator", 
                 email: "ajiinisti12@gmail.com", 
                 id: 1
             } 
@@ -196,6 +210,29 @@ describe('<RegistrasiMitra />', () => {
 
         expect(axios.post).toHaveBeenCalledTimes(1);
     });
+
+    test('back button work correctly', () => {
+        const mockSignUp = jest.fn()
+        const mockAuthenticate = jest.fn()
+        const initialState = { auth: {isAuthenticated: false}}
+
+        localStorage.setItem('access', 'token')
+        const store = mockStore(initialState)
+        const historyBack = jest.spyOn(window.history, 'back');
+        historyBack.mockImplementation(() => { });
+
+        const { getByText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                </BrowserRouter>
+            </Provider>);
+        const backButton = getByText('Buat Akun Baru', { selector: "h3" });
+        userEvent.click(backButton);
+
+        expect(historyBack).toHaveBeenCalledTimes(1);
+        historyBack.mockRestore()
+    })
     
     test('Fail SignUp Password Not Same', () => {
         const mockSignUp = jest.fn()
@@ -205,7 +242,7 @@ describe('<RegistrasiMitra />', () => {
         const { getByLabelText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                    <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
                 </BrowserRouter>
             </Provider>);
             
@@ -224,6 +261,7 @@ describe('<RegistrasiMitra />', () => {
     });
 
     test('Fail SignUp Password to similar', () => {
+        
         const mockSignUp = jest.fn()
         const mockAuthenticate = jest.fn()    
         const initialState = { auth: {isAuthenticated: false}}
@@ -231,7 +269,7 @@ describe('<RegistrasiMitra />', () => {
         const { getByLabelText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
+                    <Registrasi signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
                 </BrowserRouter>
             </Provider>);
             
@@ -241,35 +279,11 @@ describe('<RegistrasiMitra />', () => {
         const password = getByLabelText('Kata Sandi');
         const re_password = getByLabelText('Konfirmasi kata sandi');
         
-        userEvent.type(nama_depan, 'doe');
+        userEvent.type(nama_depan, "doe");
         userEvent.type(nama_belakang, 'joe');
         userEvent.type(email, 'doe@joe.com');
         userEvent.type(password, 'doejoe123');
         userEvent.type(re_password, 'doejoe123');
         userEvent.click(screen.getByText('Buat Akun'));
     });
-
-    test('back button work correctly', () => {
-        const mockSignUp = jest.fn()
-        const mockAuthenticate = jest.fn()
-        const initialState = { auth: {isAuthenticated: false}}
-
-        localStorage.setItem('access', 'token')
-        const store = mockStore(initialState)
-        const historyBack = jest.spyOn(window.history, 'back');
-        historyBack.mockImplementation(() => { });
-
-        const { getByText } = render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <RegistrasiMitra signup={mockSignUp} isAuthenticated={mockAuthenticate}/>
-                </BrowserRouter>
-            </Provider>);
-        const backButton = getByText('Buat Akun Baru', { selector: "h3" });
-        userEvent.click(backButton);
-
-        expect(historyBack).toHaveBeenCalledTimes(1);
-        historyBack.mockRestore()
-    })
-
 });
