@@ -77,13 +77,13 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
         re_password: ''
     });
     const [loading, setLoading] = useState(false);
+    const [registered, setRegister] = useState(false);
 
     const { first_name, last_name, email, password, re_password } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-    
-    console.log(role);
 
+    
     const onSubmit = async e => {
         e.preventDefault();
         if (password === re_password) {
@@ -95,8 +95,7 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
             } else {
                 if (res.signup) {
                     setLoading(false);
-                    alert('Anda bisa mengecek email anda untuk link aktivasi akun')
-                    return <Redirect to='/masuk' />
+                    setRegister(true);
                 }
                 else {
                     setLoading(false);
@@ -115,6 +114,9 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
     if (isAuthenticated) {
         return <Redirect to='/' />
     }
+    if (registered === true) {
+        return <Redirect to="/masuk" />
+} 
 
     // const continueWithGoogle = async () => {
     //     try {
@@ -218,7 +220,8 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
                                     name='password'
                                     value={password}
                                     onChange={e => onChange(e)}
-                                    minLength='6'
+                                    pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                                     required
                                 />
                             </div>
@@ -242,7 +245,6 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
                                     name='re_password'
                                     value={re_password}
                                     onChange={e => onChange(e)}
-                                    minLength='6'
                                     required
                                 />
                             </div>

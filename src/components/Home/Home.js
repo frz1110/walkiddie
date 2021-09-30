@@ -73,6 +73,9 @@ const Home = ({ user }) => {
         } else if (user.role === "Investor") {
             return <Redirect to="/investor" />
         }
+        else if (user.role === "Operator") {
+            return <Redirect to="/operator" />
+        }
     }
 
     return (

@@ -1,14 +1,15 @@
 import './HomepageOperator.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { ChevronRight } from 'react-feather';
 import emptyIcon from '../ListOwnedPengadaan/empty.svg';
 import { Link, Redirect } from 'react-router-dom';
 import arcade from './arcade.svg';
+import axios from 'axios';
 
 
-const HomepageOperator = ({ isAuthenticated, empty, user}) => {
+const HomepageOperator = ({isAuthenticated, user}) => {
     const dummyData = [
         {   id:1,
             header: <h5>Arcade Game TimeZone Mall Pejaten Village </h5>,
@@ -29,11 +30,24 @@ const HomepageOperator = ({ isAuthenticated, empty, user}) => {
             desc: 'London eye ngadet karena terlalu penuh yang meniki wahana ini. ',
         }]
 
-    // const [empty, setEmpty] = useState(false);
+    const [empty, setEmpty] = useState(false);
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    
+    useEffect(()=>{
+        const fetchPosts = async () =>{
+            setLoading(true);
+            const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
+            setPosts(res.data);
+            setLoading(false);
+        }
+        fetchPosts();
+    }, [])
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
+    if (user.role !== "Operator") return <Redirect to="/" />
+
     return (
-        
         <div id="l-o-owned" className="list-owned-pengadaan">
         <div className="owned-pengadaan-store"> 
             <h4 className="list-owned-h3"><a href="">Belum diperbaiki</a></h4>
@@ -72,6 +86,9 @@ const HomepageOperator = ({ isAuthenticated, empty, user}) => {
 
 };
 
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
+})
 
-
-export default HomepageOperator;
+export default connect(mapStateToProps)(HomepageOperator);
