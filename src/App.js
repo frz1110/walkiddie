@@ -81,7 +81,7 @@ function App() {
                   <ListOwnedPengadaan />
                 </Route>
                 <Route path="/operator">
-                  <HomepageOperator isAuthenticated={true} />
+                  <HomepageOperator />
                 </Route>
                 <Route path="/reset-password">
                   <ResetPassword />

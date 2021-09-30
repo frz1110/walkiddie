@@ -19,32 +19,13 @@ describe('<HomepageOperator />', () => {
         const initialState = {
             auth: {
                 isAuthenticated: true,
+                user: {
+                    role: "Operator"
+                }
             }
         }
         localStorage.setItem('access', 'token')
         const store = mockStore(initialState)
-
-        const listRusak = [
-            {
-                id:1,
-                header: <h5>Arcade Game TimeZone Mall Pejaten Village </h5>,
-                loc:<h6>TimeZone Mall Pejaten Village </h6>,
-                level: '4',
-                desc: 'Baterai mati dan mainan sudah tidak dapat dinyalakan selama 10 bulan. Kabel konslet dan perlu diganti baru. ',    
-            }
-        ]
-
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `JWT ${localStorage.getItem('access')}`,
-            }
-        };
-
-        var mock = new MockAdapter(axios);
-
-        mock.onGet(`${process.env.REACT_APP_BACKEND_API_URL}/api/mainan-rusak/`, config).reply(200, listRusak);
-
         render(
             <Provider store={store}>
                 <BrowserRouter>
@@ -58,11 +39,15 @@ describe('<HomepageOperator />', () => {
     });
 
     it('dummy data should be displayed', () => {
-        let loc;
+        const mockUser = jest.fn()
+        const mockAuthenticate = jest.fn()
         const initialState = {
             auth: {
                 isAuthenticated: true,
-                empty: true
+                user: {
+                    role: "Operator"
+                }
+                
             }
         }
         const store = mockStore(initialState)
@@ -70,7 +55,7 @@ describe('<HomepageOperator />', () => {
             <>
                 <Provider store={store}>
                     <BrowserRouter>
-                        <HomepageOperator isAuthenticated={true} />
+                        <HomepageOperator isAuthenticated={mockAuthenticate} user={mockUser} />
                     </BrowserRouter>
                 </Provider>);
             </>,
@@ -80,15 +65,23 @@ describe('<HomepageOperator />', () => {
     })
 
     it('should redirect if not authenticated', () => {
+        const mockUser = jest.fn()
+        const mockAuthenticate = jest.fn()
         let loc;
         const initialState = {
+            auth: {
+                isAuthenticated: false,
+                user: {
+                    role: "Operator"
+                }
+            }
         }
         const store = mockStore(initialState)
         render(
             <>
                 <Provider store={store}>
                     <BrowserRouter>
-                        <HomepageOperator isAuthenticated={false}/>
+                        <HomepageOperator isAuthenticated={mockAuthenticate} user={mockUser}/>
                         <Route
                             path="*"
                             render={({ location }) => {
@@ -102,5 +95,37 @@ describe('<HomepageOperator />', () => {
             initialState
         );
         expect(loc.pathname).toBe('/masuk');
+    })
+    it('should redirect if not operator', () => {
+        const mockUser = jest.fn()
+        const mockAuthenticate = jest.fn()
+        let loc;
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    role: "Investor"
+                }
+            }
+        }
+        const store = mockStore(initialState)
+        render(
+            <>
+                <Provider store={store}>
+                    <BrowserRouter>
+                        <HomepageOperator isAuthenticated={mockAuthenticate} user={mockUser}/>
+                        <Route
+                            path="*"
+                            render={({ location }) => {
+                                loc = location;
+                                return null;
+                            }}
+                        />
+                    </BrowserRouter>
+                </Provider>);
+            </>,
+            initialState
+        );
+        expect(loc.pathname).toBe('/');
     })
 })
