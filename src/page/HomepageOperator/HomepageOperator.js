@@ -3,10 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { ChevronRight } from 'react-feather';
-import emptyIcon from '../ListOwnedPengadaan/empty.svg';
 import { Link, Redirect } from 'react-router-dom';
 import arcade from './arcade.svg';
-import axios from 'axios';
 
 
 const HomepageOperator = ({isAuthenticated, user}) => {
@@ -30,19 +28,6 @@ const HomepageOperator = ({isAuthenticated, user}) => {
             desc: 'London eye ngadet karena terlalu penuh yang meniki wahana ini. ',
         }]
 
-    const [empty, setEmpty] = useState(false);
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(false);
-    
-    useEffect(()=>{
-        const fetchPosts = async () =>{
-            setLoading(true);
-            const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-            setPosts(res.data);
-            setLoading(false);
-        }
-        fetchPosts();
-    }, [])
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
     if (user.role !== "Operator") return <Redirect to="/" />
@@ -76,14 +61,8 @@ const HomepageOperator = ({isAuthenticated, user}) => {
                 <br />
             </div>
         ))}
-        {empty && <div className="owned-pengadaan-null-wrapper">
-            <img src={emptyIcon} alt="empty data"></img>
-            <h5 className="owned-pengadaan-null">Belum ada kerusakan barang</h5>
-        </div>}
     </div>
-
     );
-
 };
 
 const mapStateToProps = (state) => ({
