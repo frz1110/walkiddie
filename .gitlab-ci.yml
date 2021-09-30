@@ -62,7 +62,7 @@ StagingDeployment:
   stage: deploy
   script:
     - apk add curl
-    - curl -X POST -d {} "$BUILD_HOOK?branch=staging"
+    - curl -X POST -d {} "$BUILD_HOOK?trigger_branch=staging"
   only:
     - staging
 
@@ -71,6 +71,6 @@ ProductionDeployment:
   stage: deploy
   script:
     - apk add curl
-    - curl -X POST -d {} "$BUILD_HOOK?branch=master"
+    - curl -X POST -d {} "$BUILD_HOOK?trigger_branch=master"
   only:
     - master
