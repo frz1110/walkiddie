@@ -1,5 +1,9 @@
 import 'react-dates/initialize';
 import './DaftarToko.css'
+<<<<<<< HEAD
+=======
+import WalkiddieGoogleMaps from './WalkiddieGoogleMaps.js'
+>>>>>>> parent of 448844b... update progress
 import WalkiddieHereMaps from './WalkiddieHereMaps.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-calendar/dist/Calendar.css';
