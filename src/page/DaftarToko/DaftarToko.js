@@ -1,6 +1,6 @@
 import 'react-dates/initialize';
 import './DaftarToko.css'
-import WalkiddieGoogleMaps from './WalkiddieGoogleMaps.js'
+// import WalkiddieGoogleMaps from './WalkiddieGoogleMaps.js'
 import WalkiddieHereMaps from './WalkiddieHereMaps.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-calendar/dist/Calendar.css';
