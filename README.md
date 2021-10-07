@@ -7,15 +7,14 @@ The first crowdfunding platform in the toys industry.
 
 ## Contributors
 
-Group : Walkiddie\
-Class : A\
+Group : Narai\
+Class : C\
 Members :
-- Fathinah Asma Izzati - 1806235744
-- Darian Texanditama - 1806205275
-- Primo Giancarlo Uneputty - 1806205180
-- Muhammad Azhar Hassanuddin - 1806235763
-- Naufal Alauddin Hilmi - 1806205754
-- Mario Ekaputta - 1806141441
+- Aji Inisti Udma Wijaya - 1806141126
+- Muhamad Adhytia Wana Putra Rahmadhan - 1806141321
+- Muhammad Ihsan Azizi - 1806186774
+- Naufal Alauddin Hilmi - 1806205754 
+- Ronaldi Tjaidianto - 1806141441
 
 ## Setup Environment
 
