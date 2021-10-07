@@ -146,7 +146,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
             for (let i = 0; i < mediaTokoList.length; i++) {
                 formDataToSend.append('fotoProfilToko', mediaTokoList[i], mediaTokoList[i].name);
             }
-            await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, formDataToSend, config)
+            await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}api/toko/`, formDataToSend, config)
                 .then((response) => {
                     console.log(response);
                     alert('Toko Anda telah ditambahkan');
