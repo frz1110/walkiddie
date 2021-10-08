@@ -13,16 +13,17 @@ import Map from './Map.js'
 import { ChevronLeft } from 'react-feather';
 import NumberFormat from 'react-number-format';
 import { load_profile } from '../../actions/auth';
+import {Doughnut} from 'react-chartjs-2';
 
-const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
+const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
     const [toko, setToko] = useState([]);
     const [pengadaan, setPengadaan] = useState([]);
     const [userPhone, setUserPhone] = useState('');
     const [filesPengadaan, setFilesPengadaan] = useState([]);
     const [disable, setDisable] = useState(false);
+    const [totalInvested, setTotal] = useState(0);  
 
     let history = useHistory();
-
     const config = {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -30,26 +31,29 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
         }
     };
 
-    const fetchData = async () => {
+    const fetchPengadaanInfo = async () => {
         try {
-            const pengadaanObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${match.params.pk}`, config);
+            var pengadaanObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${match.params.pk}`, config);
             setPengadaan(pengadaanObj.data);
             setFilesPengadaan(pengadaanObj.data.files)
+        }
+        catch (err) {           
+            history.push('/')
+            alert('Terjadi kesalahan saat fetching data pengadaan')
+        }
+        try{
             const tokoObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/${pengadaanObj.data.toko}`, config);
             setToko(tokoObj.data);
-            console.log(tokoObj.data);
             localStorage.setItem('lat', tokoObj.data.latitude);
             localStorage.setItem('long', tokoObj.data.longitude);
-            console.log(localStorage.getItem('lat'));
-            console.log(localStorage.getItem('long'));
-        }
-        catch (err) {
-            alert('Terjadi kesalahan pada database')           
+
+        }catch{
             history.push('/')
+            alert('Terjadi kesalahan saat fetching data toko')           
         }
     }
 
-    const fetchData2 = async () => {
+    const fetchNomorMitra= async () => {
         try {
             const user = await load_profile()(toko.owner);
             setUserPhone(user.res.data.phone_number);
@@ -59,13 +63,18 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
         }
     }
 
-    const investCheck = async () => {
+    const setDisableButton = async () => {
         try {
             await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/`, config)
                 .then(response => {
-                    if(response.data.filter(b => b.investor === userData.email && b.pengadaan === pengadaan.pk).length !== 0){
+                    if(response.data.filter(b => b.investor === userData.email && b.pengadaan === pengadaan.pk && b.status ==="MPA" ).length !== 0){
+                        setDisable(true);
+                    } else if(pengadaan.danaTerkumpul>=100.0){
                         setDisable(true);
                     }
+                    const investasi = response.data.filter(data => data.pengadaan === parseInt(match.params.pk) && data.status === "TRM");
+                    const total = investasi.map(data => data.nominal).reduce((total,data)=>data+total)
+                    setTotal(total);
                 });
         }
         catch (err) {
@@ -74,13 +83,27 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
     }
 
     useEffect(() => {
-        fetchData();
+        fetchPengadaanInfo();
     }, []);
 
     useEffect(() => {
-        fetchData2();
-        investCheck();
+        fetchNomorMitra();
+        setDisableButton();
     }, [toko]);
+
+    const dataDoughnutChart = {
+        datasets: [
+            {
+                label: 'Kepemilikan Saham',
+                data: [ totalInvested , 100-totalInvested ],
+                backgroundColor: [
+                    '#146A5F',
+                    '#D3F1EE',
+                ],
+                hoverOffset: 4
+            },
+        ],
+    };
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
 
@@ -110,6 +133,22 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
                     <h3 className="detail-pengadaan-modal-target"><NumberFormat value={pengadaan.totalBiaya} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></h3>
                     <ProgressBar striped now={pengadaan.danaTerkumpul+10} label={pengadaan.danaTerkumpul+ "%"} />
                     <p className="detail-pengadaan-modal-desc">Terkumpul dari target: <NumberFormat value={pengadaan.danaTerkumpul/100*pengadaan.totalBiaya} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></p>
+                    
+                    <h3 className="detail-pengadaan-modal-text">Jumlah Investasimu</h3>
+                    <p className="detail-pengadaan-midtext"></p>
+                    
+                    <Row className="align-items-center">
+                            <div className="col-sm-3">
+                                <Doughnut data={dataDoughnutChart} width={120}
+                                height={120}
+                                options={{ maintainAspectRatio: false, responsive: false }}/>
+                            </div>
+                            <div className="col-sm-1">
+                                <h3 className="detail-pengadaan-modal-target">{totalInvested}%</h3>
+                            </div>
+                    </Row>
+                    <br></br>
+                    <br></br>
                 </div>
                 <div className="col-lg-7">
                     <div className="detail-pengadaan-box-wrapper">
@@ -164,46 +203,21 @@ const DetailPengadaan = ({ isAuthenticated, userData, match }) => {
                             </div>
                         </Tab>
                         <Tab eventKey="mainan" title="Pilihan Mainan">
-                            <Row className="justify-content-center toys-summary">
+                            { pengadaan.length !== 0 && pengadaan.daftarMainan.map(item => (
+                                <Row className="justify-content-center toys-summary">
                                 <div className="col-sm-2">
-                                    <img src="https://i.stack.imgur.com/y9DpT.jpg" className="mainan-image" alt=""></img>
+                                    <img src={item.mainan.gambarMainan} className="mainan-image" alt=""></img>
                                 </div>
                                 <div className="col-sm-6 mainan-wrapper">
-                                    Spongebob Kiddie Ride<br />
-                                    <span style={{ fontWeight: "500", fontSize: "15px" }}>Rp 7,200,000.00</span>
+                                    {item.mainan.namaMainan}<br />
+                                    <span style={{ fontWeight: "500", fontSize: "15px" }}>Rp. {item.mainan.harga}</span>
                                 </div>
                                 <div className="col-sm-4" style={{ fontSize: "15px" }}>
                                     <div className="line" />
-                                    <span style={{ fontWeight: "500" }}>Jumlah: </span>2 buah
+                                    <span style={{ fontWeight: "500" }}>Jumlah: </span>{item.kuantitas}
                                 </div>
                             </Row>
-                            <br></br>
-                            <Row className="justify-content-center toys-summary">
-                                <div className="col-sm-2">
-                                    <img src="https://i.stack.imgur.com/y9DpT.jpg" className="mainan-image" alt=""></img>
-                                </div>
-                                <div className="col-sm-6 mainan-wrapper">
-                                    Spongebob Kiddie Ride<br />
-                                    <span style={{ fontWeight: "500", fontSize: "15px" }}>Rp 7,200,000.00</span>
-                                </div>
-                                <div className="col-sm-4" style={{ fontSize: "15px" }}>
-                                    <div className="line" />
-                                    <span style={{ fontWeight: "500" }}>Jumlah: </span>2 buah
-                                </div>
-                            </Row>
-                            <br></br>
-                            <Row className="justify-content-center toys-summary">
-                                <div className="col-sm-2">
-                                    <img src="https://i.stack.imgur.com/y9DpT.jpg" className="mainan-image" alt=""></img>
-                                </div>
-                                <div className="col-sm-6 mainan-wrapper">
-                                    Spongebob Kiddie Ride<br />
-                                    <span style={{ fontWeight: "500", fontSize: "15px" }}>Rp 7,200,000.00</span>
-                                </div>
-                                <div className="col-sm-4" style={{ fontSize: "15px" }}>
-                                    <span style={{ fontWeight: "normal" }}>Jumlah: </span>2 buah
-                                </div>
-                            </Row>
+                            )) }
                         </Tab>
                         <Tab eventKey="keuangan" title="Estimasi Keuangan">
                             <div className="card mi-card-money">
