@@ -1,6 +1,6 @@
 import 'react-dates/initialize';
 import './DaftarToko.css'
-import WalkiddieHereMaps from './WalkiddieHereMaps.js'
+import { InputMap } from '../../components/Map/Map'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-dates/lib/css/_datepicker.css';
@@ -146,7 +146,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
             for (let i = 0; i < mediaTokoList.length; i++) {
                 formDataToSend.append('fotoProfilToko', mediaTokoList[i], mediaTokoList[i].name);
             }
-            await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}api/toko/`, formDataToSend, config)
+            await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, formDataToSend, config)
                 .then((response) => {
                     console.log(response);
                     alert('Toko Anda telah ditambahkan');
@@ -320,7 +320,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <WalkiddieHereMaps
+                                    <InputMap
                                         // lat={mapData.lat}
                                         // lng={mapData.lng}
                                         onMapViewChange={e => handleMapViewChange(e)}

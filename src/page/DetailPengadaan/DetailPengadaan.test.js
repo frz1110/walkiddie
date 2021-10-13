@@ -13,6 +13,13 @@ import MockAdapter from 'axios-mock-adapter';
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 
+jest.mock('../../components/Map/Map', () => {
+    return {
+        Map: () => <div />,
+        InputMap: () => <div />
+    }
+})
+
 describe('<DetailPengadaan />', () => {
 
     it('renders the right contents', () => {
