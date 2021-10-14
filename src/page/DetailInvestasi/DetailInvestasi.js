@@ -15,7 +15,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
     const [tanggalPendapatan, setTanggalPendapatan] = useState([]);
     const [rincianPendapatan, setRincianPendapatan] = useState([]);
     const [pendapatan, setPendapatan] = useState('');
-    const [empty, setEmpty] = useState(false);
+    const [empty, setEmpty] = useState(false); // Always empty
     const data = location.state;
     const email = user.email;
     const results1 = [];
@@ -30,8 +30,9 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
     };
 
     const fetchSales = async () => {
+        //Hasil dari fetchSales ini masi belum digunakan. PK ke semua page masih 2.
         try {
-            const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pk}/sales`, config);
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pk}/sales`, config); //From past dev, still hitting to the wrong endpoints
             if (res.data.length === 0) {
                 setEmpty(true);
             } else {
@@ -51,6 +52,9 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
             alert('Terjadi kesalahan pada database')
         }
     }
+
+    
+
 
     useEffect(() => {
         fetchSales();
@@ -75,7 +79,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
         datasets: [
             {
                 label: 'Jumlah saham',
-                data: [(data.nominal / data.totalBiaya) * 100, 100 - (data.nominal / data.totalBiaya) * 100],
+                data: [ data.nominal , data.danaTerkumpul - data.nominal],
                 backgroundColor: [
                     '#146A5F',
                     '#D3F1EE',
@@ -130,7 +134,6 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
     if (user.role !== "Investor") return <Redirect to="/" />
-    if (data.status !== "TRM") return <Redirect to="/" />
 
     return (
         <div className="detail-investasi-wrapper">
@@ -158,7 +161,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                             Total Saham Dimiliki<br />
                         </div>
                         <div className="detail-investasi-small-card-value">
-                            {(roundingFloat(data.nominal / data.totalBiaya)) * 100}%
+                            {data.nominal}%
                             </div>
                     </div>
                     <div>

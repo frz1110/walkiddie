@@ -45,7 +45,7 @@ const WalkiddieOnboarding = ({ steps }) => {
                 <div>
                     <img class="img-petunjuk"src={bantuanIcon} alt="Bantuan"></img>
                 </div>
-                {/* <button class="button-petunjuk">Petunjuk</button> */}
+                <button class="button-petunjuk">Petunjuk</button>
             </div>
         </div>
     );

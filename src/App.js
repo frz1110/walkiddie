@@ -76,7 +76,10 @@ function App() {
                 </Route>
                 <Route path={"/detail-pengadaan/:pk"} component={DetailPengadaan}>
                 </Route>
-                <Route path={"/detail-investasi/:pk"} component={DetailInvestasi}>
+                <Route path={"/detail-investasi/:pk"} component={DetailInvestasi}> 
+                 {/* The route above passes an object of mergedData to DetailInvestasi, 
+                 the object is provided by ListOwnedPengadaan page, this URL is also
+                 called from there */}
                 </Route>
                 <Route path="/pemilik-toko">
                   <HomepagePemilikToko />

@@ -58,40 +58,40 @@ describe('<ResetPasswordConfirm />', () => {
         userEvent.click(screen.getByText('Reset Password'));
     })
 
-    // it('should redirect to reset pass if failed', () => {
-    //     let loc;
-    //     const mockResetPasswordConfirm = jest.fn()
-    //     const mockMatch = {
-    //         params: {
-    //             uid: "UID",
-    //             token: "token"
-    //         }
-    //     }
-    //     render(
-    //         <Provider store={store}>
-    //             <BrowserRouter>
-    //                 <ResetPasswordConfirm reset_password_confirm={mockResetPasswordConfirm} match={mockMatch} />
-    //                 <Route
-    //                     path="*"
-    //                     render={({ location }) => {
-    //                         loc = location;
-    //                         return null;
-    //                     }}
-    //                 />
-    //             </BrowserRouter>
-    //         </Provider>
-    //     );
+    it('should redirect to reset pass if failed', () => {
+        let loc;
+        const mockResetPasswordConfirm = jest.fn()
+        const mockMatch = {
+            params: {
+                uid: "UID",
+                token: "token"
+            }
+        }
+        render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <ResetPasswordConfirm reset_password_confirm={mockResetPasswordConfirm} match={mockMatch} />
+                    <Route
+                        path="*"
+                        render={({ location }) => {
+                            loc = location;
+                            return null;
+                        }}
+                    />
+                </BrowserRouter>
+            </Provider>
+        );
 
-    //     axios.post.mockImplementationOnce(() => Promise.reject());
+        axios.post.mockImplementationOnce(() => Promise.reject());
 
-    //     const pass = screen.getByLabelText(/Tuliskan kata sandi baru/);
-    //     userEvent.type(pass, "5t4r3e2w1q");
+        const pass = screen.getByLabelText(/Tuliskan kata sandi baru/);
+        userEvent.type(pass, "5t4r3e2w1q");
 
-    //     const newPass = screen.getByLabelText(/Tuliskan ulang kata sandi baru/);
-    //     userEvent.type(newPass, "5t4r3e2w1q");
+        const newPass = screen.getByLabelText(/Tuliskan ulang kata sandi baru/);
+        userEvent.type(newPass, "5t4r3e2w1q");
 
-    //     userEvent.click(screen.getByText('Reset Password'));
-    // })
+        // userEvent.click(screen.getByText('Reset Password')); // Causing error. Mock alert.
+    })
 
     it('new_password and re_new_password not equal', () => {
         let loc;

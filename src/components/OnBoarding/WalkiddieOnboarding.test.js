@@ -21,7 +21,7 @@ describe('<WalkiddieOnboarding />', () => {
 
         const { getByText } = render(<WalkiddieOnboarding steps={onBoardingSteps} />)
 
-        // const btnPetunjuk = getByText("Petunjuk");
-        // userEvent.click(btnPetunjuk);
+        const btnPetunjuk = getByText("Petunjuk");
+        userEvent.click(btnPetunjuk);
     });
 })
