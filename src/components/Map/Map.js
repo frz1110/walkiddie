@@ -62,6 +62,8 @@ export class InputMap extends React.Component{
     // reference to the map
     this.map = null;
     this.mapData = this.props.formData;
+    this.setLatitude = this.props.setLatitude;
+    this.setLongitude = this.props.setLongitude;
     
     this.marker = new H.map.Marker({lat: -6.364520803098946, lng: 106.82922538589406}, {
       // mark the object as volatile for the smooth dragging
@@ -83,7 +85,7 @@ export class InputMap extends React.Component{
     }
   };
 
-  addDraggableMarker(map, behavior){
+  addDraggableMarker(map, behavior, setLatitude, setLongitude){
     // Ensure that the marker can receive drag events
     this.marker.draggable = true;
     map.addObject(this.marker);
@@ -108,6 +110,8 @@ export class InputMap extends React.Component{
       var target = ev.target;
       if (target instanceof H.map.Marker) {
         behavior.enable();
+        setLatitude(target.getGeometry().lat);
+        setLongitude(target.getGeometry().lng);
       }
     }, false);
   
@@ -147,7 +151,7 @@ export class InputMap extends React.Component{
 
       // attach Dragable Behavior
       var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
-      this.addDraggableMarker(this.map,behavior);
+      this.addDraggableMarker(this.map,behavior, this.setLatitude, this.setLongitude);
 
       // // attach interactive behavior
       // this.map.addEventListener('mapviewchange', this.handleMapViewChange);
