@@ -5,6 +5,7 @@ import Activate from './page/Aktivasi/Aktivasi';
 import DaftarToko from './page/DaftarToko/DaftarToko';
 import VerifToko from './page/DaftarToko/VerifikasiToko';
 import PengadaanMainan from './page/PengadaanMainan/PengadaanMainan';
+import VerifPengadaan from './page/PengadaanMainan/VerifikasiPengadaanMainan';
 import DetailPengadaan from './page/DetailPengadaan/DetailPengadaan';
 import ListOwnedPengadaan from './page/ListOwnedPengadaan/ListOwnedPengadaan';
 import HomepageInvestor from './page/HomepageInvestor/HomepageInvestor';
@@ -69,6 +70,9 @@ function App() {
               <Route path="/pengadaan-mainan">
                   <PengadaanMainan />
                 </Route>
+                <Route path="/verif-pengadaan">
+                <VerifPengadaan />
+              </Route>
                 <Route path={"/investasi/:pk"} component={MembuatInvestasi}>
                 </Route>
                 <Route path="/list-pengadaan">

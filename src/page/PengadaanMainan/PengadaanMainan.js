@@ -47,7 +47,7 @@ const PengadaanMainan = ({ isAuthenticated, user }) => {
             for(let i=0; i < res.data.length; i++){
                 let response = res.data[i];
                 let value = response['namaToko'];
-                if(response['owner'] === user.email){
+                if(response['owner'] === user.email && response['status'] === "TRM"){
                     allToko.push({value:response.pk, label:value});
                 }
             }
