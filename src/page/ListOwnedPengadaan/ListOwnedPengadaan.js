@@ -83,7 +83,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
             } else {
                 setEmpty(false);
                 for (let i = 0; i < investasiObj.data.length; i++) {
-                    if (investasiObj.data[i].investor === user.email) {
+                    if (investasiObj.data[i].status === "TRM") {
                         results3.push(investasiObj.data[i]);
                         const pengadaanObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${investasiObj.data[i].pengadaan}`, config);
                         results1.push(pengadaanObj.data);
@@ -112,6 +112,8 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
     }
 
     function statusChanger(status) {
+        console.log(merged);
+        console.log('done');
         if (status === "MPA") {
             return (<h3 className="owned-pengadaan-status">Menunggu Persetujuan Admin</h3>)
         }
@@ -124,6 +126,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
         else {
             return "";
         }
+        
     }
 
     useEffect(() => {

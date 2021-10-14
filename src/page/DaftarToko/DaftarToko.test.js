@@ -9,6 +9,12 @@ import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
 jest.mock('axios');
+jest.mock('../../components/Map/Map', () => {
+    return {
+        Map: () => <div />,
+        InputMap: () => <div />
+    }
+})
 
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)

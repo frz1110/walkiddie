@@ -1,7 +1,6 @@
 import 'react-dates/initialize';
 import './DaftarToko.css'
-import WalkiddieGoogleMaps from './WalkiddieGoogleMaps.js'
-import WalkiddieHereMaps from './WalkiddieHereMaps.js'
+import { InputMap } from '../../components/Map/Map'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-dates/lib/css/_datepicker.css';
@@ -10,7 +9,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { fromAddress } from 'react-geocode';
 import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
 const DaftarToko = ({ isAuthenticated, user }) => {
@@ -105,13 +103,6 @@ const DaftarToko = ({ isAuthenticated, user }) => {
         longitude,
         mediaTokoList
     } = formData;
-
-
-    useEffect(() => {
-        if (formData.latitude !== localStorage.getItem('lat') || formData.longitude !== localStorage.getItem('lng')) {
-            setFormData({ ...formData, latitude: localStorage.getItem('lat'), longitude: localStorage.getItem('lng') });
-        }
-    }, [lokasiToko]);
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -322,11 +313,13 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <WalkiddieHereMaps
+                                    <InputMap
                                         // lat={mapData.lat}
                                         // lng={mapData.lng}
                                         onMapViewChange={e => handleMapViewChange(e)}
                                         // zoom={mapData.zoom}
+                                        setLatitude={lat => setFormData(data => ({ ...data, latitude: lat }))}
+                                        setLongitude={lng => setFormData(data => ({ ...data, longitude: lng }))}
                                         formData={mapData}
                                         setFormData={setMapData}
                                     />

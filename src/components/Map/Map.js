@@ -1,9 +1,60 @@
 import React from 'react';
 import H from "@here/maps-api-for-javascript";
 import onResize from 'simple-element-resize-detector';
-import { connect } from 'react-redux';
 
-class WalkiddieHereMaps extends React.Component{
+export const Map = ({latitude, longitude}) => {
+  const mapRef = React.useRef();
+  const [map, setMap] = React.useState(null);
+
+  React.useLayoutEffect(() => {
+    if (!mapRef.current) return;
+    const platform = new H.service.Platform({
+      apikey: `${process.env.REACT_APP_HERE_MAPS_API_KEY}`
+    });
+    const layers = platform.createDefaultLayers();
+    const imap = new H.Map(
+      mapRef.current,
+      layers.vector.normal.map,
+      {
+        center: {lat: latitude, lng: longitude},
+        zoom: 13,
+      },
+    );
+
+    onResize(mapRef.current, () => {
+      imap.getViewPort().resize();
+    });
+    setMap(imap);
+    return () => {
+      imap.dispose()
+    }
+  }, [mapRef]);
+
+  React.useLayoutEffect(() => {
+    if (!map) return;
+    map.setCenter({lat: latitude, lng: longitude});
+
+    // Create a marker using the previously instantiated icon:
+    var marker = new H.map.Marker({ lat: latitude, lng: longitude});
+
+    // Add the marker to the map:
+    map.addObject(marker);
+
+    return () => {
+      if (!map) return;
+      map.removeObject(marker);
+    }
+  }, [map, latitude, longitude]);
+
+  return (
+    <div
+      style={{ position: 'relative', width: '100%', height:'300px' }}
+      ref={mapRef}
+    />
+  )
+}
+
+export class InputMap extends React.Component{
   constructor(props) {
     super(props);
     // the reference to the container
@@ -11,12 +62,14 @@ class WalkiddieHereMaps extends React.Component{
     // reference to the map
     this.map = null;
     this.mapData = this.props.formData;
+    this.setLatitude = this.props.setLatitude;
+    this.setLongitude = this.props.setLongitude;
     
     this.marker = new H.map.Marker({lat: -6.364520803098946, lng: 106.82922538589406}, {
       // mark the object as volatile for the smooth dragging
       volatility: true
     });
-  };
+  }
 
   handleMapViewChange = (ev) => {
     const {
@@ -32,7 +85,7 @@ class WalkiddieHereMaps extends React.Component{
     }
   };
 
-  addDraggableMarker(map, behavior){
+  addDraggableMarker(map, behavior, setLatitude, setLongitude){
     // Ensure that the marker can receive drag events
     this.marker.draggable = true;
     map.addObject(this.marker);
@@ -57,18 +110,9 @@ class WalkiddieHereMaps extends React.Component{
       var target = ev.target;
       if (target instanceof H.map.Marker) {
         behavior.enable();
-        console.log(this.mapData);
-        console.log('change')
-        console.log(target.getGeometry().lat);
-        console.log(target.getGeometry().lng);
-        localStorage.setItem('lat', target.getGeometry().lat);
-        localStorage.setItem('lng', target.getGeometry().lng);
-        console.log('localStorage');
-        console.log(localStorage.getItem('lat'));
-        console.log(localStorage.getItem('lng'));
-        // this.props.setFormData({...this.mapData, lat: target.getGeometry().lat, lng: target.getGeometry().lng});
-        // setFormData({ ...formData, totalBiaya: totalSemuaBiaya});
-      };
+        setLatitude(target.getGeometry().lat);
+        setLongitude(target.getGeometry().lng);
+      }
     }, false);
   
     // Listen to the drag event and move the position of the marker
@@ -80,7 +124,7 @@ class WalkiddieHereMaps extends React.Component{
         target.setGeometry(map.screenToGeo(pointer.viewportX - target['offset'].x, pointer.viewportY - target['offset'].y));
       }
     }, false);
-  };
+  }
 
   componentDidMount() {
     if (!this.map) {
@@ -107,19 +151,19 @@ class WalkiddieHereMaps extends React.Component{
 
       // attach Dragable Behavior
       var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
-      this.addDraggableMarker(this.map,behavior);
+      this.addDraggableMarker(this.map,behavior, this.setLatitude, this.setLongitude);
 
       // // attach interactive behavior
       // this.map.addEventListener('mapviewchange', this.handleMapViewChange);
       // new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
     }
-  };
+  }
 
   componentWillUnmount() {
     if (this.map) {
       this.map.removeEventListener('mapviewchange', this.handleMapViewChange);
     }
-  };
+  }
 
   render() {
     return (
@@ -130,9 +174,3 @@ class WalkiddieHereMaps extends React.Component{
     )
   }
 }
-
-const mapStateToProps = (state) => ({
-  location :state.auth.location
-})
-
-export default connect(mapStateToProps)(WalkiddieHereMaps);

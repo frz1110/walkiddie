@@ -9,7 +9,7 @@ import { Row } from "react-bootstrap";
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import Map from './Map.js'
+import { Map } from '../../components/Map/Map'
 import { ChevronLeft } from 'react-feather';
 import NumberFormat from 'react-number-format';
 import { load_profile } from '../../actions/auth';
@@ -52,6 +52,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
             alert('Terjadi kesalahan saat fetching data toko')           
         }
     }
+  
 
     const fetchNomorMitra= async () => {
         try {
@@ -81,6 +82,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
             setDisable(false);
         }
     }
+  
 
     useEffect(() => {
         fetchPengadaanInfo();
@@ -105,17 +107,70 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
         ],
     };
 
-    if (!isAuthenticated) return <Redirect to="/masuk" />
-
+  if (!isAuthenticated) {
+    return (<Redirect to="/masuk" />)
+  } else if (userData.role !== 'Investor') {
+    return (<Redirect to="/" />)
+  } else {
     return (
-        <div className="detail-pengadaan-wrapper">
-            <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Kembali</h3>
-            <div className="detail-pengadaan-store-header">
-                <img src={toko.fotoProfilToko} className="detail-pengadaan-profile-image" alt=""></img>
-                <div className="detail-pengadaan-store-name">
-                    {toko.namaToko}<br />
-                    <span style={{ fontWeight: "500", fontSize: "15px" }}>WKD-02ID2021 - {toko.namaCabang}</span>
+      <div className="detail-pengadaan-wrapper">
+        <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Kembali</h3>
+        <div className="detail-pengadaan-store-header">
+          <img src={toko.fotoProfilToko} className="detail-pengadaan-profile-image" alt=""></img>
+          <div className="detail-pengadaan-store-name">
+            {toko.namaToko}<br />
+            <span style={{ fontWeight: "500", fontSize: "15px" }}>WKD-02ID2021 - {toko.namaCabang}</span>
+          </div>
+        </div>
+        <Row className="justify-content-center detail-pengadaan-content">
+          <div className="col-lg-5">
+            <div className="detail-pengadaan-carousel-wrapper">
+              <Carousel autoPlay infiniteLoop showThumbs={false}>
+                {filesPengadaan.map(item => (
+                  <div >
+                    <img alt="" src={item} />
+                  </div>
+                ))}
+              </Carousel>
+            </div>
+            <h3 className="detail-pengadaan-modal-text">Kebutuhan Modal</h3>
+            <p className="detail-pengadaan-midtext"></p>
+            <h3 className="detail-pengadaan-modal-target"><NumberFormat value={pengadaan.totalBiaya} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></h3>
+            <ProgressBar striped now={(pengadaan.danaTerkumpul / pengadaan.totalBiaya * 100) + 10} label={pengadaan.danaTerkumpul / pengadaan.totalBiaya * 100 + "%"} />
+            <p className="detail-pengadaan-modal-desc">Terkumpul dari target: <NumberFormat value={pengadaan.danaTerkumpul} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></p>
+          </div>
+          <div className="col-lg-7">
+            <div className="detail-pengadaan-box-wrapper">
+              <Row className="detail-pengadaan-distance-row">
+                <div className="col-sm">
+                  <h3>Periode Pengadaan</h3>
+                  <p>{pengadaan.periodePengadaanMulai} s.d {pengadaan.periodePengadaanAkhir}</p>
                 </div>
+                <div className="col-sm">
+                  <h3>Email Penggalang</h3>
+                  <p>{toko.owner}</p>
+                </div>
+              </Row>
+              <Row style={{paddingBottom: '10px'}}>
+                <div className="col-sm">
+                  <h3>Tipe Usaha</h3>
+                  <p>{toko.tipeUsaha}</p>
+                </div>
+                <div className="col-sm">
+                  <h3>Nomor Telepon Penggalang</h3>
+                  <p>{userPhone}</p>
+                </div>
+              </Row>
+              <Row className="justify-content-center">
+                <div className="col-sm">
+                  {!disable && (userData.role === 'Investor') && <a href={"/investasi/"+match.params.pk}><button className="detail-pengadaan-invest-button" type="button">
+                    Ikut Investasi
+                  </button></a>}
+                  {disable && (userData.role === 'Investor') && <button className="detail-pengadaan-invest-button" type="button" disabled>
+                    Ikut Investasi
+                  </button>}
+                </div>
+              </Row>
             </div>
             <Row className="justify-content-center detail-pengadaan-content">
                 <div className="col-lg-5">
@@ -199,7 +254,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                                 <span className="store-information-span">  {toko.deskripsiToko}</span><br />
                                 Lokasi Toko: 
                                 <span className="store-information-span">  {toko.lokasiToko}</span><br />
-                                <Map />
+                                <Map latitude={toko.latitude} longitude={toko.longitude} />
                             </div>
                         </Tab>
                         <Tab eventKey="mainan" title="Pilihan Mainan">
@@ -230,13 +285,17 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                         </Tab>
                     </Tabs>
                 </div>
-            </Row>
-        </div>
+              </Row>
+          </div>
+        </Row>
+      </div>
     );
 }
+}
+
 const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    userData: state.auth.user
+  isAuthenticated: state.auth.isAuthenticated,
+  userData: state.auth.user
 });
 
 export default connect(mapStateToProps)(DetailPengadaan);
