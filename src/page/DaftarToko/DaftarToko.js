@@ -104,13 +104,6 @@ const DaftarToko = ({ isAuthenticated, user }) => {
         mediaTokoList
     } = formData;
 
-
-    useEffect(() => {
-        if (formData.latitude !== localStorage.getItem('lat') || formData.longitude !== localStorage.getItem('lng')) {
-            setFormData({ ...formData, latitude: localStorage.getItem('lat'), longitude: localStorage.getItem('lng') });
-        }
-    }, [lokasiToko]);
-
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleChangeFile = (event) => {
