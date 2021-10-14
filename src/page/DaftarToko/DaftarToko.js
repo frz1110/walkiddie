@@ -325,6 +325,8 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                         // lng={mapData.lng}
                                         onMapViewChange={e => handleMapViewChange(e)}
                                         // zoom={mapData.zoom}
+                                        setLatitude={lat => setFormData(data => ({ ...data, latitude: lat }))}
+                                        setLongitude={lng => setFormData(data => ({ ...data, longitude: lng }))}
                                         formData={mapData}
                                         setFormData={setMapData}
                                     />
