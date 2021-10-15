@@ -225,7 +225,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label htmlFor='namaCabang' className="col-sm-3 col-form-label"> Nama Cabang (pilihan) :</label>
+                                <label htmlFor='namaCabang' className="col-sm-3 col-form-label"> <span className="required"> * </span> Nama Cabang (pilihan) :</label>
                                     <div className="col-sm-9">
                                         <input
                                             id='namaCabang'
