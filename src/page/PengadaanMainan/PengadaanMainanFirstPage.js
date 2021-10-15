@@ -149,7 +149,7 @@ const PengadaanMainanFirstPage = ({ daftarMainan, setState, formData, navigation
                                     </Card.Title>
                                     <Card.Text className="card-content-limit card-text">
                                     <p>{mainan.deskripsi_mainan}</p>
-                                    <h3>{mainan.harga}</h3>
+                                    <h3>Rp{mainan.harga.toLocaleString()}</h3>
                                     </Card.Text>
                                     <Form.Check 
                                         custom
