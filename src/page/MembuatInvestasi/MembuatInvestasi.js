@@ -1,5 +1,4 @@
 import './MembuatInvestasi.css'
-import OptionCard from '../../components/InvestasiOptionCard/OptionCard'
 import CustomOptionCard from '../../components/InvestasiOptionCard/CustomOptionCard'
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
