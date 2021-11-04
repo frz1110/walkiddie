@@ -83,7 +83,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
             } else {
                 setEmpty(false);
                 for (let i = 0; i < investasiObj.data.length; i++) {
-                    if (investasiObj.data[i].investor === user.email) {
+                    if (investasiObj.data[i].status === "TRM") {
                         results3.push(investasiObj.data[i]);
                         const pengadaanObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${investasiObj.data[i].pengadaan}`, config);
                         results1.push(pengadaanObj.data);
@@ -112,6 +112,8 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
     }
 
     function statusChanger(status) {
+        console.log(merged);
+        console.log('done');
         if (status === "MPA") {
             return (<h3 className="owned-pengadaan-status">Menunggu Persetujuan Admin</h3>)
         }
@@ -124,10 +126,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
         else {
             return "";
         }
-    }
-
-    function roundingFloat(number){
-        return Number(parseFloat(number).toFixed(2))
+        
     }
 
     useEffect(() => {
@@ -139,32 +138,13 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
     }, [pengadaan]);
 
     useEffect(() => {
-        var merge1 = []
-        for (let i = 0; i < investasi.length; i++) {
-            for (let j = 0; j < pengadaan.length; j++) {
-                if (investasi[i].pengadaan === pengadaan[j].pk) {
-                    var merging = Object.assign({}, investasi[i], pengadaan[j]);
-                    merge1.push(merging);
-                }
-            }
-        }
-        console.log(merge1);
         var resultAll = []
-        for (let i = 0; i < merge1.length; i++) {
-            for (let j = 0; j < toko.length; j++) {
-                if (merge1[i].toko === toko[j].pk) {
-                    var merging = Object.assign({}, merge1[i], toko[j]);
-                    resultAll.push(merging);
-                    break;
-                }
+        for (let i = 0; i < investasi.length; i++) {
+            if (investasi[i].investor === user.email) {
+                var merging = Object.assign({}, investasi[i], pengadaan[i], toko[i]);
+                resultAll.push(merging);
             }
         }
-        resultAll = resultAll.filter((e) => {
-            if (e['investor'] === user.email) {
-                return e;
-            }
-        });
-        console.log(resultAll);
         setMerged(resultAll)
     }, [toko]);
 
@@ -174,7 +154,6 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
     return (
         <div className="owned-pengadaan-wrapper">
             <WalkiddieOnboarding steps={onBoardingSteps} />
-
             <div className="owned-pengadaan-sect-1">
                 <div className="owned-pengadaan-sect-1-content">
                     <h3 className="investor-h2 text-align-left"
@@ -218,7 +197,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                                     <div className="col-8 owned-pengadaan-store-desc-saham-wrapper">
                                         <p className="owned-pengadaan-store-desc">{item.deskripsiToko}</p>
                                         <div className="owned-pengadaan-store-saham">
-                                            <p><span style={{ fontWeight: "500" }}>Total saham dimiliki:</span> <br />{roundingFloat(item.nominal / item.totalBiaya) * 100}%</p>
+                                            <p><span style={{ fontWeight: "500" }}>Total saham dimiliki:</span> <br />{item.danaTerkumpul}%</p>
                                             <Link to={{ pathname: "/detail-pengadaan/"+item.pengadaan }} style={{color: "#146A5F"}}><p className="detail-pengadaan-text">Lihat Detail Pengadaan<ChevronRight style={{paddingBottom: '3px'}}/></p></Link>
                                         </div>
 

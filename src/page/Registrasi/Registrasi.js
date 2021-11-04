@@ -165,6 +165,7 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
                                     name='first_name'
                                     value={first_name}
                                     onChange={e => onChange(e)}
+                                    pattern="^[A-Za-z]*$"
                                     required
                                 />
                             </div>
@@ -180,6 +181,7 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
                                     name='last_name'
                                     value={last_name}
                                     onChange={e => onChange(e)}
+                                    pattern="^[A-Za-z]*$"
                                     required
                                 />
                             </div>

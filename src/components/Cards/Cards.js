@@ -13,7 +13,7 @@ const Cards = ({ posts, loading }) => {
     <CardColumns>
       {posts.map(post => (
         <a href={"/detail-pengadaan/"+post.pkPengadaan} className="custom-card-walkiddie">
-          {(post.danaTerkumpul !== post.totalBiaya) &&
+          {(post.danaTerkumpul !== 100.0) &&
           <Card className="card-flex-item" key={post.pk}
             style={{
               height : '470px'
@@ -29,14 +29,14 @@ const Cards = ({ posts, loading }) => {
                   <span style={{ fontWeight: "500", fontSize: "15px" }}>{post.namaCabang}</span>
                 </div>
                 <br/>
-              <ProgressBar variant="success" now={(post.danaTerkumpul/post.totalBiaya*100) + 10} label={(post.danaTerkumpul/post.totalBiaya*100) + "%"} />
+              <ProgressBar variant="success" now={post.danaTerkumpul+10} label={post.danaTerkumpul + "%"} />
               <Card.Text>
                 <p className="card-content-limit">{post.deskripsiToko}</p>
               </Card.Text>
             </Card.Body>
           </Card>
           }
-           {(post.danaTerkumpul === post.totalBiaya) &&
+           {(post.danaTerkumpul === 100.0) &&
           <Card className="card-flex-item" key={post.pk}
             style={{
               height : '470px',
@@ -53,7 +53,7 @@ const Cards = ({ posts, loading }) => {
                   <span style={{ fontWeight: "500", fontSize: "15px" }}>{post.namaCabang}</span>
                 </div>
                 <br/>
-              <ProgressBar className="finished-progress-bar" now={(post.danaTerkumpul/post.totalBiaya*100) + 10} label={(post.danaTerkumpul/post.totalBiaya*100) + "%"}/>
+              <ProgressBar className="finished-progress-bar" now={post.danaTerkumpul+10} label={post.danaTerkumpul+ "%"}/>
               <Card.Text>
                 <p className="card-content-limit">{post.deskripsiToko}</p>
               </Card.Text>
