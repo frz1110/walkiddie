@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
+
 
 export let utils = {
     getPengadaanData: getPengadaan,
@@ -72,7 +74,7 @@ const MembuatInvestasi = ({ isAuthenticated, match, user }) => {
             placement: 'center',
             target: 'body',
         },
-    ];
+    ]; 
 
     const [pengadaan, setPengadaan] = useState({ 'totalBiaya': 0, 'estimasiKeuangan': '', 'pk': -1, 'danaTerkumpul': 0 })
     const [toko, setToko] = useState({})
@@ -94,16 +96,8 @@ const MembuatInvestasi = ({ isAuthenticated, match, user }) => {
         if (nominalIsValid(nominal, pengadaan)) {
             utils.postInvestasiData(match.params.pk, nominal);
         } else {
-            alert("Nominal investasi melebihi nominal dana yang dibutuhkan.\nMohon sesuaikan nominal investasi Anda dan coba kembali.")
+            alert("Mohon sesuaikan nominal investasi Anda dan coba kembali.")
         }
-    }
-
-    const getAmount = (percent) => {
-        return pengadaan.totalBiaya * percent / 100
-    }
-
-    const amountDisabled = (percent) => {
-        return getAmount(percent) > pengadaan.totalBiaya - pengadaan.danaTerkumpul
     }
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
@@ -120,17 +114,16 @@ const MembuatInvestasi = ({ isAuthenticated, match, user }) => {
 
             <div className="row row-cols-1 row-cols-lg-2 mi-text-start mt-5">
                 <div className="col px-4">
-                    <div id="m-i-option" className="row row-cols-1 row-cols-sm-2 gx-2">
-                        <OptionCard ratio={5} amount={getAmount(5)} isDisabled={amountDisabled(5)} />
-                        <OptionCard ratio={10} amount={getAmount(10)} isDisabled={amountDisabled(10)} />
-                        <OptionCard ratio={20} amount={getAmount(20)} isDisabled={amountDisabled(20)} />
-                        <OptionCard ratio={50} amount={getAmount(50)} isDisabled={amountDisabled(50)} />
-                        <OptionCard ratio={70} amount={getAmount(70)} isDisabled={amountDisabled(70)} />
-                        <OptionCard ratio={100} amount={pengadaan.totalBiaya} isDisabled={pengadaan.danaTerkumpul > 0} />
+                    <div className="row row-cols-1">
+                    <h5>Informasi Pembelian Saham</h5>
+                    <p>1 Lot = 10 Lembar Saham</p>
+                    <p>Persentase kepemilikan per 1 lot = 1 %</p>
                     </div>
                     <div id="m-i-custom" className="row">
-                        <CustomOptionCard maxx={pengadaan.totalBiaya} />
-                    </div>
+                        <ErrorBoundary>
+                            <CustomOptionCard totalBiaya = {pengadaan.totalBiaya} />
+                        </ErrorBoundary>
+                    </div>  
                 </div>
 
                 <div className="col px-5">
@@ -183,7 +176,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(MembuatInvestasi);
 
 function nominalIsValid(nominal, pengadaan) {
-    return nominal <= pengadaan.totalBiaya - pengadaan.danaTerkumpul
+    return (nominal) <= (100- pengadaan.danaTerkumpul)
 }
 
 function getCheckedValue() {
@@ -215,11 +208,9 @@ function postInvestasi(pk, nominal) {
 
         investasiFormData.append('nominal', nominal);
         investasiFormData.append('pengadaan', pk);
-
-
         try {
             axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/`, investasiFormData, config)
-            alert('Investasi berhasil dibuat.');
+            alert('Investasi berhasil.');
         } catch (err) {
             alert('Investasi gagal dibuat. Mohon coba kembali.');
         }
