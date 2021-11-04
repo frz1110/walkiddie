@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 import CustomOptionCard from './CustomOptionCard';
 import userEvent from '@testing-library/user-event';
 
@@ -11,25 +11,28 @@ describe('<CustomOptionCard />', () => {
 
     it('should show the right amount', () => {
         const { getByTestId } = render(<CustomOptionCard />)
-        const textBox = getByTestId("mi-custom-amount");
         const radioButton = getByTestId("mi-radio-btn");
-        userEvent.click(radioButton);
 
-        textBox.value='';
-        userEvent.type(textBox, 100);
-        expect(radioButton).toBeChecked();
-        expect(textBox.value).toHaveValue(100);
+        const textBox = getByTestId("mi-custom-amount");
+        act(() => {
+            fireEvent.click(radioButton);
+            fireEvent.change(textBox, { target : { value : 100 } });
+        });
+        expect(textBox).toHaveValue(100);
 
-        textBox.value='';
-        userEvent.type(textBox, -9);
-        expect(textBox.value).toHaveValue(1);
+        act(() => {
+            fireEvent.change(textBox, { target : { value : -9 } });
+        });
+        expect(textBox).toHaveValue(1);
 
-        textBox.value='';
-        userEvent.type(textBox, 1000);
-        expect(textBox.value).toHaveValue(100);
+        act(() => {
+            fireEvent.change(textBox, { target : { value : 1000 } });
+        });
+        expect(textBox).toHaveValue(100);
 
-        textBox.value='';
-        userEvent.type(textBox, 'a');
-        expect(textBox.value).toHaveValue('');
+        act(() => {
+            fireEvent.change(textBox, { target : { value : 'a' } });
+        });
+        expect(textBox).toBeNull;
     })
 })
