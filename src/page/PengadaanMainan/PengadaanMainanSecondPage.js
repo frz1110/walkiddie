@@ -203,11 +203,6 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
             }
             setFormData({ ...formData, totalBiaya: totalSemuaBiaya })
         }
-
-        if (requestSent) {
-            setRequestSent(false);
-            return <Redirect to='/' />
-        }
     }, [requestSent]);
 
     const postPengadaanMainan = () => {
@@ -263,14 +258,16 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
 
                     }
                     console.log(error);
-                    alert("Terdapat kesalahan. Mohon refresh ulang halaman ini")
+                    alert("Terdapat kesalahan. Mohon refresh ulang halaman ini dan perbaiki pengadaan Anda.")
                 });
-                
-            setRequestSent(true);
         } else {
             console.log('missing token');
             alert('Terdapat kesalahan pada autentikasi akun anda. Anda dapat melakukan refresh pada halaman ini')
         }
+    }
+
+    if (requestSent === true) {
+        return <Redirect to="/verif-pengadaan" />
     }
 
     return (
@@ -369,7 +366,12 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                                 <div className="form-group row">
                                     <label htmlFor='totalBiaya' className="col-sm-3 col-form-label"> Total Biaya pengadaan :</label>
                                     <div className="col-sm-9">
-                                        <input className="form-control" id="totalBiaya" type="text" placeholder={formData['totalBiaya']} disabled />
+                                        <input 
+                                            className="form-control" 
+                                            id="totalBiaya" 
+                                            type="text" 
+                                            placeholder={"Rp"+formData['totalBiaya'].toLocaleString()} 
+                                            disabled />
                                     </div>
                                 </div>
                                 <div className="form-group row">

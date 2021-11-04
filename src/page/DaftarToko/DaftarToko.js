@@ -12,6 +12,7 @@ import axios from 'axios';
 import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
 
 const DaftarToko = ({ isAuthenticated, user }) => {
+    const [registered, setRegister] = useState(false);
     const onBoardingSteps = [
         {
             content: <h5>Petunjuk pendaftaran toko</h5>,
@@ -112,7 +113,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        postDaftarToko();
+        postDaftarToko();        
     }
 
     const postDaftarToko = async () => {
@@ -143,6 +144,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                 .then((response) => {
                     console.log(response);
                     alert('Toko Anda telah ditambahkan');
+                    setRegister(true);
                 }, (error) => {
                     if (error.response) {
 
@@ -171,6 +173,9 @@ const DaftarToko = ({ isAuthenticated, user }) => {
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
     if (user.role !== "Mitra") return <Redirect to="/" />
+    if (registered === true) {
+        return <Redirect to="/verif-toko" />
+    } 
 
     return (
         <div>
@@ -225,7 +230,7 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label htmlFor='namaCabang' className="col-sm-3 col-form-label"> Nama Cabang (pilihan) :</label>
+                                <label htmlFor='namaCabang' className="col-sm-3 col-form-label"> <span className="required"> * </span> Nama Cabang (pilihan) :</label>
                                     <div className="col-sm-9">
                                         <input
                                             id='namaCabang'
@@ -235,7 +240,6 @@ const DaftarToko = ({ isAuthenticated, user }) => {
                                             name='namaCabang'
                                             value={namaCabang}
                                             onChange={e => onChange(e)}
-                                            required
                                         />
                                     </div>
                                 </div>
