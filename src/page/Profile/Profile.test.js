@@ -46,6 +46,7 @@ describe('<Profile />', () => {
         expect(screen.getByLabelText(/Email/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Nomor Handphone/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Posisi/)).toBeInTheDocument();
+        expect(screen.getByLabelText(/Pendapatan Investasi/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Nomor KTP/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Tanggal Lahir/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Alamat Lengkap/)).toBeInTheDocument();
