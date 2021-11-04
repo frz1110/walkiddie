@@ -19,19 +19,19 @@ describe('<CustomOptionCard />', () => {
         });
         expect(textBox).toHaveValue(100);
 
-        // act(() => {
-        //     fireEvent.change(textBox, { target : { value : -9 } });
-        // });
-        // expect(textBox).toHaveValue(1);
+        act(() => {
+            fireEvent.change(textBox, { target : { value : -9 } });
+        });
+        expect(textBox).toHaveValue(1);
 
-        // act(() => {
-        //     fireEvent.change(textBox, { target : { value : 1000 } });
-        // });
-        // expect(textBox).toHaveValue(100);
+        act(() => {
+            fireEvent.change(textBox, { target : { value : 1000 } });
+        });
+        expect(textBox).toHaveValue(100);
 
-        // act(() => {
-        //     fireEvent.change(textBox, { target : { value : 'a' } });
-        // });
-        // expect(textBox).toBeNull();
+        act(() => {
+            fireEvent.change(textBox, { target : { value : 'a' } });
+        });
+        expect(textBox).toBeNull;
     })
 })
