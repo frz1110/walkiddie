@@ -7,14 +7,16 @@ The first crowdfunding platform in the toys industry.
 
 ## Contributors
 
-Group : Narai\
-Class : C\
+Group : 1 (Walkiddie)  
+Class : PPL A - Gasal 2021/2022  
 Members :
-- Aji Inisti Udma Wijaya - 1806141126
-- Muhamad Adhytia Wana Putra Rahmadhan - 1806141321
-- Muhammad Ihsan Azizi - 1806186774
+
+- Fathinah Asma Izzati - 1806235744
+- Darian Texanditama - 1806205275
+- Primo Giancarlo Uneputty - 1806205180
+- Muhammad Azhar Hassanuddin - 1806235763
 - Naufal Alauddin Hilmi - 1806205754 
-- Ronaldi Tjaidianto - 1806141441
+- Mario Ekaputta - 1806205243
 
 ## Setup Environment
 
