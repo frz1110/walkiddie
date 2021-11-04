@@ -2,15 +2,15 @@ import { useState } from "react";
 
 const CustomOptionCard = ({totalBiaya}) => {
     const [lot, setLot] = useState(1);
-    const setLotState = (jmlLot)=>{
+    const setLotState = (jmlLot)=> {
         if(jmlLot>100){
-            setLot(100)
+            setLot(100);
         }else if(jmlLot<1){
-            setLot(1)
+            setLot(1);
         }else if(jmlLot<=100 & jmlLot>=1){
-            setLot(jmlLot)
+            setLot(jmlLot);
         }else {
-            setLot('')
+            setLot('');
         }
     }
     return ( 
