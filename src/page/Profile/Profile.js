@@ -15,7 +15,7 @@ const Profile = ({ userData, isAuthenticated }) => {
         email: '',
         first_name: '',
         last_name: '',
-        role: '',
+        role: ''
     });
     const [profile, setProfile] = useState([]);
     const [isFilled, setIsFilled] = useState(false);
@@ -48,7 +48,7 @@ const Profile = ({ userData, isAuthenticated }) => {
                     email: userData.email,
                     first_name: userData.first_name,
                     last_name: userData.last_name,
-                    role: userData.role,
+                    role: userData.role
                 });
                 setLoading(true);
                 const result = await load_profile()(email);
@@ -264,9 +264,11 @@ const Profile = ({ userData, isAuthenticated }) => {
                             <Row className="justify-content-center">
                                 <div className="col-sm">
                                     <div className="profile-form-container">
-                                        <label htmlFor='investment_income'> Pendapatan Investasi </label>
+                                        <label htmlFor='income'> Pendapatan Investasi </label>
                                         <br></br>
                                         <input
+                                            id='income'
+                                            name='income'
                                             value={income}
                                             disabled
                                         />
