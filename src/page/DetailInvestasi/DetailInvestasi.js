@@ -3,24 +3,28 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { Row } from "react-bootstrap";
+import { Row ,Dropdown} from "react-bootstrap";
 import { ChevronLeft } from 'react-feather';
 import Table from 'react-bootstrap/Table';
 import NumberFormat from 'react-number-format';
-import { Doughnut, Line, Bar } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import emptyIcon from '../ListOwnedPengadaan/empty.svg';
 
 const DetailInvestasi = ({ isAuthenticated, user, location }) => {
     const [sales, setSales] = useState([]);
-    const [tanggalPendapatan, setTanggalPendapatan] = useState([]);
-    const [rincianPendapatan, setRincianPendapatan] = useState([]);
     const [pendapatan, setPendapatan] = useState('');
-    const [empty, setEmpty] = useState(false); // Always empty
+    const [empty, setEmpty] = useState(false); 
+    const [pendapatanTahunan, setpendapatanTahunan] = useState([]);
+    const [tahun, setTahun] = useState([]);
+    const [pendapatanBulanan, setpendapatanBulanan] = useState([]);
+    const [bulan, setBulan] = useState([]);
     const data = location.state;
     const email = user.email;
-    const results1 = [];
-    const results2 = [];
     let totalPendapatan = 0;
+    const [filter, setFilter] = useState('Harian');
+    const handleSelect = (e) => {
+        setFilter(e)
+    }
 
     const config = {
         headers: {
@@ -30,22 +34,24 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
     };
 
     const fetchSales = async () => {
-        //Hasil dari fetchSales ini masi belum digunakan. PK ke semua page masih 2.
         try {
-            const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pk}/sales`, config); //From past dev, still hitting to the wrong endpoints
+            var res;
+            if(filter==='Harian'){
+                res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales`, config);
+            }
+            else if(filter==='Mingguan'){
+                res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales/weekly`, config);
+                console.log(res.data[0].dateRange.start);
+            }
+            else if(filter==='Bulanan'){
+                res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales/monthly`, config);
+            }
             if (res.data.length === 0) {
                 setEmpty(true);
             } else {
                 setEmpty(false);
                 setSales(res.data);
-                for (let i = 0; i < res.data.length; i++) {
-                    results1.push(res.data[i].tanggalPendapatan);
-                    results2.push(res.data[i].bagiHasil.investor[email]);
-                    totalPendapatan = totalPendapatan + res.data[i].bagiHasil.investor[email];
-                    setPendapatan(totalPendapatan)
-                }
-                setTanggalPendapatan([...tanggalPendapatan, ...results1]);
-                setRincianPendapatan([...rincianPendapatan, ...results2]);
+                console.log(res.data);
             }
         }
         catch (err) {
@@ -53,48 +59,51 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
         }
     }
 
-    
-
-
     useEffect(() => {
         fetchSales();
-    }, [data]);
+    }, [filter]);
 
-    function statusChanger(status) {
-        if (status === "MPA") {
-            return (<h3 className="owned-pengadaan-status">Menunggu Persetujuan Admin</h3>)
+    const fetchYearly = async () => {
+        try {
+            var yearData = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales/yearly`, config);
+            var yearRes = [];
+            var yearPendapatan=[];
+
+            for(let j=0;j<yearData.data.length;j++){
+                yearRes.push(yearData.data[j].tanggalPendapatan_Year);
+                yearPendapatan.push(yearData.data[j].bagiHasil.investor[email]);
+                totalPendapatan = totalPendapatan + yearData.data[j].bagiHasil.investor[email];
+            }
+            setPendapatan(totalPendapatan);
+            setpendapatanTahunan(yearPendapatan);
+            setTahun(yearRes);
+
+            var mthData = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales/monthly`, config);
+            var mthRes = [];
+            var mthPendapatan=[];
+
+            for(let j=0;j<mthData.data.length;j++){
+                mthRes.push(mthData.data[j].tanggalPendapatan_Month);
+                mthPendapatan.push(mthData.data[j].bagiHasil.investor[email]);
+            }
+            setpendapatanBulanan(mthPendapatan);
+            setBulan(mthRes);
         }
-        else if (status === "TRM") {
-            return (<h3 className="owned-pengadaan-status" style={{ color: "#146A5F" }}>Beroperasi Normal</h3>)
-        }
-        else if (status === "TLK") {
-            return (<h3 className="owned-pengadaan-status">Pengajuan Ditolak</h3>)
-        }
-        else {
-            return "";
+        catch (err) {
+            alert('Terjadi kesalahan pada database')
         }
     }
 
-    const dataDoughnutChart = {
-        datasets: [
-            {
-                label: 'Jumlah saham',
-                data: [ data.nominal , data.danaTerkumpul - data.nominal],
-                backgroundColor: [
-                    '#146A5F',
-                    '#D3F1EE',
-                ],
-                hoverOffset: 4
-            },
-        ],
-    };
-
+    useEffect(() => {
+        fetchYearly();
+    }, []);
+    
     const dataLineChart = {
-        labels: tanggalPendapatan,
+        labels: bulan,
         datasets: [
             {
                 label: 'Rincian Pendapatan',
-                data: rincianPendapatan,
+                data: pendapatanBulanan,
                 fill: false,
                 backgroundColor: '#146A5F',
                 borderColor: '#D3F1EE',
@@ -115,11 +124,11 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
     };
 
     const dataBarChart = {
-        labels: tanggalPendapatan,
+        labels: tahun,
         datasets: [
             {
                 label: 'Rincian Pendapatan',
-                data: rincianPendapatan,
+                data: pendapatanTahunan,
                 backgroundColor: '#146A5F',
                 borderColor: '#D3F1EE',
                 borderWidth: 3,
@@ -148,38 +157,11 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                         </div>
                     </div>
                     <div className="owned-pengadaan-profil-right">
-                        {statusChanger(data.status)}
+                        <h3 className="owned-pengadaan-status" style={{ color: "#146A5F" }}>Beroperasi Normal</h3>
                     </div>
                 </div>
             </div>
             <br />
-
-            <Row style={{ margin: "0px" }} className="justify-content-center">
-                <div className="col-4 detail-investasi-small-card">
-                    <div className="detail-investasi-small-card-left">
-                        <div className="detail-investasi-small-card-title">
-                            Total Saham Dimiliki<br />
-                        </div>
-                        <div className="detail-investasi-small-card-value">
-                            {data.nominal}%
-                            </div>
-                    </div>
-                    <div>
-                        <Doughnut
-                            data={dataDoughnutChart}
-                            width={120}
-                            height={120}
-                            options={{ maintainAspectRatio: false, responsive: false }}
-                        />
-                    </div>
-                </div>
-                <div className="col-4">
-
-                </div>
-                <div className="col-4">
-
-                </div>
-            </Row>
             <br />
             {!empty && <div>
                 <Row style={{ margin: "0px" }}>
@@ -193,13 +175,28 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                 <br />
                 <div className="detail-investasi-table-wrapper">
                     <h3 className="table-title-rincian">Tabel Rincian Pendapatan</h3>
-                    <div className="table-wrapper-invest" style={{ margin: "0px" }}>
+                    <div className="dropdown-ringkasan-sales">
+                            <Dropdown
+                                onSelect={handleSelect}>
+                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                    {filter}
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                    <Dropdown.Item eventKey="Harian">Harian</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Mingguan">Mingguan</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Bulanan">Bulanan</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                     </div>
+
+                    <div className="table-wrapper-invest" style={{ marginTop: "15px" }}>
                         <div style={{ width: "100%", height: "100%" }}>
                             <Table bordered borderless>
                                 <thead>
                                     <tr>
                                         <th style={{ textAlign: "center" }}>No</th>
-                                        <th>Tanggal</th>
+                                        <th>{filter==='Harian'?'Tanggal':(filter==='Mingguan'?'Minggu':'Bulan')}</th>
                                         <th>Rincian Penjualan</th>
                                         <th>Rincian Pendapatan</th>
                                     </tr>
@@ -208,7 +205,10 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                                     {sales.map((item, i=0) => (
                                         <tr>
                                             <td style={{ textAlign: "center" }}>{i + 1}</td>
-                                            <td>{item.tanggalPendapatan}</td>
+                                            <td>{filter==='Harian' && item.tanggalPendapatan}
+                                                {filter==='Bulanan' && (item.tanggalPendapatan_Month+"-"+item.tanggalPendapatan_Year)}
+                                                {filter==='Mingguan' && (item.tanggalPendapatan_Week+"-"+item.tanggalPendapatan_Year)}
+                                            </td>
                                             <td><NumberFormat value={item.pendapatan} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></td>
                                             <td style={{ fontWeight: "500" }}><NumberFormat value={String(roundingFloat(item.bagiHasil.investor[email]))} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></td>
                                         </tr>
@@ -228,10 +228,20 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                             <div className="detail-investasi-small-card-value" style={{ fontSize: "25px" }}>
                                 {<NumberFormat value={roundingFloat(pendapatan)} displayType={'text'} thousandSeparator={true} prefix={'Rp '} />}
                             </div>
+
+                            <hr/>
+
+                            <div className="detail-investasi-small-card-title">
+                            Total Saham Dimiliki<br />
+                            </div>
+                            <div className="detail-investasi-small-card-value" style={{ fontSize: "25px" }}>
+                                {data.nominal}%
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>}
+            
             {empty && <div style={{ paddingTop: "25px" }} className="owned-pengadaan-null-wrapper">
                 <img src={emptyIcon} alt="empty data"></img>
                 <h5 className="owned-pengadaan-null">Belum memiliki pendapatan</h5>

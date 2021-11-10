@@ -42,7 +42,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
             alert('Terjadi kesalahan saat fetching data pengadaan')
         }
         try{
-            const tokoObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/${pengadaanObj.data.toko}`, config);
+            const tokoObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/${pengadaanObj.data.toko.pk}`, config);
             setToko(tokoObj.data);
             localStorage.setItem('lat', tokoObj.data.latitude);
             localStorage.setItem('long', tokoObj.data.longitude);
@@ -70,7 +70,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                 .then(response => {
                     if(response.data.filter(b => b.investor === userData.email && b.pengadaan === pengadaan.pk && b.status ==="MPA" ).length !== 0){
                         setDisable(true);
-                    } else if(pengadaan.danaTerkumpul>=100.0){
+                    } else if(pengadaan.danaTerkumpul>=pengadaan.totalBiaya){
                         setDisable(true);
                     }
                     const investasi = response.data.filter(data => data.pengadaan === parseInt(match.params.pk) && data.status === "TRM");
@@ -136,8 +136,8 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                     <h3 className="detail-pengadaan-modal-text">Kebutuhan Modal</h3>
                     <p className="detail-pengadaan-midtext"></p>
                     <h3 className="detail-pengadaan-modal-target"><NumberFormat value={pengadaan.totalBiaya} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></h3>
-                    <ProgressBar striped now={pengadaan.danaTerkumpul+10} label={pengadaan.danaTerkumpul+ "%"} />
-                    <p className="detail-pengadaan-modal-desc">Terkumpul dari target: <NumberFormat value={pengadaan.danaTerkumpul/100*pengadaan.totalBiaya} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></p>
+                    <ProgressBar striped now={(pengadaan.danaTerkumpul/pengadaan.totalBiaya*100)+10} label={(pengadaan.danaTerkumpul/pengadaan.totalBiaya*100)+ "%"} />
+                    <p className="detail-pengadaan-modal-desc">Terkumpul dari target: <NumberFormat value={pengadaan.totalBiaya} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></p>
                     
                     <h3 className="detail-pengadaan-modal-text">Jumlah Investasimu</h3>
                     <p className="detail-pengadaan-midtext"></p>
