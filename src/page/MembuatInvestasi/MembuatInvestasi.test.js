@@ -42,7 +42,6 @@ describe('<Membuat Investasi />', () => {
     
     it('should contains Option Cards components', () => {
         const { getAllByTestId } = render(<MembuatInvestasi match={mockMatch} />);
-        expect(getAllByTestId("mi-opt-card")).not.toHaveLength(0)
         expect(getAllByTestId("mi-custom-opt-card")).not.toHaveLength(0)
     })
 
@@ -75,6 +74,27 @@ describe('<Membuat Investasi />', () => {
         expect(testLoc.pathname).toBe("/masuk");
     })
 
+    it('should redirect to / if not investor', () => {
+        let testLoc;
+        render(
+            <MemoryRouter initialEntries={["/investasi/1"]}>
+                <MembuatInvestasi match={mockMatch} />
+                <Route
+                    path="*"
+                    render={({ location }) => {
+                    testLoc = location;
+                    return null;
+                    }}
+                />
+            </MemoryRouter>,
+            {initialState: {auth: {isAuthenticated: true,user: {
+                role: "Mitra"
+            }}}}
+        );
+        
+        expect(testLoc.pathname).toBe("/");
+    })
+
     test('back button work correctly', () => {
         const historyBack = jest.spyOn(window.history, 'back');
         historyBack.mockImplementation(() => {});
@@ -104,26 +124,6 @@ describe('<Membuat Investasi />', () => {
         });
         expect(axios.post).toHaveBeenCalledTimes(1);
         expect(alert).toHaveBeenCalledTimes(1);
-        alert.mockRestore();
-    })
-    
-    test('submit investasi form failed and gives alert', () => {
-        const alert = jest.spyOn(window, 'alert');
-        alert.mockImplementation(() => {});
-
-        axios.post.mockImplementationOnce(() => Promise.reject());
-        localStorage.setItem('access', 'token')
-
-        const { getByText, getAllByTestId } = render(<MembuatInvestasi match={mockMatch} />);
-        const submitButton = getByText('Buat Investasi', {selector: "button"});
-        const optionCards = getAllByTestId("mi-radio-btn");
-      
-        act(() => {
-            fireEvent.click(optionCards[0]);
-            // fireEvent.click(submitButton); //Causing error
-        });
-        // expect(axios.post).toHaveBeenCalledTimes(1);  //Causing error
-        // expect(alert).toHaveBeenCalledTimes(1);  //Causing error
         alert.mockRestore();
     })
     
@@ -192,6 +192,14 @@ describe('<Membuat Investasi />', () => {
             fireEvent.click(submitButton);
         });
         utils.getCustomCardValue()
-        expect(getCustomCardValueMock).toReturnWith("125000");
+        expect(getCustomCardValueMock).toReturnWith("100");
+
+        act(() => {
+            fireEvent.click(customOptionCards);
+            fireEvent.change(customValueInput, { target : { value : -9 } });
+            fireEvent.click(submitButton);
+        });
+        utils.getCustomCardValue()
+        expect(getCustomCardValueMock).toReturnWith("1");
     })
 })
