@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Row, Col, Dropdown } from "react-bootstrap";
 import { Chart } from "react-google-charts";
@@ -16,11 +16,13 @@ const RingkasanSales = ({ isAuthenticated, user }) => {
     const [data, setData] = useState();
     const [deskripsi, setDeskripsi] = useState(null);
     const [filter, setFilter] = useState('Semua');
+    const [allPengadaan, setAllPengadaan]= useState([]);
+    const [nullPengadaan, setNullPengadaan] = useState([]);
+    var somePengadaan = [];
     const handleSelect = (e) => {
         setFilter(e)
     }
 
-    console.log(filter);
     const config = {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -56,6 +58,7 @@ const RingkasanSales = ({ isAuthenticated, user }) => {
                     }
                 } else {
                     if (filter === 'Semua') {
+                        setAllPengadaan([]);
                         res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/`, config);
                         console.log("ringkasan-investor")
                         console.log(res)
@@ -86,30 +89,29 @@ const RingkasanSales = ({ isAuthenticated, user }) => {
 
                 let keuntungan = [['Cabang', 'Investasi']];
                 for (let j = 0; j < res.data.length; j++) {
-                    keuntungan.push([res.data[j].namaToko + ',' + res.data[j].namaCabang, res.data[j].pendapatan])
+                    if (filter === 'Semua'){
+                        setAllPengadaan(oldArray => [res.data[j].namaToko + ' - ' + res.data[j].namaCabang,...oldArray] );
+                    }
+                    keuntungan.push([res.data[j].namaToko + ',' + res.data[j].namaCabang, res.data[j].pendapatan]);
+                    somePengadaan.push(res.data[j].namaToko + ' - ' + res.data[j].namaCabang);
                 }
                 setData(keuntungan);
                 setDeskripsi(res.data);
-                console.log(keuntungan);
-                console.log(res.data);
-                console.log(deskripsi);
-
+                setNullPengadaan(
+                    allPengadaan.filter(n => !somePengadaan.includes(n))
+                )
             } catch (e) {
                 console.log(e);
                 alert('Terdapat kesalahan pada database. Mohon refresh ulang halaman ini')
             }
         }
-        fetchRingkasanSales()
+        fetchRingkasanSales();
     }, [filter]);
 
     if (!isAuthenticated) {
-        alert("Masuk sebagai Mitra/Investor untuk melanjutkan");
+        alert("Masuk sebagai Investor untuk melanjutkan");
         return <Redirect to="/masuk" />
     }
-    // if (user.role === "Admin") {
-    //     alert("Anda tidak dapat melihat halaman ini karena anda bukan Mitra/Investor");
-    //     return <Redirect to="/" />
-    // }
 
     if (deskripsi === null) {
         return 'Loading...';
@@ -157,29 +159,28 @@ const RingkasanSales = ({ isAuthenticated, user }) => {
                 <div>
                 <div className='d-flex flex-column justify-content-center align-items-center'>
                     <h3>Ringkasan Sales Investasi</h3>
-                    <div className='ringkasan-sales-rectangle '>
-                        
-                     <div className="dropdown-ringkasan-sales">
-                                    <Dropdown
-                                        onSelect={handleSelect}
-                                    >
-                                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                            {filter}
-                                        </Dropdown.Toggle>
+                    <div className='ringkasan-sales-rectangle dropdown-ringkasan-sales'>
+                         <Row>
+                            <Dropdown
+                                onSelect={handleSelect}
+                            >
+                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                    {filter}
+                                </Dropdown.Toggle>
 
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item eventKey="Semua">Semua</Dropdown.Item>
-                                            <Dropdown.Item eventKey="Harian">Harian</Dropdown.Item>
-                                            <Dropdown.Item eventKey="Mingguan">Mingguan</Dropdown.Item>
-                                            <Dropdown.Item eventKey="Bulanan">Bulanan</Dropdown.Item>
-                                            <Dropdown.Item eventKey="Tahunan">Tahunan</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </div>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item eventKey="Semua">Semua</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Harian">Harian</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Mingguan">Mingguan</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Bulanan">Bulanan</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Tahunan">Tahunan</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Row>
                         <Row>
-                            <Col sm={8} 
+                            <Col sm={6} 
                                 style={{                              
-                                    margin: 'auto'
+                                     margin:'auto',marginLeft: '-100px'
                                 }}>
                                 <Chart
                                     width={'600px'}
@@ -190,23 +191,35 @@ const RingkasanSales = ({ isAuthenticated, user }) => {
                                     rootProps={{ 'data-testid': '1' }}
                                 />
                             </Col>
-                            <Col sm={4}
+                            <Col sm={6}
                                 style={{                              
-                                    margin: 'auto'
+                                    margin:'auto',marginLeft: '100px'
                                 }}>
-                                <hr></hr>
-                                
+
                                 {deskripsi.map(desk => (
                                         <div className="profile-details-wrapper flex-wrapper">
                                             <div className="profile-details" id="desc">
-                                                <p>{desk.namaToko}</p>
-                                                <p>{desk.namaCabang}</p>
+                                                <small>{desk.namaToko} - {desk.namaCabang} : <NumberFormat value={desk.pendapatan} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></small>
+                                                <small  className='float-right' ></small>
+                                                <hr style={{width:'350px'}}></hr>
                                             </div>
-                                            <div className="profile-details" id="desc">
-                                                <p><NumberFormat value={desk.pendapatan} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></p>
+                                            <div className="profile-details text-left" id="desc">
                                             </div>
-                                            <hr></hr>
+                                            <hr/>
                                         </div>
+                                ))}
+
+                                {nullPengadaan.map(n => (
+                                        <div className="profile-details-wrapper flex-wrapper">
+                                        <div className="profile-details" id="desc">
+                                            <small> {n} : <NumberFormat value={0} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></small>
+                                            <small  className='float-right' ></small>
+                                            <hr style={{width:'350px'}}></hr>
+                                        </div>
+                                        <div className="profile-details text-left" id="desc">
+                                        </div>
+                                        <hr/>
+                                    </div>
                                 ))}
                                 </Col>
                             </Row>

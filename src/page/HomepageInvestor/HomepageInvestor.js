@@ -115,7 +115,7 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
                 let result = [];
                 for (let i = 0; i < res2.length; i++) {
                     for (let j = 0; j < res.length; j++) {
-                        if (res2[i].toko === res[j].pk) {
+                        if (res2[i].toko.pk === res[j].pk) {
                             var merging = Object.assign({}, res2[i], res[j]);
                             console.log(merging);
                             result.push(merging)
@@ -190,7 +190,7 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
         let result = [];
         for (let i = 0; i < res2.length; i++) {
             for (let j = 0; j < filterData.length; j++) {
-                if (res2[i].toko === filterData[j].pk) {
+                if (res2[i].toko.pk === filterData[j].pk) {
                     var merging = Object.assign({}, res2[i], filterData[j]);
                         console.log(merging);
                     result.push(merging)

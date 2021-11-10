@@ -101,7 +101,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
     const fetchTokoData = async () => {
         try {
             for (let i = 0; i < pengadaan.length; i++) {
-                const tokoObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/${pengadaan[i].toko}`, config);
+                const tokoObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/${pengadaan[i].toko.pk}`, config);
                 results2.push(tokoObj.data);
             }
             setToko([...toko, ...results2]);
@@ -197,7 +197,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                                     <div className="col-8 owned-pengadaan-store-desc-saham-wrapper">
                                         <p className="owned-pengadaan-store-desc">{item.deskripsiToko}</p>
                                         <div className="owned-pengadaan-store-saham">
-                                            <p><span style={{ fontWeight: "500" }}>Total saham dimiliki:</span> <br />{item.danaTerkumpul}%</p>
+                                            <p><span style={{ fontWeight: "500" }}>Total saham dimiliki:</span> <br />{item.nominal}%</p>
                                             <Link to={{ pathname: "/detail-pengadaan/"+item.pengadaan }} style={{color: "#146A5F"}}><p className="detail-pengadaan-text">Lihat Detail Pengadaan<ChevronRight style={{paddingBottom: '3px'}}/></p></Link>
                                         </div>
 
