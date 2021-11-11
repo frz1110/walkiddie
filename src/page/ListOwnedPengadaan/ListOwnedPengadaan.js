@@ -85,7 +85,6 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                 for (let i = 0; i < investasiObj.data.length; i++) {
                     if (investasiObj.data[i].status === "TRM") {
                         results3.push(investasiObj.data[i]);
-
                     }
                 }
                 setInvestasi([...investasi, ...results3]);
