@@ -132,17 +132,15 @@ const Profile = ({ isAuthenticated }) => {
                         <div className="square-box-2">
                                 <div className="col-sm">
                                     <div className="profile-form-container">
-                                    <label htmlFor='pk' className="col-sm-3 col-form-label"> Pilih Pengadaan </label>
+                                    <label htmlFor='pk'> Pilih Pengadaan </label>
                                         <Select
-                                            id="pk"
-                                            role="pk"
+                                            id='pk'
                                             name='pk'
-                                            class="form-control"
                                             placeholder="Pilih Pengadaan"
                                             options={daftarPengadaan}
                                             onChange={e => handleChange(e)}
                                         />
-                                </div>
+                                    </div>
                                     <div className="profile-form-container">
                                         <label htmlFor='tanggal_pendapatan'> Tanggal Pendapatan </label>
                                         <br></br>
