@@ -211,6 +211,11 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                             />
                         </Row>
                     </div>
+                    <a href={"/membuat-pendapatan/"} className="custom-card-walkiddie">
+                    <button className="wkd-home-button wkd-nav-button wkd-tosca-button">
+                        Buat Pendapatan
+                    </button>
+                    </a>
                 </div>
 
                 <div id="h-p-toko" className="list-pemilik-toko mt-5">

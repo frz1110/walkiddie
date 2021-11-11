@@ -28,6 +28,7 @@ import DetailInvestasi from './page/DetailInvestasi/DetailInvestasi';
 
 import store from './store';
 import HomepageOperator from './page/HomepageOperator/HomepageOperator';
+import MembuatPendapatan from './page/MembuatPendapatan/MembuatPendapatan';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -106,6 +107,9 @@ function App() {
               </Route>
               <Route exact path="/">
                 <Home />
+              </Route>
+              <Route path="/membuat-pendapatan">
+                <MembuatPendapatan />
               </Route>
             </Switch>
           </div>
