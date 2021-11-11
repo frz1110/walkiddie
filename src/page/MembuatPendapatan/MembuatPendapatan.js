@@ -28,6 +28,19 @@ const Profile = ({ isAuthenticated }) => {
 
 
     const [daftarPengadaan, setDaftarPengadaan] = useState([]);
+    
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }   
+    today = yyyy + '-' + mm + '-' + dd;
+    const tanggalMax = today;
 
     const fetchDaftarPengadaan = async () => {
         try {
@@ -90,38 +103,6 @@ const Profile = ({ isAuthenticated }) => {
         }
     }
 
-
-
-
-
-    // const handleSubmit = async (pendapatan, tanggal_pendapatan) => {
-    //     setLoading(true);
-    //     // const res = await update_profile(email, full_name, address, phone_number, ktp_number, birth_date, profile_picture, imageChanged);
-    //     // if (res.success) {
-    //     //     window.location.reload(false);
-    //     // } else {
-    //     //     setLoading(false);
-    //     //     alert('Terjadi kesalahan, data anda gagal diubah')
-    //     // }
-    //     var formDataToSend = new FormData();
-        
-    //     formDataToSend.append('pendapatan', pendapatan);
-    //     formDataToSend.append('tanggal_pendapatan', tanggal_pendapatan);
-        
-    //     try {
-    //         await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/15/sales/`, formDataToSend, config);
-            
-    //         return {
-    //             success: true,
-    //         }
-    //     } catch (err) {
-    //         return {
-    //             success: false,
-    //             err
-    //         }
-    //     }
-    // };
-
     useEffect(() => {
         fetchDaftarPengadaan();
     }, []);
@@ -151,17 +132,16 @@ const Profile = ({ isAuthenticated }) => {
                         <div className="square-box-2">
                                 <div className="col-sm">
                                     <div className="profile-form-container">
-                                    <label htmlFor='pk' className="col-sm-3 col-form-label"> <span className="required">*</span> Pilih Pengadaan :</label>
+                                    <label htmlFor='pk'> Pilih Pengadaan </label>
+                                        <br></br>
                                         <Select
-                                            id="pk"
-                                            role="pk"
+                                            id='pk'
                                             name='pk'
-                                            class="form-control"
                                             placeholder="Pilih Pengadaan"
                                             options={daftarPengadaan}
                                             onChange={e => handleChange(e)}
                                         />
-                                </div>
+                                        </div>
                                     <div className="profile-form-container">
                                         <label htmlFor='tanggal_pendapatan'> Tanggal Pendapatan </label>
                                         <br></br>
@@ -170,6 +150,7 @@ const Profile = ({ isAuthenticated }) => {
                                             name='tanggal_pendapatan'
                                             required
                                             type="date"
+                                            max={tanggalMax}
                                             onChange={e => onChange(e)}
                                         />
                                     </div>

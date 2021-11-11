@@ -41,6 +41,19 @@ const Profile = ({ userData, isAuthenticated }) => {
         }
     };
 
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear() - 17;
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }   
+    today = yyyy + '-' + mm + '-' + dd;
+    const tanggalMax = today;
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -256,6 +269,7 @@ const Profile = ({ userData, isAuthenticated }) => {
                                             id='birth_date'
                                             name='birth_date'
                                             value={birth_date}
+                                            max={tanggalMax}
                                             onChange={e => onChange(e)}
                                             required
                                             type="date"
