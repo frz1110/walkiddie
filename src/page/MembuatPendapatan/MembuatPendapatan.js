@@ -90,38 +90,6 @@ const Profile = ({ isAuthenticated }) => {
         }
     }
 
-
-
-
-
-    // const handleSubmit = async (pendapatan, tanggal_pendapatan) => {
-    //     setLoading(true);
-    //     // const res = await update_profile(email, full_name, address, phone_number, ktp_number, birth_date, profile_picture, imageChanged);
-    //     // if (res.success) {
-    //     //     window.location.reload(false);
-    //     // } else {
-    //     //     setLoading(false);
-    //     //     alert('Terjadi kesalahan, data anda gagal diubah')
-    //     // }
-    //     var formDataToSend = new FormData();
-        
-    //     formDataToSend.append('pendapatan', pendapatan);
-    //     formDataToSend.append('tanggal_pendapatan', tanggal_pendapatan);
-        
-    //     try {
-    //         await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/15/sales/`, formDataToSend, config);
-            
-    //         return {
-    //             success: true,
-    //         }
-    //     } catch (err) {
-    //         return {
-    //             success: false,
-    //             err
-    //         }
-    //     }
-    // };
-
     useEffect(() => {
         fetchDaftarPengadaan();
     }, []);

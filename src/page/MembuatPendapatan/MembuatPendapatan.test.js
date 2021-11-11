@@ -41,6 +41,7 @@ describe('<MembuatPendapatan />', () => {
                 </BrowserRouter>
             </Provider>);
 
+        expect(screen.getByLabelText(/Pilih Pengadaan/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Tanggal Pendapatan/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Jumlah Pendapatan/)).toBeInTheDocument();
     });

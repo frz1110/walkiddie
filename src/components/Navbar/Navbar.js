@@ -63,7 +63,7 @@ const Navbar = ({isLoggedIn, handleLogout, userData}) => {
         <div className={ isLoggedIn ? "wkd-nav-buttons" : "wkd-nav-buttons wkd-guest"}>
           {!isLoggedIn && <button className="wkd-nav-button wkd-light-tosca-button"><Link to="/masuk"><span>Masuk </span></Link></button>}
           {!isLoggedIn && <button className="wkd-nav-button wkd-dark-green-button"><Link to="/daftar-investor">Daftar</Link></button>}
-          {isLoggedIn && <p data-testid='pendapatan-investasi'>Rp{income.toLocaleString()}</p>}
+          {isLoggedIn && role==="Investor" && <p data-testid='pendapatan-investasi'>Rp{income.toLocaleString()}</p>}
           {isLoggedIn && <NavProfile handleLogout={handleLogout} image={image} name={name} role={role} data-testid='nav-profile'/>}
         </div>
       </nav>
