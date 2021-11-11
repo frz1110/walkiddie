@@ -1,18 +1,46 @@
-import { render } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 import CustomOptionCard from './CustomOptionCard';
-import userEvent from '@testing-library/user-event';
+
 
 describe('<CustomOptionCard />', () => {
     it('should render correctly', () => {
-        const { getByText } = render(<CustomOptionCard />)
-        expect(getByText(/jumlah lain/i)).toBeInTheDocument()
-    })
+        const { getByText } = render(<CustomOptionCard />);
+        expect(getByText(/Jumlah Lot/)).toBeInTheDocument();
+    });
 
-    it('should be checked when clicked', () => {
-        const { getByTestId } = render(<CustomOptionCard />)
+    it('should show the right amount', () => {
+        const { getByTestId } = render(<CustomOptionCard />);
         const radioButton = getByTestId("mi-radio-btn");
+        const textBox = getByTestId("mi-custom-amount");
+        act(() => {
+            fireEvent.click(radioButton);
+            fireEvent.change(textBox, { target : { value : 100 } });
+        });
+        expect(textBox).toHaveValue(100);
+    });
 
-        userEvent.click(radioButton)
-        expect(radioButton).toBeChecked();
-    })
-})
+    it('should show the right amount negative', () => {
+        const { getByTestId } = render(<CustomOptionCard />);
+        const radioButton = getByTestId("mi-radio-btn");
+        const textBox = getByTestId("mi-custom-amount");
+        act(() => {
+            fireEvent.click(radioButton);
+            fireEvent.change(textBox, { target : { value : -9 } });
+        });
+        expect(textBox).toHaveValue(1);
+    });
+    it('should show the right amount more than 100', () => {
+        const { getByTestId } = render(<CustomOptionCard />);
+        const textBox = getByTestId("mi-custom-amount");
+        act(() => {
+            fireEvent.change(textBox, { target : { value : 1000 } });
+        });
+    });
+    it('should show the right amount null value', () => {
+        const { getByTestId } = render(<CustomOptionCard />);
+        const textBox = getByTestId("mi-custom-amount");
+        act(() => {
+            fireEvent.change(textBox, { target : { value : 'a' } });
+        });
+    });
+});
