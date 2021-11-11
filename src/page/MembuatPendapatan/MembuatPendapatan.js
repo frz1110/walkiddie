@@ -133,6 +133,7 @@ const Profile = ({ isAuthenticated }) => {
                                 <div className="col-sm">
                                     <div className="profile-form-container">
                                     <label htmlFor='pk'> Pilih Pengadaan </label>
+                                        <br></br>
                                         <Select
                                             id='pk'
                                             name='pk'
@@ -140,7 +141,7 @@ const Profile = ({ isAuthenticated }) => {
                                             options={daftarPengadaan}
                                             onChange={e => handleChange(e)}
                                         />
-                                    </div>
+                                        </div>
                                     <div className="profile-form-container">
                                         <label htmlFor='tanggal_pendapatan'> Tanggal Pendapatan </label>
                                         <br></br>
