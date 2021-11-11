@@ -78,7 +78,7 @@ const Profile = ({ userData, isAuthenticated }) => {
                 phone_number: profile.phone_number,
                 ktp_number: profile.ktp_number,
                 birth_date: profile.birth_date,
-                income: "Rp"+pendapatan_investasi
+                income: "Rp"+pendapatan_investasi.toLocaleString()
             });
         }
         setInitial();

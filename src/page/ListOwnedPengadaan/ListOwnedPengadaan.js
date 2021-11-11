@@ -85,7 +85,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                 for (let i = 0; i < investasiObj.data.length; i++) {
                     if (investasiObj.data[i].status === "TRM") {
                         results3.push(investasiObj.data[i]);
-                        const pengadaanObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${investasiObj.data[i].pengadaan}`, config);
+                        const pengadaanObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${investasiObj.data[i].pengadaan.pk}`, config);
                         results1.push(pengadaanObj.data);
                     }
                 }
