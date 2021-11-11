@@ -35,16 +35,18 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
 
     const fetchSales = async () => {
         try {
+            console.log(data);
+            console.log('---');
             var res;
             if(filter==='Harian'){
-                res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales`, config);
+                res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan.pk}/sales`, config);
             }
             else if(filter==='Mingguan'){
-                res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales/weekly`, config);
+                res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan.pk}/sales/weekly`, config);
                 console.log(res.data[0].dateRange.start);
             }
             else if(filter==='Bulanan'){
-                res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales/monthly`, config);
+                res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan.pk}/sales/monthly`, config);
             }
             if (res.data.length === 0) {
                 setEmpty(true);
@@ -55,7 +57,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
             }
         }
         catch (err) {
-            alert('Terjadi kesalahan pada database')
+            alert('Terjadi kesalahan pada database~')
         }
     }
 
@@ -65,7 +67,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
 
     const fetchYearly = async () => {
         try {
-            var yearData = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales/yearly`, config);
+            var yearData = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan.pk}/sales/yearly`, config);
             var yearRes = [];
             var yearPendapatan=[];
 
@@ -78,7 +80,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
             setpendapatanTahunan(yearPendapatan);
             setTahun(yearRes);
 
-            var mthData = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan}/sales/monthly`, config);
+            var mthData = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/${data.pengadaan.pk}/sales/monthly`, config);
             var mthRes = [];
             var mthPendapatan=[];
 
@@ -90,7 +92,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
             setBulan(mthRes);
         }
         catch (err) {
-            alert('Terjadi kesalahan pada database')
+            alert('Terjadi kesalahan pada database!')
         }
     }
 
@@ -150,10 +152,10 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
             <div className="owned-pengadaan-object-invest">
                 <div className="owned-pengadaan-profil-invest">
                     <div className="owned-pengadaan-profil-left">
-                        <img src={data.fotoProfilToko} className="owned-pengadaan-profil-img" alt=""></img>
+                        <img src={data.pengadaan.toko.fotoProfilToko} className="owned-pengadaan-profil-img" alt=""></img>
                         <div className="owned-pengadaan-store-name">
-                            {data.namaToko}<br />
-                            <span style={{ fontWeight: "500", fontSize: "14px" }}>WKD-02ID2021 - {data.namaCabang}</span>
+                            {data.pengadaan.toko.namaToko}<br />
+                            <span style={{ fontWeight: "500", fontSize: "14px" }}>WKD-02ID2021 - {data.pengadaan.toko.namaCabang}</span>
                         </div>
                     </div>
                     <div className="owned-pengadaan-profil-right">
