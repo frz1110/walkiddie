@@ -67,9 +67,11 @@ const Profile = ({ userData, isAuthenticated }) => {
     useEffect(() => {
         const setInitial = async () => {
             const ringkasan_investasi = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/`, config);
-            const pendapatan_investasi = 0
+            var pendapatan_investasi = 0
             if (ringkasan_investasi.data.length>0) {
-                pendapatan_investasi = ringkasan_investasi.data[0].pendapatan
+                for (let i = 0; i < ringkasan_investasi.data.length; i++) {
+                    pendapatan_investasi += ringkasan_investasi.data[i].pendapatan;
+                  }
             }
             setFormData({
                 address: profile.address,
