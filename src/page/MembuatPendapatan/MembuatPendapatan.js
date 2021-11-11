@@ -28,6 +28,19 @@ const Profile = ({ isAuthenticated }) => {
 
 
     const [daftarPengadaan, setDaftarPengadaan] = useState([]);
+    
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }   
+    today = yyyy + '-' + mm + '-' + dd;
+    const tanggalMax = today;
 
     const fetchDaftarPengadaan = async () => {
         try {
@@ -119,7 +132,7 @@ const Profile = ({ isAuthenticated }) => {
                         <div className="square-box-2">
                                 <div className="col-sm">
                                     <div className="profile-form-container">
-                                    <label htmlFor='pk' className="col-sm-3 col-form-label"> <span className="required">*</span> Pilih Pengadaan :</label>
+                                    <label htmlFor='pk' className="col-sm-3 col-form-label"> Pilih Pengadaan </label>
                                         <Select
                                             id="pk"
                                             role="pk"
@@ -138,6 +151,7 @@ const Profile = ({ isAuthenticated }) => {
                                             name='tanggal_pendapatan'
                                             required
                                             type="date"
+                                            max={tanggalMax}
                                             onChange={e => onChange(e)}
                                         />
                                     </div>
