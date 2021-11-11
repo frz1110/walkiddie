@@ -1,5 +1,6 @@
 import './Profile.css';
 import defaultIcon from './user.svg';
+import axios from 'axios';
 import editIcon from './pictures.svg';
 import { ChevronLeft } from 'react-feather';
 import React, { useState, useEffect } from 'react';
@@ -26,11 +27,19 @@ const Profile = ({ userData, isAuthenticated }) => {
         phone_number: '',
         ktp_number: '',
         birth_date: '',
-        profile_picture: null
+        profile_picture: null,
+        income: "Rp"+0
     });
 
     const imageUploader = React.useRef(null);
     const { email, first_name, last_name, role } = authData;
+
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `JWT ${localStorage.getItem('access')}`,
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -57,11 +66,19 @@ const Profile = ({ userData, isAuthenticated }) => {
 
     useEffect(() => {
         const setInitial = async () => {
+            const ringkasan_investasi = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/`, config);
+            var pendapatan_investasi = 0
+            if (ringkasan_investasi.data.length>0) {
+                for (let i = 0; i < ringkasan_investasi.data.length; i++) {
+                    pendapatan_investasi += ringkasan_investasi.data[i].pendapatan;
+                  }
+            }
             setFormData({
                 address: profile.address,
                 phone_number: profile.phone_number,
                 ktp_number: profile.ktp_number,
                 birth_date: profile.birth_date,
+                income: "Rp"+pendapatan_investasi.toLocaleString()
             });
         }
         setInitial();
@@ -94,7 +111,7 @@ const Profile = ({ userData, isAuthenticated }) => {
         setImageChaged(true);
     };
 
-    const { address, phone_number, ktp_number, birth_date, profile_picture } = formData;
+    const { address, phone_number, ktp_number, birth_date, profile_picture, income } = formData;
     const full_name = first_name + " " + last_name;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -248,6 +265,16 @@ const Profile = ({ userData, isAuthenticated }) => {
                             </Row>
                             <Row className="justify-content-center">
                                 <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='income'> Pendapatan Investasi </label>
+                                        <br></br>
+                                        <input
+                                            id='income'
+                                            name='income'
+                                            value={income}
+                                            disabled
+                                        />
+                                    </div>
                                     <div className="profile-form-container"></div>
                                     <Link to="/reset-password"><button className="profile-password-button" type="button">
                                         Lupa Kata Sandi

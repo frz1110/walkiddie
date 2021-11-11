@@ -19,12 +19,13 @@ describe('<Navbar />', () => {
         expect(getByTestId('navbar')).toBeInTheDocument();
     });
 
-    it('should not render profile button when not logged in', () => {
+    it('should not render profile button, pendapatan investasi when not logged in', () => {
         const { queryByTestId } = render(<Navbar />, {wrapper: StoreProvider()});
         expect(queryByTestId('nav-profile')).not.toBeInTheDocument();
+        expect(queryByTestId('pendapatan-investasi')).not.toBeInTheDocument();
     });
     
-    it('should render profile button and hide login, register buttons when logged in', () => {
+    it('should render profile button, pendapatan investasi; and hide login, register buttons when logged in', () => {
         const { queryByTestId, queryByText } = render(<Navbar />, { wrapper: StoreProvider({auth: {
             isAuthenticated: true,
             user: {
@@ -35,6 +36,7 @@ describe('<Navbar />', () => {
             }
         }}) });
         expect(queryByTestId('nav-profile')).toBeInTheDocument();
+        expect(queryByTestId('pendapatan-investasi')).toBeInTheDocument();
         expect(queryByText('Masuk')).not.toBeInTheDocument();
         expect(queryByText('Daftar')).not.toBeInTheDocument();
     });

@@ -1,5 +1,6 @@
 import './Navbar.css';
 import './ButtonColor.css';
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { ReactComponent as WalkiddieLogo } from '../../walkiddie.svg';
 import { NavLink, Link } from 'react-router-dom'
@@ -13,6 +14,15 @@ const Navbar = ({isLoggedIn, handleLogout, userData}) => {
   const [image, setImage] = useState(null);
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
+  const [income, setIncome] = useState('');
+
+  const config = {
+    headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+    }
+};
+
 
   useEffect(() => {
         const fetchData = async () => {
@@ -22,6 +32,14 @@ const Navbar = ({isLoggedIn, handleLogout, userData}) => {
               setRole(userData.role)
               const result = await load_profile()(email);
               setImage(result.res.data.profile_picture);
+              const ringkasan_investasi = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/ringkasan-investor/`, config);
+              var pendapatan_investasi = 0
+              if (ringkasan_investasi.data.length>0) {
+                for (let i = 0; i < ringkasan_investasi.data.length; i++) {
+                  pendapatan_investasi += ringkasan_investasi.data[i].pendapatan;
+                }
+              }
+              setIncome(pendapatan_investasi);
             }
             catch (err) {
               setImage(profile)
@@ -45,6 +63,7 @@ const Navbar = ({isLoggedIn, handleLogout, userData}) => {
         <div className={ isLoggedIn ? "wkd-nav-buttons" : "wkd-nav-buttons wkd-guest"}>
           {!isLoggedIn && <button className="wkd-nav-button wkd-light-tosca-button"><Link to="/masuk"><span>Masuk </span></Link></button>}
           {!isLoggedIn && <button className="wkd-nav-button wkd-dark-green-button"><Link to="/daftar-investor">Daftar</Link></button>}
+          {isLoggedIn && <p data-testid='pendapatan-investasi'>Rp{income.toLocaleString()}</p>}
           {isLoggedIn && <NavProfile handleLogout={handleLogout} image={image} name={name} role={role} data-testid='nav-profile'/>}
         </div>
       </nav>
