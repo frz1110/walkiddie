@@ -7,6 +7,7 @@ import { Row } from "react-bootstrap";
 import _ from 'lodash';
 import { ChevronRight } from 'react-feather';
 import pengadaanCard from './pengadaan-icon.svg';
+import sahamCard from './saham-icon.svg'
 import investasiCard from './investasi-icon.svg';
 import emptyIcon from './empty.svg';
 import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
@@ -120,6 +121,9 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                 <div className="investor-card-container">
                     <Link to="/list-pengadaan">
                         <img id="l-o-pengadaan" src={pengadaanCard} alt="" className="investor-card-menu" />
+                    </Link>
+                    <Link to="/list-saham-dijual">
+                        <img id="l-o-pengadaan" src={sahamCard} alt="" className="investor-card-menu" />
                     </Link>
                     <Link to="/ringkasan-sales">
                         <img id="l-o-laporan" src={investasiCard} alt="" className="investor-card-menu" />
