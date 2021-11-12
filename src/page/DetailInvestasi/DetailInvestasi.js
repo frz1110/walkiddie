@@ -22,6 +22,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
     const email = user.email;
     let totalPendapatan = 0;
     const [filter, setFilter] = useState('Harian');
+    const [sellmode, setSellmode] = useState(false);
     const handleSelect = (e) => {
         setFilter(e)
     }
@@ -139,6 +140,18 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
         ],
     };
 
+    const handleSubmit = async () => {
+        const config1 = {
+            headers: {
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+            }
+        }
+        console.log("Button clicked!");
+        console.log(data.pk)
+        await axios.patch(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/${data.pk}/jual/`, {}, config1);
+        window.history.back();
+    }
+
     function roundingFloat(number){
         return Number(parseFloat(number).toFixed(2))
     }
@@ -165,7 +178,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
             </div>
             <br />
             <br />
-            {!empty && <div>
+            {!empty && <> <div>
                 <Row style={{ margin: "0px" }}>
                     <div className="col chart-card">
                         <Line data={dataLineChart} height={180} options={optionsLineChart} />
@@ -242,7 +255,18 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                         </div>
                     </div>
                 </div>
-            </div>}
+            </div>
+            <br />
+            <div className="col-sm">
+                {!sellmode && <button className="wkd-nav-button wkd-dark-green-button" onClick={() => setSellmode(true)}>Jual Investasi</button>}
+                {sellmode && <>
+                        <p>Yakin menjual kepemilikan di perusahaan ini?</p>
+                        <br />
+                        <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => setSellmode(false)}>Kembali</button>
+                        <button id="m-i-buat" className="wkd-nav-button wkd-dark-green-button" onClick={() => handleSubmit()}>Jual Saham</button>
+                    </>}
+            </div> </>
+            }
             
             {empty && <div style={{ paddingTop: "25px" }} className="owned-pengadaan-null-wrapper">
                 <img src={emptyIcon} alt="empty data"></img>

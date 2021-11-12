@@ -1,0 +1,28 @@
+.list-pengadaan-null-wrapper{
+  justify-content: center;
+  height: 350px;
+}
+
+.owned-pengadaan-null{
+  padding-top: 15px;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: #146A5F;
+  opacity: 0.6;
+}
+
+.input-investor {
+  text-align: left;
+  position: relative;
+}
+
+.homepage-investor-search-bar{
+  min-height: 48px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 0px 45px;
+  font-family: 'DM Sans', sans-serif;
+}

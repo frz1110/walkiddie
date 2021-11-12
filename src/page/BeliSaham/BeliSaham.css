@@ -1,0 +1,14 @@
+.list-pengadaan-null-wrapper{
+  justify-content: center;
+  height: 350px;
+}
+
+.owned-pengadaan-null{
+  padding-top: 15px;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: #146A5F;
+  opacity: 0.6;
+}

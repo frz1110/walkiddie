@@ -21,7 +21,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
     const [userPhone, setUserPhone] = useState('');
     const [filesPengadaan, setFilesPengadaan] = useState([]);
     const [disable, setDisable] = useState(false);
-    const [totalInvested, setTotal] = useState(0);  
+    const [totalInvested, setTotal] = useState(0);
 
     let history = useHistory();
     const config = {
@@ -236,6 +236,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                     </Tabs>
                 </div>
             </Row>
+            <br />
         </div>
     );
 }
