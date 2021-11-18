@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reset_password_confirm as confirmAction } from '../../actions/auth';
+import { reset_password_confirm } from '../../actions/auth';
 import loadingIcon from '../../media/loading-icon.jpg';
 import './ResetPasswordConfirm.css';
 
@@ -25,7 +25,6 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
         if (new_password === re_new_password) {
             const uid = match.params.uid;
             const token = match.params.token;
-
             const res = await reset_password_confirm(uid, token, new_password, re_new_password);
             if (res.isSuccess) {
                 setIsSuccess(true)
@@ -100,4 +99,4 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
     );
 };
 
-export default connect(null, { reset_password_confirm: confirmAction })(ResetPasswordConfirm);
+export default connect(null, { reset_password_confirm })(ResetPasswordConfirm);
