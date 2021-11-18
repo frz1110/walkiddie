@@ -146,10 +146,19 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                 'Authorization': `JWT ${localStorage.getItem('access')}`,
             }
         }
-        console.log("Button clicked!");
-        console.log(data.pk)
         await axios.patch(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/${data.pk}/jual/`, {}, config1);
+        console.log(data);
         window.history.back();
+    }
+
+    const handleCancel = async () => {
+        const config2 = {
+            headers: {
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+            }
+        }
+        await axios.patch(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/${data.pk}/cancel-jual/`, {}, config2);
+        console.log(data);
     }
 
     function roundingFloat(number){
@@ -256,22 +265,29 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                     </div>
                 </div>
             </div>
-            <br />
-            <div className="col-sm">
-                {!sellmode && <button className="wkd-nav-button wkd-dark-green-button" onClick={() => setSellmode(true)}>Jual Investasi</button>}
-                {sellmode && <>
-                        <p>Yakin menjual kepemilikan di perusahaan ini?</p>
-                        <br />
-                        <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => setSellmode(false)}>Kembali</button>
-                        <button id="m-i-buat" className="wkd-nav-button wkd-dark-green-button" onClick={() => handleSubmit()}>Jual Saham</button>
-                    </>}
-            </div> </>
+             </>
             }
             
             {empty && <div style={{ paddingTop: "25px" }} className="owned-pengadaan-null-wrapper">
                 <img src={emptyIcon} alt="empty data"></img>
                 <h5 className="owned-pengadaan-null">Belum memiliki pendapatan</h5>
             </div>}
+            <br />
+            <div className="col-sm">
+                {data.statusInvestasi === "DJL" && <>
+                <p>Sedang dijual.</p>
+                <button className="wkd-nav-button wkd-dark-green-button" onClick={() => handleCancel()}>Cancel Jual</button>
+                </>
+                }
+                
+                {!sellmode && data.statusInvestasi !== "DJL" && <button className="wkd-nav-button wkd-dark-green-button" onClick={() => setSellmode(true)}>Jual Investasi</button>}
+                {sellmode && <>
+                        <p>Yakin menjual kepemilikan di perusahaan ini?</p>
+                        <br />
+                        <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => setSellmode(false)}>Cancel</button>
+                        <button id="m-i-buat" className="wkd-nav-button wkd-dark-green-button" onClick={() => handleSubmit()}>Jual Saham</button>
+                    </>}
+            </div>
         </div>
     );
 }

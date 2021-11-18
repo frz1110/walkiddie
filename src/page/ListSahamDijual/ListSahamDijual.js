@@ -42,13 +42,12 @@ const ListSahamDijual = ({ isAuthenticated, user }) => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                var res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/`, config);
+                var res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/penjualan/`, config);
                 res = res.data.filter((e) => {
-                    if (e['statusInvestasi'] === "DJL" && e['statusPembelian'] !== "MPA") {
+                    if (e['statusInvestasi'] === "DJL") {
                         return e;
                     }
                 });
-                console.log(res[0]);
 
                 let result = [];
                 for (let i = 0; i < res.length; i++) {
@@ -57,7 +56,7 @@ const ListSahamDijual = ({ isAuthenticated, user }) => {
                     investorObj = investorObj.data;
                     let namaTokoString = res[i].pengadaan.toko.namaToko;
                     let namaTokoObj = {namaToko: namaTokoString};
-                    console.log(namaTokoObj);
+                    console.log(investorObj);
                     var merging = Object.assign({}, namaTokoObj, investorObj, res[i]);
                     console.log(merging);
                     result.push(merging)
