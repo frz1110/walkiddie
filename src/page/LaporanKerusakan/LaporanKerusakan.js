@@ -37,9 +37,8 @@ const Profile = ({ isAuthenticated, userData }) => {
                                         // onChange={e => onChange(e)}
                                     />
                                 </div>
-                                
                                 <div className="profile-form-container">
-                                        <label htmlFor='pendapatan'> Lokasi </label>
+                                        <label htmlFor='lokasi'> Lokasi </label>
                                         <br></br>
                                         <input
                                             id='lokasi'
@@ -51,7 +50,7 @@ const Profile = ({ isAuthenticated, userData }) => {
                                         />
                                     </div>
                                     <div className="profile-form-container">
-                                        <label htmlFor='pendapatan'> Deskripsi Kerusakan </label>
+                                        <label htmlFor='deskripsi'> Deskripsi Kerusakan </label>
                                         <br></br>
                                         <input
                                             id='deskripsi'
@@ -62,18 +61,18 @@ const Profile = ({ isAuthenticated, userData }) => {
                                         />
                                     </div>
                                     <div className="profile-form-container">
-                                        <label htmlFor='pendapatan'> Bukti Kerusakan </label>
+                                        <label htmlFor='bukti'> Bukti Kerusakan </label>
                                         <br></br>
                                         <div onClick={() => imageUploader.current.click()} className="edit-wrapper">
                                         <input type="file" id='profile_picture' accept="image/*" ref={imageUploader} />
                                         </div>
                                     </div>
                                     <div className="profile-form-container">
-                                        <label htmlFor='tanggal_pendapatan'> Tanggal Pendapatan </label>
+                                        <label htmlFor='periode'> Periode Pelaporan </label>
                                         <br></br>
                                         <input
-                                            id='tanggal_pendapatan'
-                                            name='tanggal_pendapatan'
+                                            id='periode'
+                                            name='periode'
                                             required
                                             type="date"
                                             // onChange={e => onChange(e)}
