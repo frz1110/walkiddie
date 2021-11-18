@@ -42,7 +42,7 @@ describe('<MembuatPendapatan />', () => {
             auth: {
                 isAuthenticated: true,
                 user: {
-                    role: "Operator"
+                    role: "Mitra"
                 }
             }
         }
@@ -112,7 +112,14 @@ describe('<MembuatPendapatan />', () => {
     test('useState Function testing', () => {
         const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: { isAuthenticated: true } }
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    role: "Mitra"
+                }
+            }
+        }
         const store = mockStore(initialState)
 
         const { getByLabelText } = render(
@@ -135,7 +142,14 @@ describe('<MembuatPendapatan />', () => {
     test('back button work correctly', () => {
         const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: { isAuthenticated: true } }
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    role: "Mitra"
+                }
+            }
+        }
 
         localStorage.setItem('access', 'token')
         const store = mockStore(initialState)
