@@ -64,7 +64,7 @@ const Profile = ({ isAuthenticated, userData }) => {
                                         <label htmlFor='bukti'> Bukti Kerusakan </label>
                                         <br></br>
                                         <div onClick={() => imageUploader.current.click()} className="edit-wrapper">
-                                        <input type="file" id='profile_picture' accept="image/*" ref={imageUploader} />
+                                        <input id='bukti' type="file" id='profile_picture' accept="image/*" ref={imageUploader} name='bukti' />
                                         </div>
                                     </div>
                                     <div className="profile-form-container">
