@@ -26,17 +26,18 @@ const Profile = ({ isAuthenticated, userData }) => {
                         <div className="square-box-2">
                                 <div className="col-sm">
                                 <div className="profile-form-container">
-                                        <label htmlFor='pendapatan'> Kode Mainan </label>
-                                        <br></br>
-                                        <input
-                                            id='kode'
-                                            type='text'
-                                            name='kode'
-                                            value="TBA"
-                                            disabled
-                                            // onChange={e => onChange(e)}
-                                        />
-                                    </div>
+                                    <label htmlFor='kode'> Kode Mainan </label>
+                                    <br></br>
+                                    <input
+                                        id='kode'
+                                        type='text'
+                                        name='kode'
+                                        value="TBA"
+                                        disabled
+                                        // onChange={e => onChange(e)}
+                                    />
+                                </div>
+                                
                                 <div className="profile-form-container">
                                         <label htmlFor='pendapatan'> Lokasi </label>
                                         <br></br>
