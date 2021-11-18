@@ -149,7 +149,7 @@ describe('auth reducer', () => {
           type: types.GOOGLE_AUTH_SUCCESS,
           payload: {
             access: accessToken,
-            refresh: refreshToken,
+            refresh: refreshToken
           }
         }
       )
@@ -166,21 +166,7 @@ describe('auth reducer', () => {
   })
 
   it('should remove token and authentication on google auth fail', () => {
-    const spy = jest.spyOn(Storage.prototype, 'removeItem');
-    expect(reducer({
-      access: 'access',
-      refresh: 'refresh',
-      isAuthenticated: true,
-      user: { name: 'user' }
-    }, { type: types.GOOGLE_AUTH_FAIL })).toEqual({
-      access: null,
-      refresh: null,
-      isAuthenticated: false,
-      user: null
-    })
-    expect(spy.mock.calls[0]).toEqual(['access']);
-    expect(spy.mock.calls[1]).toEqual(['refresh']);
-    spy.mockRestore();
+    expect(reducer({}, { type: types.GOOGLE_AUTH_FAIL })).toEqual({})
   })
 
   it('password reset success', () => {
