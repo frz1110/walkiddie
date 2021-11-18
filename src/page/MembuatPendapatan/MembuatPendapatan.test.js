@@ -3,7 +3,6 @@ import '@testing-library/jest-dom';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import axios from 'axios'
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
@@ -17,7 +16,14 @@ describe('<MembuatPendapatan />', () => {
     it('renders correctly', () => {
         const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: { isAuthenticated: true } }
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    role: "Mitra"
+                }
+            }
+        }
         const store = mockStore(initialState)
 
         const { getByText } = render(
@@ -32,7 +38,14 @@ describe('<MembuatPendapatan />', () => {
     it('renders the right contents', () => {
         const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
-        const initialState = { auth: { isAuthenticated: true } }
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    role: "Operator"
+                }
+            }
+        }
         const store = mockStore(initialState)
         render(
             <Provider store={store}>
