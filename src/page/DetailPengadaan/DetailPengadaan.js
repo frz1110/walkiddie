@@ -220,7 +220,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                                 <div className="col-sm-4" style={{ fontSize: "15px" }}>
                                     <div className="line" />
                                     <span style={{ fontWeight: "500" }}>Jumlah: </span>{item.kuantitas}
-                                    {role==="Mitra" && <a href={"/membuat-pendapatan/"} className="custom-card-walkiddie">
+                                    {role==="Mitra" && <a href={"/laporan-kerusakan/"} className="custom-card-walkiddie">
                                     <button className="wkd-home-button wkd-nav-button wkd-tosca-button">
                                         Lapor Kerusakan
                                     </button>

@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap');
+
+/* latin-ext */
+.p { 
+    text-align: center ;
+    font-family: 'DM-Sans','sans-serif';
+}
+
+.profile-form{
+    padding-top: 60px;
+    padding-bottom: 120px;
+    padding-left: 112px;
+    padding-right: 112px;
+}
+
+.profile-header{
+    font-weight: 700;
+    font-size: 23px;
+    padding-bottom: 15px;
+    max-width: fit-content;
+    text-align: left;
+    cursor: pointer;
+}
+
+.square-box-2 label{
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 10px;
+}
+
+.profile-password-button {
+    height: 42px;
+    padding: 11px 21px 11px;
+    background-color: #0BBBA8;
+    border: none;
+    color: white;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition-duration: 0.3s;
+}
+
+.profile-password-button:hover {
+    background-color: #D3F1EE;
+    color: #146A5F;
+}
+
+.profile-save-button {
+    height: 42px;
+    width: 120px;
+    background-color:  #146A5F;
+    border: none;
+    color:  white;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition-duration: 0.3s;
+}
+
+.profile-save-button:hover {
+    background-color: #0f4e46;
+}
+
+.profile-cancel-button {
+    height: 42px;
+    width: 120px;
+    background-color: #D3F1EE;
+    border: none;
+    color: #146A5F;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition-duration: 0.3s;
+}
+
+.profile-cancel-button:hover {
+    background-color: #bbdfdb;
+}
+
+
+.profile-button-wrapper{
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.square-box-1{
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    padding: 30px 0px 0px;
+    border-radius: 10px;
+    width: 100%;
+    height: 255px;
+    text-align: center;
+}
+
+.square-box-2{
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    padding: 31px 42px 31px;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.profile-form-container{
+    padding-bottom: 9px;
+}
+
+.data-type h3{
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 60px;
+}
+
+.profile-styling{
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.square-box-2 input, textarea {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    border: 0.5px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.square-box-2 input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.profile-default-icon{
+    position: relative;
+    text-align: center;
+}
+
+.profile-default-icon:hover .edit-wrapper img{
+    opacity: 1;
+}
+
+.profile-default-icon:hover .profile-icon{
+    opacity: 0.3;
+}
+
+.profile-default-icon .profile-icon{
+    border-radius: 50%;
+    object-fit: cover;
+    width: 102px;
+    height: 102px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    transition: .5s ease;
+}
+
+.profile-default-icon .edit-wrapper{
+    object-position: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: .5s ease;
+}
+
+.profile-default-icon .edit-wrapper img{
+    width: 32px;
+    height: 32px;
+    opacity: 0;
+    transition: .5s ease;
+}
+
+.profile-name-display{
+    padding-top: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.profile-email-display{
+    color:rgba(0, 0, 0, 0.568);
+    font-size: 15px;
+    line-height: 20px;
+    padding-bottom: 15px;
+}
+
+.profile-midtext {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #ccc; 
+    line-height: 0.1em;
+}

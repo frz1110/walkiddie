@@ -54,6 +54,7 @@ describe('<LaporanKerusakan />', () => {
                 </BrowserRouter>
             </Provider>);
 
+        expect(screen.getByLabelText(/Kode Mainan/)).toBeInTheDocument();        
         expect(screen.getByLabelText(/Lokasi/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Deskripsi Kerusakan/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Bukti Kerusakan/)).toBeInTheDocument();

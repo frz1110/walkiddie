@@ -30,6 +30,7 @@ import BeliSaham from './page/BeliSaham/BeliSaham';
 import store from './store';
 import HomepageOperator from './page/HomepageOperator/HomepageOperator';
 import MembuatPendapatan from './page/MembuatPendapatan/MembuatPendapatan';
+import LaporanKerusakan from './page/LaporanKerusakan/LaporanKerusakan';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -116,6 +117,9 @@ function App() {
               </Route>
               <Route path="/membuat-pendapatan">
                 <MembuatPendapatan />
+              </Route>
+              <Route path="/laporan-kerusakan">
+                <LaporanKerusakan />
               </Route>
             </Switch>
           </div>
