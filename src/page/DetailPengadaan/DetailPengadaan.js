@@ -22,6 +22,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
     const [filesPengadaan, setFilesPengadaan] = useState([]);
     const [disable, setDisable] = useState(false);
     const [totalInvested, setTotal] = useState(0);
+    const [role, setRole] = useState('');
 
     let history = useHistory();
     const config = {
@@ -58,6 +59,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
         try {
             const user = await load_profile()(toko.owner);
             setUserPhone(user.res.data.phone_number);
+            setRole(userData.role);
         }
         catch (err) {
             setUserPhone('-')
@@ -217,12 +219,12 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                                 </div>
                                 <div className="col-sm-4" style={{ fontSize: "15px" }}>
                                     <div className="line" />
-                                    <span style={{ fontWeight: "500" }}>Jumlah: </span>{item.kuantitas}    
-                                    <a href={"/membuat-pendapatan/"} role={"Mitra"} className="custom-card-walkiddie">
+                                    <span style={{ fontWeight: "500" }}>Jumlah: </span>{item.kuantitas}
+                                    {role==="Mitra" && <a href={"/membuat-pendapatan/"} className="custom-card-walkiddie">
                                     <button className="wkd-home-button wkd-nav-button wkd-tosca-button">
                                         Lapor Kerusakan
                                     </button>
-                                    </a>
+                                    </a>}
                                 </div>
                             </Row>
                             )) }

@@ -67,6 +67,35 @@ describe('<MembuatPendapatan />', () => {
         expect(loc.pathname).toBe('/masuk');
     });
 
+    it('should redirect if not mitra', () => {
+        let loc;
+        const mockUser = jest.fn()
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    role: "Operator"
+                }
+            }
+        }
+        const store = mockStore(initialState)
+        render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <MembuatPendapatan userData={mockUser} isAuthenticated={false} />
+                    <Route
+                        path="*"
+                        render={({ location }) => {
+                            loc = location;
+                            return null;
+                        }}
+                    />
+                </BrowserRouter>
+            </Provider>
+        );
+        expect(loc.pathname).toBe('/');
+    });
+
     test('useState Function testing', () => {
         const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
