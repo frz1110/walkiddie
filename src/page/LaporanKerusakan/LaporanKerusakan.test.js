@@ -132,14 +132,14 @@ describe('<LaporanKerusakan />', () => {
                 </BrowserRouter>
             </Provider>);
 
-        const tanggal_pendapatan = getByLabelText('Tanggal Pendapatan');
-        const jumlah_pendapatan = getByLabelText('Jumlah Pendapatan');
+        const deskripsi = getByLabelText('Deskripsi Kerusakan');
+        const periode = getByLabelText('Periode Pelaporan');
 
-        userEvent.type(tanggal_pendapatan, '2021-03-21');
-        userEvent.type(jumlah_pendapatan, '100000');
+        userEvent.type(deskripsi, 'Mesin Tidak Menyala');
+        userEvent.type(periode, '2021-03-21');
 
-        expect(screen.getByLabelText('Tanggal Pendapatan')).toHaveValue('2021-03-21');
-        expect(screen.getByLabelText('Jumlah Pendapatan')).toHaveValue('100000');
+        expect(screen.getByLabelText('Periode Pelaporan')).toHaveValue('2021-03-21');
+        expect(screen.getByLabelText('Deskripsi Kerusakan')).toHaveValue('Mesin Tidak Menyala');
     });
 
     test('back button work correctly', () => {
@@ -165,7 +165,7 @@ describe('<LaporanKerusakan />', () => {
                     <LaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
-        const backButton = getByText('Buat Pendapatan Toko', { selector: "h3" });
+        const backButton = getByText('Laporan Kerusakan Mesin', { selector: "h3" });
         userEvent.click(backButton);
 
         expect(historyBack).toHaveBeenCalledTimes(1);
