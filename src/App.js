@@ -25,7 +25,8 @@ import { Provider } from 'react-redux';
 import MembuatInvestasi from './page/MembuatInvestasi/MembuatInvestasi';
 import OnboardingFaq from './page/OnboardingFaq/OnboardingFaq';
 import DetailInvestasi from './page/DetailInvestasi/DetailInvestasi';
-
+import ListSahamDijual from './page/ListSahamDijual/ListSahamDijual';
+import BeliSaham from './page/BeliSaham/BeliSaham';
 import store from './store';
 import HomepageOperator from './page/HomepageOperator/HomepageOperator';
 import MembuatPendapatan from './page/MembuatPendapatan/MembuatPendapatan';
@@ -85,6 +86,11 @@ function App() {
                  {/* The route above passes an object of mergedData to DetailInvestasi, 
                  the object is provided by ListOwnedPengadaan page, this URL is also
                  called from there */}
+                </Route>
+                <Route path="/list-saham-dijual">
+                  <ListSahamDijual />
+                </Route>
+                <Route path={"/beli-investasi/:pk"} component={BeliSaham}>
                 </Route>
                 <Route path="/pemilik-toko">
                   <HomepagePemilikToko />
