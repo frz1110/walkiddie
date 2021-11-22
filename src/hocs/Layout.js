@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { googleAuthenticate, load_user } from '../actions/auth';
 import queryString from 'query-string';
 
-const Layout = ({ isLoggedIn, googleAuthenticate, children }) => {
+const Layout = ({googleAuthenticate, children }) => {
     let location = useLocation();
 
     useEffect(() => {
@@ -16,7 +16,7 @@ const Layout = ({ isLoggedIn, googleAuthenticate, children }) => {
         console.log('Code: ' + code);
 
         if (state && code) {
-            // googleAuthenticate(state, code);
+            googleAuthenticate(state, code);
         } else {  
             load_user();
         }
@@ -29,8 +29,5 @@ const Layout = ({ isLoggedIn, googleAuthenticate, children }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
-    isLoggedIn: state.auth.isAuthenticated
-})
 
-export default connect(mapStateToProps, { googleAuthenticate })(Layout);
+export default connect(null, { googleAuthenticate, load_user })(Layout);

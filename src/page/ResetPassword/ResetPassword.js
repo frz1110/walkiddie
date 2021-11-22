@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reset_password as resetAction } from '../../actions/auth';
+import { reset_password } from '../../actions/auth';
 import './ResetPassword.css';
 
 const ResetPassword = ({ reset_password }) => {
@@ -14,12 +14,14 @@ const ResetPassword = ({ reset_password }) => {
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
-
-        reset_password(email);
-        alert('Anda bisa mengecek email anda untuk melanjutkan proses reset password')
-        setRequestSent(true);
+        const res = await reset_password(email);
+        if(res.isSuccess == true){
+            setRequestSent(true);
+        }else{
+            setRequestSent(false);
+        }
     };
 
     if (requestSent) {
@@ -52,9 +54,10 @@ const ResetPassword = ({ reset_password }) => {
                         Kirim
                 </button>
                 </form>
+                {requestSent?<p>Email perubahan password berhasil dikirim</p>:<p></p>}
             </div>
         </div>
     );
 };
 
-export default connect(null, { reset_password: resetAction })(ResetPassword);
+export default connect(null, { reset_password })(ResetPassword);
