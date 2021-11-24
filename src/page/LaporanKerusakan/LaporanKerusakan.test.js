@@ -55,9 +55,7 @@ describe('<LaporanKerusakan />', () => {
             </Provider>);
 
         expect(screen.getByLabelText(/Kode Mainan/)).toBeInTheDocument();        
-        expect(screen.getByLabelText(/Lokasi/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Deskripsi Kerusakan/)).toBeInTheDocument();
-        expect(screen.getByLabelText(/Periode Pelaporan/)).toBeInTheDocument();
     });
 
     it('should redirect if not authenticated', () => {
@@ -132,12 +130,7 @@ describe('<LaporanKerusakan />', () => {
             </Provider>);
 
         const deskripsi = getByLabelText('Deskripsi Kerusakan');
-        const periode = getByLabelText('Periode Pelaporan');
-
         userEvent.type(deskripsi, 'Mesin Tidak Menyala');
-        userEvent.type(periode, '2021-03-21');
-
-        expect(screen.getByLabelText('Periode Pelaporan')).toHaveValue('2021-03-21');
         expect(screen.getByLabelText('Deskripsi Kerusakan')).toHaveValue('Mesin Tidak Menyala');
     });
 

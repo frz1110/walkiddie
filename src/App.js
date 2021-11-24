@@ -114,8 +114,7 @@ function App() {
               <Route path="/membuat-pendapatan">
                 <MembuatPendapatan />
               </Route>
-              <Route path="/laporan-kerusakan">
-                <LaporanKerusakan />
+              <Route path={"/laporan-kerusakan/:pk"} component={LaporanKerusakan}>
               </Route>
             </Switch>
           </div>

@@ -219,7 +219,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                                 </div>
                                 <div className="col-sm-4" style={{ fontSize: "15px" }}>
                                     <div className="line" />
-                                    {role==="Mitra" && <a href={"/laporan-kerusakan/"} className="custom-card-walkiddie">
+                                    {role==="Mitra" && <a href={"/laporan-kerusakan/"+item.id} className="custom-card-walkiddie">
                                     <button className="wkd-home-button wkd-nav-button wkd-tosca-button">
                                         Lapor Kerusakan
                                     </button>

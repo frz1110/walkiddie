@@ -7,9 +7,73 @@ import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-const Profile = ({ isAuthenticated, userData }) => {
+const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
 
-    const imageUploader = React.useRef(null);
+    const [formData, setFormData] = useState({
+        kode: '',
+        deskripsi: '',
+        bukti: [],
+    });
+
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `JWT ${localStorage.getItem('access')}`,
+        }
+    };
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        postLaporan();
+    }
+
+    const postLaporan = () => {
+        if (localStorage.getItem('access')) {
+            var formDataToSend = new FormData();
+
+            formDataToSend.append('mainan_pengadaan', match.params.pk);
+            formDataToSend.append('deskripsi', formData['deskripsi']);
+
+            for (let i = 0; i < formData['bukti'].length; i++) {
+                formDataToSend.append('foto_kerusakan', formData['bukti'][i], formData['bukti'][i].name);
+            }
+
+            axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/`, formDataToSend, config)
+                .then((response) => {
+                    console.log(response);
+                    console.log('Success post');
+                    alert('Anda telah membuat laporan kerusakan');
+                }, (error) => {
+                    if (error.response) {
+
+                        console.log("error.response")
+                        console.log(error.response)
+
+                    } else if (error.request) {
+
+                        console.log("error.request")
+                        console.log(error.request)
+
+                    } else if (error.message) {
+
+                        console.log("error.message")
+                        console.log(error.message)
+
+                    }
+                    console.log(error);
+                    alert("Terdapat kesalahan. Silakan mengecek kembali laporan yang Anda masukan dan refresh ulang halaman ini dan perbaiki pengadaan Anda.")
+                });
+        } else {
+            console.log('missing token');
+            alert('Terdapat kesalahan pada autentikasi akun anda. Anda dapat melakukan refresh pada halaman ini')
+        }
+    };
+
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const handleChangeFile = (event) => {
+        setFormData({ ...formData, bukti: event.target.files });
+    }
 
     if (!isAuthenticated) {
         return <Redirect to='/masuk' />
@@ -19,7 +83,7 @@ const Profile = ({ isAuthenticated, userData }) => {
 
     return (
         <div className="profile-form">
-            <form className="profile-styling">
+            <form className="profile-styling" onSubmit={handleSubmit}>
                 <h3 className="profile-header" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Laporan Kerusakan Mesin</h3>
                 <Row className="justify-content-center">
                     <div className="col-lg-9">
@@ -32,23 +96,11 @@ const Profile = ({ isAuthenticated, userData }) => {
                                         id='kode'
                                         type='text'
                                         name='kode'
-                                        value="TBA"
+                                        value={match.params.pk}
+                                        onChange={e => onChange(e)}
                                         disabled
-                                        // onChange={e => onChange(e)}
                                     />
                                 </div>
-                                <div className="profile-form-container">
-                                        <label htmlFor='lokasi'> Lokasi </label>
-                                        <br></br>
-                                        <input
-                                            id='lokasi'
-                                            type='text'
-                                            name='lokasi'
-                                            value="Alamat"
-                                            disabled
-                                            // onChange={e => onChange(e)}
-                                        />
-                                    </div>
                                     <div className="profile-form-container">
                                         <label htmlFor='deskripsi'> Deskripsi Kerusakan </label>
                                         <br></br>
@@ -57,26 +109,20 @@ const Profile = ({ isAuthenticated, userData }) => {
                                             type='text'
                                             name='deskripsi'
                                             required
-                                            // onChange={e => onChange(e)}
+                                            onChange={e => onChange(e)}
                                         />
                                     </div>
                                     <div className="profile-form-container">
                                         <label htmlFor='bukti'> Bukti Kerusakan </label>
-                                        <br></br>
-                                        <div onClick={() => imageUploader.current.click()} className="edit-wrapper">
-                                        <input id='bukti' type="file" id='profile_picture' accept="image/*" ref={imageUploader} name='bukti' />
-                                        </div>
-                                    </div>
-                                    <div className="profile-form-container">
-                                        <label htmlFor='periode'> Periode Pelaporan </label>
-                                        <br></br>
+                                        <div className="col-sm-9">
                                         <input
-                                            id='periode'
-                                            name='periode'
-                                            required
-                                            type="date"
-                                            // onChange={e => onChange(e)}
-                                        />
+                                            role="mediatoko"
+                                            type="file"
+                                            name="file"
+                                            accept="video/*,image/*"
+                                            onChange={e => handleChangeFile(e)}
+                                            multiple />
+                                    </div>
                                     </div>
                                 </div>
                                 <div className="profile-button-wrapper">
@@ -100,4 +146,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(LaporanKerusakan);
