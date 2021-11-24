@@ -220,10 +220,10 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
             var formDataToSend = new FormData();
 
             formDataToSend.append('toko', formData['pkToko']);
-            formDataToSend.append('daftarMainan', JSON.stringify(formData['paketMainan']));
-            console.log(formDataToSend.get('daftarMainan'))
+            formDataToSend.append('daftar_mainan', JSON.stringify(formData['paketMainan']));
+            console.log(formDataToSend.get('daftar_mainan'))
             for (let i = 0; i < formData['mediaTokoList'].length; i++) {
-                formDataToSend.append('filePengadaan', formData['mediaTokoList'][i], formData['mediaTokoList'][i].name);
+                formDataToSend.append('media_pengadaan', formData['mediaTokoList'][i], formData['mediaTokoList'][i].name);
             }
             formDataToSend.append('totalBiaya', formData['totalBiaya']);
             formDataToSend.append('periodePengadaanMulai', formData['periodePengadaanMulai']);
