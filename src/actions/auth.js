@@ -124,8 +124,6 @@ export const load_user = () => async dispatch => {
 
         try {
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/auth/users/me/`, config);
-            // const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config);
-
             dispatch({
                 type: USER_LOADED_SUCCESS,
                 payload: res.data
@@ -157,6 +155,7 @@ export const load_user = () => async dispatch => {
 };
 
 export const googleAuthenticate = (state, code) => async dispatch => {
+    axios.defaults.withCredentials = true;
     if (state && code && !localStorage.getItem('access')) {
         const config = {
             headers: {
@@ -167,15 +166,13 @@ export const googleAuthenticate = (state, code) => async dispatch => {
         const details = {
             'state': state,
             'code': code,
-            'role': 'Investor'
+            'role':"Investor"
         };
 
-        const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
+        const formBody = Object.keys(details).map(key => key + '=' + details[key]).join('&');
 
         try {
-            // const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?${formBody}`, config);
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/auth/o/google-oauth2/?${formBody}`, config);
-
             dispatch({
                 type: GOOGLE_AUTH_SUCCESS,
                 payload: res.data
@@ -202,8 +199,6 @@ export const login = (email, password) => async dispatch => {
 
     try {
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/auth/jwt/create/`, body, config);
-        // const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/jwt/create/`, body, config);
-
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
@@ -266,8 +261,6 @@ export const verify = (uid, token) => async dispatch => {
 
     try {
         await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/auth/users/activation/`, body, config);
-        // await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/activation/`, body, config);
-
         dispatch({
             type: ACTIVATION_SUCCESS,
         });
@@ -284,19 +277,23 @@ export const reset_password = (email) => async dispatch => {
             'Content-Type': 'application/json'
         }
     };
-
     const body = JSON.stringify({ email });
 
     try {
         await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/auth/users/reset_password/`, body, config);
-
         dispatch({
             type: PASSWORD_RESET_SUCCESS
         });
+        return {
+            isSuccess: true,
+        }
     } catch (err) {
         dispatch({
             type: PASSWORD_RESET_FAIL
         });
+        return {
+            isSuccess: false,
+        }
     }
 };
 
@@ -316,7 +313,7 @@ export const reset_password_confirm = (uid, token, new_password, re_new_password
             type: PASSWORD_RESET_CONFIRM_SUCCESS
         });
         return {
-            isSuccess: true
+            isSuccess: true,
         }
     } catch (err) {
         dispatch({

@@ -6,27 +6,17 @@ import './BeliSaham.css';
 
 const BeliSaham = ({ isAuthenticated, match, user }) => {
 
-    const config = {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `JWT ${localStorage.getItem('access')}`,
-        }
-    };
-
     useEffect(() => {
-        console.log(match.params.pk);
-        console.log(localStorage.getItem('access'));
-        console.log(config);
         handleSubmit();
     }, [match.params.pk]);
 
     const handleSubmit = async () => {
-        const config1 = {
+        const config = {
             headers: {
                 'Authorization': `JWT ${localStorage.getItem('access')}`,
             }
         }
-        await axios.patch(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/penjualan/${match.params.pk}/beli/`, {}, config1);
+        await axios.patch(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/penjualan/${match.params.pk}/beli/`, {}, config);
     }
 
     if (!isAuthenticated) return <Redirect to="/masuk" />
@@ -34,7 +24,6 @@ const BeliSaham = ({ isAuthenticated, match, user }) => {
 
     return (
         <div className="container mt-5 overflow-hidden mi-ctn">
-
         <h1 className="mi-title">Terima kasih. Mohon menunggu verifikasi pembelian.</h1>
         <br />
         <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => window.history.back()}>Kembali</button>

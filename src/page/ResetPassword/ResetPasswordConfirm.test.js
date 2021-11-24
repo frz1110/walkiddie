@@ -59,6 +59,7 @@ describe('<ResetPasswordConfirm />', () => {
     })
 
     it('should redirect to reset pass if failed', () => {
+        const alert = jest.spyOn(window, 'alert');
         let loc;
         const mockResetPasswordConfirm = jest.fn()
         const mockMatch = {
@@ -88,9 +89,10 @@ describe('<ResetPasswordConfirm />', () => {
         userEvent.type(pass, "5t4r3e2w1q");
 
         const newPass = screen.getByLabelText(/Tuliskan ulang kata sandi baru/);
-        userEvent.type(newPass, "5t4r3e2w1q");
-
-        // userEvent.click(screen.getByText('Reset Password')); // Causing error. Mock alert.
+        userEvent.type(newPass, "u5t4r3e2w1qerr");
+        userEvent.click(screen.getByText('Reset Password'));
+        expect(alert).toHaveBeenCalledTimes(1);
+        alert.mockRestore();
     })
 
     it('new_password and re_new_password not equal', () => {
@@ -102,6 +104,7 @@ describe('<ResetPasswordConfirm />', () => {
                 token: "token"
             }
         }
+        
         render(
             <Provider store={store}>
                 <BrowserRouter>

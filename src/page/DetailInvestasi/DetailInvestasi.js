@@ -159,6 +159,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
         }
         await axios.patch(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/${data.pk}/cancel-jual/`, {}, config2);
         console.log(data);
+        window.history.back();
     }
 
     function roundingFloat(number){
