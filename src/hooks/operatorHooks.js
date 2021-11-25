@@ -18,7 +18,9 @@ function fetchLaporan(setData, filter, setError) {
     case "ASG":
       endpoint = "/list-operator/assigned/"; break;
     case "RSV":
-      endpoint = "/list-operator/resolved/";
+      endpoint = "/list-operator/resolved/"; break;
+    default:
+      return;
   }
   axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan${endpoint}`, config)
     .then(res => {
@@ -35,6 +37,10 @@ export function useLaporanBackend(user) {
   const [filter, setFilter] = useState("BD");
   const [error, setError] = useState();
   const [loading] = useState(true);
+
+  useEffect(() => {
+    setLaporan([]);
+  }, [filter, setLaporan])
 
   useEffect(() => {
     fetchLaporan(setLaporan, filter, setError);
