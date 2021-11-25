@@ -16,13 +16,19 @@ const ListSahamDijual = ({ isAuthenticated, user }) => {
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage, setPostsPerPage] = useState(6);
+    const postsPerPage = 6;
     const [empty, setEmpty] = useState(false);
+    const [filterChoice, setFilterChoice] = useState([]);
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     let currentPosts = "";
     let postLength = 0;
-    const [filterChoice, setFilterChoice] = useState([]);
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `JWT ${localStorage.getItem('access')}`,
+        }
+    };
 
     if (filteredPosts) {
         currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
@@ -32,42 +38,28 @@ const ListSahamDijual = ({ isAuthenticated, user }) => {
         postLength = posts.length;
     }
 
-    const config = {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `JWT ${localStorage.getItem('access')}`,
-        }
-    };
-
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                var res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/`, config);
+                let res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/penjualan/`, config);
                 res = res.data.filter((e) => {
-                    if (e['statusInvestasi'] === "DJL" && e['statusPembelian'] !== "MPA") {
+                    if (e['statusInvestasi'] === "DJL") {
                         return e;
                     }
                 });
-                console.log(res[0]);
 
                 let result = [];
                 for (let i = 0; i < res.length; i++) {
                     let investorEmail = res[i].investor;
                     let investorObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/profile/${investorEmail}`, config);
+                    console.log(investorObj);
                     investorObj = investorObj.data;
                     let namaTokoString = res[i].pengadaan.toko.namaToko;
                     let namaTokoObj = {namaToko: namaTokoString};
-                    console.log(namaTokoObj);
-                    var merging = Object.assign({}, namaTokoObj, investorObj, res[i]);
-                    console.log(merging);
+                    let merging = Object.assign({}, namaTokoObj, investorObj, res[i]);
                     result.push(merging)
                 }
-
-                if (result.length === 0) {
-                    setEmpty(true);
-                } else {
-                    setEmpty(false);
-                }
+                (result.length === 0) ? setEmpty(true) : setEmpty(false);
 
                 const data = filterChange(result, searchTerm, 'namaToko');
                 setPosts(data);
@@ -75,13 +67,11 @@ const ListSahamDijual = ({ isAuthenticated, user }) => {
                 setLoading(false);
 
                 let allFilter = [];
-                console.log([{ 'value': 123, 'label': 123 }].includes({ 'value': 123, 'label': 123 }));
-                console.log(['a', 'b', 'c'].includes('b'));
                 if (filterChoice.length === 0) {
                     for (let i = 0; i < data.length; i++) {
                         let response = data[i];
                         let value = response['daerah'];
-                        var found = false;
+                        let found = false;
                         for(let j = 0; j < allFilter.length; j++) {
                             if (allFilter[j].value == value) {
                                 found = true;
@@ -89,11 +79,7 @@ const ListSahamDijual = ({ isAuthenticated, user }) => {
                             }
                         }
 
-                        if (!found){
-                            allFilter.push({ 'value': value, 'label': value });
-                            console.log('masuk');
-                            console.log({ 'value': value, 'label': value })
-                        }
+                        if (!found){ allFilter.push({ 'value': value, 'label': value }); }
                     }
                     setFilterChoice(allFilter);
                 }

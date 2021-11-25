@@ -4,7 +4,7 @@ import CardsDaftarToko from '../../components/CardsDaftarToko/CardsDaftarToko';
 import Pagination from '../../components/Pagination/Pagination';
 import './HomepagePemilikToko.css'
 import DaftarkanToko from './pemilik-toko-daftarkan-toko.svg';
-import LihatInvestasi from './pemilik-toko-lihat-investasi.svg';
+import LaporanMesin from './pemilik-toko-laporan-mesin.svg';
 import axios from 'axios';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
@@ -190,7 +190,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                         <img id="h-p-daftarkantoko" src={DaftarkanToko} alt="Daftarkan-toko" className="investor-card-menu" />
                     </Link>
                     <Link to="/ringkasan-sales">
-                        <img id="h-p-laporan" src={LihatInvestasi} alt="Lihat-investasi" className="investor-card-menu" />
+                        <img id="h-p-laporan" src={LaporanMesin} alt="Lihat-investasi" className="investor-card-menu" />
                     </Link>
                 </div>
                 <div id="h-p-pengadaan" className="list-pemilik-toko">

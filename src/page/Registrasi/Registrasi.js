@@ -9,6 +9,7 @@ import { signup } from '../../actions/auth';
 import { ChevronLeft } from 'react-feather';
 import loadingIcon from '../../media/loading-icon.jpg';
 import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
+import axios from 'axios';
 
 const Registrasi = ({ signup, isAuthenticated, role }) => {
     const onBoardingSteps = [
@@ -118,16 +119,14 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
         return <Redirect to="/masuk" />
 } 
 
-    // const continueWithGoogle = async () => {
-    //     try {
-    //         // const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?redirect_uri=http://localhost:3000`)
-    //         const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/auth/o/google-oauth2/?redirect_uri=https://walkiddie-toys-dev.herokuapp.com`)
+    const continueWithGoogle = async () => {
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/auth/o/google-oauth2/?redirect_uri=`+`${process.env.REACT_APP_REDIRECT_FRONTEND_URL}`);
+            window.location.replace(res.data.authorization_url);
+        } catch (err) {
 
-    //         window.location.replace(res.data.authorization_url);
-    //     } catch (err) {
-
-    //     }
-    // };
+        }
+    };
 
     return (
         <div id="regist-invest-signup">
@@ -137,7 +136,7 @@ const Registrasi = ({ signup, isAuthenticated, role }) => {
             {loading && <img src={loadingIcon} id="loading-icon" alt="loading..." />}
             <div className="regist-invest-square-box">
                 <Row className="justify-content-center">
-                    <button style={{ width: "280px", height: "52px", fontSize: "15px" }} id="login-google">
+                    <button id="login-google" onClick={continueWithGoogle}>
                         <img
                             id="google-logo"
                             src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"

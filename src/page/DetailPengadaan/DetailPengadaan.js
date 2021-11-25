@@ -22,6 +22,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
     const [filesPengadaan, setFilesPengadaan] = useState([]);
     const [disable, setDisable] = useState(false);
     const [totalInvested, setTotal] = useState(0);
+    const [role, setRole] = useState('');
 
     let history = useHistory();
     const config = {
@@ -58,6 +59,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
         try {
             const user = await load_profile()(toko.owner);
             setUserPhone(user.res.data.phone_number);
+            setRole(userData.role);
         }
         catch (err) {
             setUserPhone('-')
@@ -109,9 +111,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
 
   if (!isAuthenticated) {
     return (<Redirect to="/masuk" />)
-  } else if (userData.role !== 'Investor') {
-    return (<Redirect to="/" />)
-  } else {
+  } else if (userData.role == 'Investor' || userData.role == 'Mitra')  {
     return (
         <div className="detail-pengadaan-wrapper">
             <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Kembali</h3>
@@ -220,6 +220,11 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                                 <div className="col-sm-4" style={{ fontSize: "15px" }}>
                                     <div className="line" />
                                     <span style={{ fontWeight: "500" }}>Jumlah: </span>{item.kuantitas}
+                                    {role==="Mitra" && <a href={"/laporan-kerusakan/"} className="custom-card-walkiddie">
+                                    <button className="wkd-home-button wkd-nav-button wkd-tosca-button">
+                                        Lapor Kerusakan
+                                    </button>
+                                    </a>}
                                 </div>
                             </Row>
                             )) }
@@ -239,7 +244,9 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
             <br />
         </div>
     );
-}
+}else{
+    return (<Redirect to="/" />)
+  } 
 }
 
 const mapStateToProps = (state) => ({

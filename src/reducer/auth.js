@@ -1,3 +1,4 @@
+//auth.js
 import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -27,7 +28,6 @@ function reducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GOOGLE_AUTH_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('access', payload.access);
       localStorage.setItem('refresh', payload.refresh);
@@ -37,6 +37,15 @@ function reducer(state = initialState, action) {
         access: payload.access,
         refresh: payload.refresh
       }
+    case GOOGLE_AUTH_SUCCESS:
+      localStorage.setItem('access', payload.access);
+      localStorage.setItem('refresh', payload.refresh);
+        return{
+          ...state,
+          isAuthenticated:true,
+          access : payload.access,
+          refresh : payload.refresh
+    }
     case SIGNUP_SUCCESS:
       return {
         ...state,
@@ -63,7 +72,6 @@ function reducer(state = initialState, action) {
         ...state,
         user: null
       }
-    case GOOGLE_AUTH_FAIL:
     case SIGNUP_FAIL:
     case LOGOUT:
       localStorage.removeItem('access');
@@ -75,6 +83,7 @@ function reducer(state = initialState, action) {
         user: null
       }
     case PASSWORD_RESET_SUCCESS:
+    case GOOGLE_AUTH_FAIL:
     case PASSWORD_RESET_FAIL:
     case PASSWORD_RESET_CONFIRM_SUCCESS:
     case PASSWORD_RESET_CONFIRM_FAIL:

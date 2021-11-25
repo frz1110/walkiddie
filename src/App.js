@@ -1,3 +1,4 @@
+//app.js
 import './App.css';
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -25,11 +26,11 @@ import { Provider } from 'react-redux';
 import MembuatInvestasi from './page/MembuatInvestasi/MembuatInvestasi';
 import OnboardingFaq from './page/OnboardingFaq/OnboardingFaq';
 import DetailInvestasi from './page/DetailInvestasi/DetailInvestasi';
-import ListSahamDijual from './page/ListSahamDijual/ListSahamDijual';
-import BeliSaham from './page/BeliSaham/BeliSaham';
+
 import store from './store';
 import HomepageOperator from './page/HomepageOperator/HomepageOperator';
 import MembuatPendapatan from './page/MembuatPendapatan/MembuatPendapatan';
+import LaporanKerusakan from './page/LaporanKerusakan/LaporanKerusakan';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,14 @@ function App() {
               </Route>
               <Route path="/daftar-investor">
                 <Registrasi role="Investor" />
+              </Route>           
+              <Route path="/activate/:uid/:token" component={Activate}>
               </Route>
+              <Route path="/reset-password">
+                  <ResetPassword />
+                </Route>
+              <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
+
               <Route path="/daftar-mitra">
                 <Registrasi role="Mitra" />
               </Route>
@@ -60,8 +68,6 @@ function App() {
               </Route>
               <Route path="/profile">
                 <Profile />
-              </Route>
-              <Route path="/aktivasi/:uid/:token" component={Activate}>
               </Route>
               <Route path="/daftar-toko">
                 <DaftarToko />
@@ -87,11 +93,6 @@ function App() {
                  the object is provided by ListOwnedPengadaan page, this URL is also
                  called from there */}
                 </Route>
-                <Route path="/list-saham-dijual">
-                  <ListSahamDijual />
-                </Route>
-                <Route path={"/beli-investasi/:pk"} component={BeliSaham}>
-                </Route>
                 <Route path="/pemilik-toko">
                   <HomepagePemilikToko />
                 </Route>
@@ -101,10 +102,6 @@ function App() {
                 <Route path="/operator">
                   <HomepageOperator />
                 </Route>
-                <Route path="/reset-password">
-                  <ResetPassword />
-                </Route>
-                <Route path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
               <Route path="/investasi">
                 <MembuatInvestasi />
               </Route>
@@ -116,6 +113,9 @@ function App() {
               </Route>
               <Route path="/membuat-pendapatan">
                 <MembuatPendapatan />
+              </Route>
+              <Route path="/laporan-kerusakan">
+                <LaporanKerusakan />
               </Route>
             </Switch>
           </div>
