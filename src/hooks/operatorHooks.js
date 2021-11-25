@@ -14,7 +14,7 @@ function fetchLaporan(setData, filter, setError) {
   let endpoint = "";
   switch(filter) {
     case "NAS":
-      endpoint = "?status=NAS"; break;
+      endpoint = "/wilayah/"; break;
     case "ASG":
       endpoint = "/list-operator/assigned/"; break;
     case "RSV":
