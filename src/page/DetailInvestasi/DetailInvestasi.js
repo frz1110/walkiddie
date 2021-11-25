@@ -9,6 +9,17 @@ import Table from 'react-bootstrap/Table';
 import NumberFormat from 'react-number-format';
 import { Line, Bar } from 'react-chartjs-2';
 import emptyIcon from '../ListOwnedPengadaan/empty.svg';
+import CardMainan from '../../components/CardMainan/CardMainan';
+
+function statusReadable(status) {
+    if (status === 'RSK') {
+        return 'Rusak';
+    } else if (status === 'BFS') {
+        return 'Berfungsi Normal';
+    } else {
+        return 'Normal';
+    }
+}
 
 const DetailInvestasi = ({ isAuthenticated, user, location }) => {
   const [sales, setSales] = useState([]);
@@ -272,6 +283,18 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
         <img src={emptyIcon} alt="empty data"></img>
         <h5 className="owned-pengadaan-null">Belum memiliki pendapatan</h5>
       </div>}
+
+      <div className="card-mainan-wrapper">
+        { data.pengadaan && data.pengadaan.daftarMainan.map(mainan => (
+            <CardMainan
+              foto={mainan.mainan.gambarMainan}
+              nama={mainan.stringMainan}
+              detail={mainan.mainan.deskripsiMainan}
+              rusak={mainan.status === 'RSK' }
+              status={statusReadable(mainan.status)}
+            />
+        ))}
+      </div>
     </div>
   );
 }
