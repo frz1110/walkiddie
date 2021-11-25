@@ -26,7 +26,7 @@ import { Provider } from 'react-redux';
 import MembuatInvestasi from './page/MembuatInvestasi/MembuatInvestasi';
 import OnboardingFaq from './page/OnboardingFaq/OnboardingFaq';
 import DetailInvestasi from './page/DetailInvestasi/DetailInvestasi';
-
+import LaporanDetail from './page/LaporanDetail/LaporanDetail';
 import store from './store';
 import HomepageOperator from './page/HomepageOperator/HomepageOperator';
 import MembuatPendapatan from './page/MembuatPendapatan/MembuatPendapatan';
@@ -116,6 +116,8 @@ function App() {
               </Route>
               <Route path="/laporan-kerusakan">
                 <LaporanKerusakan />
+              </Route>
+              <Route path={"/laporan/:pk"} component={LaporanDetail}>
               </Route>
             </Switch>
           </div>
