@@ -80,3 +80,8 @@
 .detail-investasi-small-card canvas{
     display: initial !important;
 }
+
+.card-mainan-wrapper {
+    display: flex;
+    overflow: scroll;
+}
