@@ -31,6 +31,7 @@ import store from './store';
 import HomepageOperator from './page/HomepageOperator/HomepageOperator';
 import MembuatPendapatan from './page/MembuatPendapatan/MembuatPendapatan';
 import LaporanKerusakan from './page/LaporanKerusakan/LaporanKerusakan';
+import ListSahamDijual from './page/ListSahamDijual/ListSahamDijual';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -118,6 +119,9 @@ function App() {
                 <LaporanKerusakan />
               </Route>
               <Route path={"/laporan/:pk"} component={LaporanDetail}>
+              </Route>
+              <Route path="/list-saham-dijual">
+                <ListSahamDijual />
               </Route>
             </Switch>
           </div>
