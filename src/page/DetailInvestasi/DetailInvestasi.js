@@ -171,11 +171,6 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
         await axios.patch(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/${data.pk}/cancel-jual/`, {}, config2);
         console.log(data);
         window.history.back();
-    }
-    console.log("Button clicked!");
-    console.log(data.pk)
-    await axios.patch(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/${data.pk}/jual/`, {}, config1);
-    window.history.back();
   }
 
   function roundingFloat(number){
@@ -204,123 +199,91 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
       </div>
       <br />
       <br />
-      {!empty && <> <div>
-        <Row style={{ margin: "0px" }}>
-          <div className="col chart-card">
-            <Line data={dataLineChart} height={180} options={optionsLineChart} />
-          </div>
-          <div className="col chart-card" style={{ marginLeft: "15px" }}>
-            <Bar data={dataBarChart} height={180} options={optionsLineChart} />
-          </div>
-        </Row>
-        <br />
-        <div className="detail-investasi-table-wrapper">
-          <h3 className="table-title-rincian">Tabel Rincian Pendapatan</h3>
-          <div className="dropdown-ringkasan-sales">
-              <Dropdown
-                onSelect={handleSelect}>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                  {filter}
-                </Dropdown.Toggle>
+      {!empty && <>
+        <div>
+          <Row style={{ margin: "0px" }}>
+            <div className="col chart-card">
+              <Line data={dataLineChart} height={180} options={optionsLineChart} />
+            </div>
+            <div className="col chart-card" style={{ marginLeft: "15px" }}>
+              <Bar data={dataBarChart} height={180} options={optionsLineChart} />
+            </div>
+          </Row>
+          <br />
+          <div className="detail-investasi-table-wrapper">
+            <h3 className="table-title-rincian">Tabel Rincian Pendapatan</h3>
+            <div className="dropdown-ringkasan-sales">
+                <Dropdown
+                  onSelect={handleSelect}>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    {filter}
+                  </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  <Dropdown.Item eventKey="Harian">Harian</Dropdown.Item>
-                  <Dropdown.Item eventKey="Mingguan">Mingguan</Dropdown.Item>
-                  <Dropdown.Item eventKey="Bulanan">Bulanan</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-           </div>
+                  <Dropdown.Menu>
+                    <Dropdown.Item eventKey="Harian">Harian</Dropdown.Item>
+                    <Dropdown.Item eventKey="Mingguan">Mingguan</Dropdown.Item>
+                    <Dropdown.Item eventKey="Bulanan">Bulanan</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+             </div>
 
-          <div className="table-wrapper-invest" style={{ marginTop: "15px" }}>
-            <div style={{ width: "100%", height: "100%" }}>
-              <Table bordered borderless>
-                <thead>
-                  <tr>
-                    <th style={{ textAlign: "center" }}>No</th>
-                    <th>{filter==='Harian'?'Tanggal':(filter==='Mingguan'?'Minggu':'Bulan')}</th>
-                    <th>Rincian Penjualan</th>
-                    <th>Rincian Pendapatan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sales.map((item, i=0) => (
+            <div className="table-wrapper-invest" style={{ marginTop: "15px" }}>
+              <div style={{ width: "100%", height: "100%" }}>
+                <Table bordered borderless>
+                  <thead>
                     <tr>
-                      <td style={{ textAlign: "center" }}>{i + 1}</td>
-                      <td>{filter==='Harian' && item.tanggalPendapatan}
-                        {filter==='Bulanan' && (item.tanggalPendapatan_Month+"-"+item.tanggalPendapatan_Year)}
-                        {filter==='Mingguan' && (item.tanggalPendapatan_Week+"-"+item.tanggalPendapatan_Year)}
-                      </td>
-                      <td><NumberFormat value={item.pendapatan} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></td>
-                      <td style={{ fontWeight: "500" }}><NumberFormat value={String(roundingFloat(item.bagiHasil.investor[email]))} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></td>
+                      <th style={{ textAlign: "center" }}>No</th>
+                      <th>{filter==='Harian'?'Tanggal':(filter==='Mingguan'?'Minggu':'Bulan')}</th>
+                      <th>Rincian Penjualan</th>
+                      <th>Rincian Pendapatan</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
-            <div style={{
-              marginLeft: "10px",
-              minWidth: "250px",
-              boxShadow: "0px 1px 4px rgb(0 0 0 / 25%)",
-              padding: "10px"
-            }}>
-              <div className="detail-investasi-small-card-title">
-                Total Pendapatan:<br />
+                  </thead>
+                  <tbody>
+                    {sales.map((item, i=0) => (
+                      <tr>
+                        <td style={{ textAlign: "center" }}>{i + 1}</td>
+                        <td>{filter==='Harian' && item.tanggalPendapatan}
+                          {filter==='Bulanan' && (item.tanggalPendapatan_Month+"-"+item.tanggalPendapatan_Year)}
+                          {filter==='Mingguan' && (item.tanggalPendapatan_Week+"-"+item.tanggalPendapatan_Year)}
+                        </td>
+                        <td><NumberFormat value={item.pendapatan} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></td>
+                        <td style={{ fontWeight: "500" }}><NumberFormat value={String(roundingFloat(item.bagiHasil.investor[email]))} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
               </div>
-              <div className="detail-investasi-small-card-value" style={{ fontSize: "25px" }}>
-                {<NumberFormat value={roundingFloat(pendapatan)} displayType={'text'} thousandSeparator={true} prefix={'Rp '} />}
-              </div>
+              <div style={{
+                marginLeft: "10px",
+                minWidth: "250px",
+                boxShadow: "0px 1px 4px rgb(0 0 0 / 25%)",
+                padding: "10px"
+              }}>
+                <div className="detail-investasi-small-card-title">
+                  Total Pendapatan:<br />
+                </div>
+                <div className="detail-investasi-small-card-value" style={{ fontSize: "25px" }}>
+                  {<NumberFormat value={roundingFloat(pendapatan)} displayType={'text'} thousandSeparator={true} prefix={'Rp '} />}
+                </div>
 
-              <hr/>
+                <hr/>
 
-              <div className="detail-investasi-small-card-title">
-              Total Saham Dimiliki<br />
-              </div>
-              <div className="detail-investasi-small-card-value" style={{ fontSize: "25px" }}>
-                {data.nominal}%
+                <div className="detail-investasi-small-card-title">
+                  Total Saham Dimiliki<br />
+                </div>
+                <div className="detail-investasi-small-card-value" style={{ fontSize: "25px" }}>
+                  {data.nominal}%
+                </div>
               </div>
             </div>
-             </>
-            }
-            
-            {empty && <div style={{ paddingTop: "25px" }} className="owned-pengadaan-null-wrapper">
-                <img src={emptyIcon} alt="empty data"></img>
-                <h5 className="owned-pengadaan-null">Belum memiliki pendapatan</h5>
-            </div>}
-            <br />
-            <div className="col-sm">
-                {data.statusInvestasi === "DJL" && <>
-                <p>Sedang dijual.</p>
-                <button className="wkd-nav-button wkd-dark-green-button" onClick={() => handleCancel()}>Cancel Jual</button>
-                </>
-                }
-                
-                {!sellmode && data.statusInvestasi !== "DJL" && <button className="wkd-nav-button wkd-dark-green-button" onClick={() => setSellmode(true)}>Jual Investasi</button>}
-                {sellmode && <>
-                        <p>Yakin menjual kepemilikan di perusahaan ini?</p>
-                        <br />
-                        <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => setSellmode(false)}>Cancel</button>
-                        <button id="m-i-buat" className="wkd-nav-button wkd-dark-green-button" onClick={() => handleSubmit()}>Jual Saham</button>
-                    </>}
-            </div>
-        </div>
-      </div>
-      <br />
-      <div className="col-sm">
-        {!sellmode && <button className="wkd-nav-button wkd-dark-green-button" onClick={() => setSellmode(true)}>Jual Investasi</button>}
-        {sellmode && <>
-            <p>Yakin menjual kepemilikan di perusahaan ini?</p>
-            <br />
-            <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => setSellmode(false)}>Kembali</button>
-            <button id="m-i-buat" className="wkd-nav-button wkd-dark-green-button" onClick={() => handleSubmit()}>Jual Saham</button>
-          </>}
-      </div> </>
-      }
+          </div>
+      </div></>}
 
       {empty && <div style={{ paddingTop: "25px" }} className="owned-pengadaan-null-wrapper">
         <img src={emptyIcon} alt="empty data"></img>
         <h5 className="owned-pengadaan-null">Belum memiliki pendapatan</h5>
       </div>}
-
+      <br />
       <div className="card-mainan-wrapper">
         { data.pengadaan && data.pengadaan.daftarMainan.map(mainan => (
             <CardMainan
@@ -331,6 +294,20 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
               status={statusReadable(mainan.status)}
             />
         ))}
+      </div>
+
+      <div className="col-sm">
+        {data.statusInvestasi === "DJL" && <>
+          <p>Sedang dijual.</p>
+          <button className="wkd-nav-button wkd-dark-green-button" onClick={() => handleCancel()}>Cancel Jual</button>
+        </>}
+        {!sellmode && data.statusInvestasi !== "DJL" && <button className="wkd-nav-button wkd-dark-green-button" onClick={() => setSellmode(true)}>Jual Investasi</button>}
+        {sellmode && <>
+          <p>Yakin menjual kepemilikan di perusahaan ini?</p>
+          <br />
+          <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => setSellmode(false)}>Cancel</button>
+          <button id="m-i-buat" className="wkd-nav-button wkd-dark-green-button" onClick={() => handleSubmit()}>Jual Saham</button>
+        </>}
       </div>
     </div>
   );
