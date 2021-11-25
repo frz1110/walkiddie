@@ -11,8 +11,6 @@ const HomepageOperator = ({isAuthenticated, user}) => {
   const { laporan, filter, setFilter } = useLaporanBackend(user);
   const { hash } = useLocation();
 
-  console.log(laporan);
-
   useEffect(() => {
     if (hash === "#sedang-diperbaiki") {
       setFilter('ASG');
