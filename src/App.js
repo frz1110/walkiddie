@@ -26,7 +26,7 @@ import { Provider } from 'react-redux';
 import MembuatInvestasi from './page/MembuatInvestasi/MembuatInvestasi';
 import OnboardingFaq from './page/OnboardingFaq/OnboardingFaq';
 import DetailInvestasi from './page/DetailInvestasi/DetailInvestasi';
-
+import LaporanDetail from './page/LaporanDetail/LaporanDetail';
 import store from './store';
 import HomepageOperator from './page/HomepageOperator/HomepageOperator';
 import MembuatPendapatan from './page/MembuatPendapatan/MembuatPendapatan';
@@ -34,6 +34,7 @@ import LaporanKerusakan from './page/LaporanKerusakan/LaporanKerusakan';
 import ListLaporanMesin from './page/ListLaporanMesin/ListLaporanMesin';
 import DetailLaporanKerusakan from './page/DetailLaporanKerusakan/DetailLaporanKerusakan';
 import UpdateLaporanKerusakan from './page/UpdateLaporanKerusakan/UpdateLaporanKerusakan';
+import ListSahamDijual from './page/ListSahamDijual/ListSahamDijual';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -125,6 +126,11 @@ function App() {
               <Route path={"/detail-laporan-kerusakan/:pk"} component={DetailLaporanKerusakan}>
               </Route>
               <Route path={"/update-laporan-kerusakan/:pk"} component={UpdateLaporanKerusakan}>
+              </Route>
+              <Route path={"/laporan/:pk"} component={LaporanDetail}>
+              </Route>
+              <Route path="/list-saham-dijual">
+                <ListSahamDijual />
               </Route>
             </Switch>
           </div>
