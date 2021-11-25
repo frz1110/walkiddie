@@ -94,7 +94,7 @@ const UpdateLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
     return (
         <div className="profile-form">
             <form className="profile-styling" onSubmit={handleSubmit}>
-                <h3 className="profile-header" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Laporan Kerusakan Mesin</h3>
+                <h3 className="profile-header" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Ubah Laporan Kerusakan Mesin</h3>
                 <Row className="justify-content-center">
                     <div className="col-lg-9">
                         <div className="square-box-2">

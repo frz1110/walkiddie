@@ -157,7 +157,7 @@ describe('<UpdateLaporanKerusakan />', () => {
                     <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
-        const backButton = getByText('Laporan Kerusakan Mesin', { selector: "h3" });
+        const backButton = getByText('Ubah Laporan Kerusakan Mesin', { selector: "h3" });
         userEvent.click(backButton);
 
         expect(historyBack).toHaveBeenCalledTimes(1);

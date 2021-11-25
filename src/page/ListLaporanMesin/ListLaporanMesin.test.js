@@ -119,7 +119,7 @@ describe('<ListLaporanMesin />', () => {
 
         var mock = new MockAdapter(axios);
 
-        mock.onGet(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config).reply(401, laporanData);
+        mock.onGet(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/`, config).reply(401, laporanData);
 
         render(
             <Provider store={store}>
@@ -129,7 +129,7 @@ describe('<ListLaporanMesin />', () => {
             </Provider>);
 
         // expect(screen.getByText(/Daftar Toko/)).toBeInTheDocument();
-        expect(screen.getByText(/Laporan Pengadaan/)).toBeInTheDocument();
+        expect(screen.getByText(/Laporan Mesin Anda/)).toBeInTheDocument();
         localStorage.removeItem('access', 'token')
     });
 

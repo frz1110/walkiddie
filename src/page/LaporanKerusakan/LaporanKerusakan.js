@@ -14,6 +14,13 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
         bukti: [],
     });
 
+    const{kode} = formData
+
+    useEffect(() => {
+        setFormData({ ...formData, kode: match.params.pk });
+    });
+
+
     const config = {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -96,7 +103,7 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
                                         id='kode'
                                         type='text'
                                         name='kode'
-                                        value={match.params.pk}
+                                        value={kode}
                                         onChange={e => onChange(e)}
                                         disabled
                                     />
