@@ -142,8 +142,8 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                                             <span style={{ fontWeight: "500", fontSize: "14px" }}>WKD-02ID2021 - {item.pengadaan.toko.namaCabang}</span>
                                         </div>
                                     </div>
-                                    <div className="owned-pengadaan-profil-right" style={{color: "#146A5F"}}>
-                                        Beroperasi Normal
+                                    <div className="owned-pengadaan-profil-right" style={{color: (item.pengadaan.daftarMainan.some(mainan => mainan.status == 'RSK') ? 'red' : "#146A5F") }}>
+                                        { item.pengadaan.daftarMainan.some(mainan => mainan.status == 'RSK') ? 'Ada mainan Rusak' : 'Beroperasi Normal' }
                                     </div>
                                 </div>
                                 <Row>
