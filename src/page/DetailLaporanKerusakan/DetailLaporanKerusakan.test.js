@@ -123,7 +123,7 @@ describe('<DetailLaporanKerusakan />', () => {
                     <DetailLaporanKerusakan isAuthenticated={mockAuthenticate} userData={mockUser} match={mockMatch} />
                 </BrowserRouter>
             </Provider>);
-        const backButton = getByText('Kembali', { selector: "h3" });
+        const backButton = getByText('Detail Laporan', { selector: "h3" });
         userEvent.click(backButton);
 
         expect(historyBack).toHaveBeenCalledTimes(1);

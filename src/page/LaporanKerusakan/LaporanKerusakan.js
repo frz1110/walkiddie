@@ -17,7 +17,8 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
     const{kode} = formData
 
     useEffect(() => {
-        setFormData({ ...formData, kode: match.params.pk });
+        const param = match.params
+        setFormData({ ...formData, kode: param.pk });
     });
 
 

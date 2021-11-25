@@ -81,7 +81,7 @@ const DetailLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
   } else if (userData.role == 'Mitra')  {
     return (
         <div className="detail-pengadaan-wrapper">
-            <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Kembali</h3>
+            <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Detail Laporan</h3>
             <Row className="justify-content-center">
                 <div className="col-lg-6">
                     <div className="detail-pengadaan-carousel-wrapper">
