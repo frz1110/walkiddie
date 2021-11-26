@@ -1,4 +1,4 @@
-import LaporanKerusakan from './LaporanKerusakan';
+import UpdateLaporanKerusakan from './UpdateLaporanKerusakan';
 import '@testing-library/jest-dom';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { render, screen } from '@testing-library/react';
@@ -12,7 +12,7 @@ jest.mock('axios')
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 
-describe('<LaporanKerusakan />', () => {
+describe('<UpdateLaporanKerusakan />', () => {
     it('renders correctly', () => {
         const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
@@ -29,10 +29,10 @@ describe('<LaporanKerusakan />', () => {
         const { getByText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <LaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
-        expect(getByText(/Laporan Kerusakan Mesin/)).toBeInTheDocument();
+        expect(getByText(/Ubah Laporan Kerusakan Mesin/)).toBeInTheDocument();
     });
 
     it('renders the right contents', () => {
@@ -50,7 +50,7 @@ describe('<LaporanKerusakan />', () => {
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <LaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
 
@@ -66,7 +66,7 @@ describe('<LaporanKerusakan />', () => {
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <LaporanKerusakan userData={mockUser} isAuthenticated={false} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={false} />
                     <Route
                         path="*"
                         render={({ location }) => {
@@ -95,7 +95,7 @@ describe('<LaporanKerusakan />', () => {
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <LaporanKerusakan userData={mockUser} isAuthenticated={false} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={false} />
                     <Route
                         path="*"
                         render={({ location }) => {
@@ -125,7 +125,7 @@ describe('<LaporanKerusakan />', () => {
         const { getByLabelText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <LaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
 
@@ -154,10 +154,10 @@ describe('<LaporanKerusakan />', () => {
         const { getByText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <LaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
-        const backButton = getByText('Laporan Kerusakan Mesin', { selector: "h3" });
+        const backButton = getByText('Ubah Laporan Kerusakan Mesin', { selector: "h3" });
         userEvent.click(backButton);
 
         expect(historyBack).toHaveBeenCalledTimes(1);

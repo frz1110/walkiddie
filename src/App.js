@@ -31,6 +31,9 @@ import store from './store';
 import HomepageOperator from './page/HomepageOperator/HomepageOperator';
 import MembuatPendapatan from './page/MembuatPendapatan/MembuatPendapatan';
 import LaporanKerusakan from './page/LaporanKerusakan/LaporanKerusakan';
+import ListLaporanMesin from './page/ListLaporanMesin/ListLaporanMesin';
+import DetailLaporanKerusakan from './page/DetailLaporanKerusakan/DetailLaporanKerusakan';
+import UpdateLaporanKerusakan from './page/UpdateLaporanKerusakan/UpdateLaporanKerusakan';
 import ListSahamDijual from './page/ListSahamDijual/ListSahamDijual';
 
 function App() {
@@ -97,6 +100,9 @@ function App() {
                 <Route path="/pemilik-toko">
                   <HomepagePemilikToko />
                 </Route>
+                <Route path="/laporan-mesin">
+                  <ListLaporanMesin />
+                </Route>
                 <Route path="/investor">
                   <ListOwnedPengadaan />
                 </Route>
@@ -115,8 +121,11 @@ function App() {
               <Route path="/membuat-pendapatan">
                 <MembuatPendapatan />
               </Route>
-              <Route path="/laporan-kerusakan">
-                <LaporanKerusakan />
+              <Route path={"/laporan-kerusakan/:pk"} component={LaporanKerusakan}>
+              </Route>
+              <Route path={"/detail-laporan-kerusakan/:pk"} component={DetailLaporanKerusakan}>
+              </Route>
+              <Route path={"/update-laporan-kerusakan/:pk"} component={UpdateLaporanKerusakan}>
               </Route>
               <Route path={"/laporan/:pk"} component={LaporanDetail}>
               </Route>

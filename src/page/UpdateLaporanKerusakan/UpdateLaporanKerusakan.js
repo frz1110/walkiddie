@@ -1,4 +1,4 @@
-import './LaporanKerusakan.css';
+import './UpdateLaporanKerusakan.css';
 import axios from 'axios';
 import { ChevronLeft } from 'react-feather';
 import React, { useState, useEffect } from 'react';
@@ -6,15 +6,13 @@ import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
+const UpdateLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
 
-    const [formData, setFormData] = useState({
-        kode: '',
-        deskripsi: '',
-        bukti: [],
-    });
-
-    const{kode} = formData
+    var [kode, setKode] = useState();
+    var [deskripsiLabel, setDeskripsiLabel] = useState();
+    var [bukti, setBukti] = useState();
+    var [deskripsi, setDeskripsi] = useState();
+    var [status, setStatus] = useState();
 
     const config = {
         headers: {
@@ -22,6 +20,22 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
             'Authorization': `JWT ${localStorage.getItem('access')}`,
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const laporanObj = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/${match.params.pk}/detail`, config);
+                setKode(laporanObj.data.mainanPengadaan.id);
+                setDeskripsiLabel(laporanObj.data.deskripsi);
+                setBukti(laporanObj.data.fotoKerusakan);
+                setStatus(laporanObj.data.status);
+            }
+            catch (err) {
+            }
+        }
+
+        fetchData();
+    });
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -32,19 +46,15 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
         if (localStorage.getItem('access')) {
             var formDataToSend = new FormData();
 
-            formDataToSend.append('mainan_pengadaan', match.params.pk);
-            formDataToSend.append('deskripsi', formData['deskripsi']);
+            formDataToSend.append('mainan_pengadaan', kode);
+            formDataToSend.append('deskripsi', deskripsi);
 
-            for (let i = 0; i < formData['bukti'].length; i++) {
-                formDataToSend.append('foto_kerusakan', formData['bukti'][i], formData['bukti'][i].name);
-            }
-
-            axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/`, formDataToSend, config)
+            axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/${match.params.pk}/update/`, formDataToSend, config)
                 .then((response) => {
                     console.log(response);
                     console.log('Success post');
                     window.history.back();
-                    alert('Anda telah membuat laporan kerusakan');
+                    alert('Anda telah mengubah laporan kerusakan');
                 }, (error) => {
                     if (error.response) {
 
@@ -71,22 +81,20 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
         }
     };
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const handleChangeFile = (event) => {
-        setFormData({ ...formData, bukti: event.target.files });
-    }
+    const onChange = e => setDeskripsi(e.target.value);
 
     if (!isAuthenticated) {
         return <Redirect to='/masuk' />
     }else if (userData.role != 'Mitra'){
         return (<Redirect to="/" />)
+    }else if (status === 'ASG'){
+        return (<Redirect to="/laporan-mesin" />)
     }
 
     return (
         <div className="profile-form">
             <form className="profile-styling" onSubmit={handleSubmit}>
-                <h3 className="profile-header" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Laporan Kerusakan Mesin</h3>
+                <h3 className="profile-header" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Ubah Laporan Kerusakan Mesin</h3>
                 <Row className="justify-content-center">
                     <div className="col-lg-9">
                         <div className="square-box-2">
@@ -98,7 +106,7 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
                                         id='kode'
                                         type='text'
                                         name='kode'
-                                        value='20'
+                                        value={kode}
                                         onChange={e => onChange(e)}
                                         disabled
                                     />
@@ -110,6 +118,7 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
                                             id='deskripsi'
                                             type='text'
                                             name='deskripsi'
+                                            placeholder={deskripsiLabel}
                                             required
                                             onChange={e => onChange(e)}
                                             rows="8"
@@ -119,13 +128,7 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
                                     <div className="profile-form-container">
                                         <label htmlFor='bukti'> Bukti Kerusakan </label>
                                         <div className="col-sm-9">
-                                        <input
-                                            role="mediatoko"
-                                            type="file"
-                                            name="file"
-                                            accept="video/*,image/*"
-                                            onChange={e => handleChangeFile(e)}
-                                            multiple />
+                                        <img src={bukti} alt="change icon"></img>
                                     </div>
                                     </div>
                                 </div>
@@ -150,4 +153,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps)(LaporanKerusakan);
+export default connect(mapStateToProps)(UpdateLaporanKerusakan);

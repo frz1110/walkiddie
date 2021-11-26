@@ -189,7 +189,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                     <Link to="/daftar-toko">
                         <img id="h-p-daftarkantoko" src={DaftarkanToko} alt="Daftarkan-toko" className="investor-card-menu" />
                     </Link>
-                    <Link to="/ringkasan-sales">
+                    <Link to="/laporan-mesin">
                         <img id="h-p-laporan" src={LaporanMesin} alt="Lihat-investasi" className="investor-card-menu" />
                     </Link>
                 </div>

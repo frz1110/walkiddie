@@ -1,0 +1,222 @@
+.detail-pengadaan-wrapper{
+    padding-top: 60px;
+    padding-bottom: 112px;
+    padding-left: 112px;
+    padding-right: 112px;
+}
+
+.back-button{
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 23px;
+    max-width: fit-content;
+    text-align: left;
+    cursor: pointer;
+}
+
+.chevron-left{
+    width: 40px;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+
+.detail-pengadaan-store-header{
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding-top: 10px;
+}
+
+.detail-pengadaan-profile-image{
+    border-radius: 50%;
+    height: 62px;
+    width: 62px;
+    object-fit: cover;
+}
+
+.detail-pengadaan-store-name{
+    padding-left: 15px;
+    font-weight: 700;
+    font-size: 22px;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 80%;
+}
+
+.detail-pengadaan-carousel-wrapper img{
+    object-fit: cover;
+    height: 270px;
+    border-radius: 10px;
+}
+
+.detail-pengadaan-box-wrapper{
+    text-align: start;
+    height: 270px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    padding: 31px 42px 31px;
+    border-radius: 10px;
+}
+
+.detail-pengadaan-box-wrapper h3{
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.detail-pengadaan-box-wrapper p{
+    font-weight: normal;
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.detail-pengadaan-distance-row{
+    padding-bottom: 20px
+}
+
+.detail-pengadaan-content{
+    padding-top: 30px
+}
+
+.detail-pengadaan-invest-button{
+    background-color: #146A5F;
+    color: white;
+    border-radius: 7.3px;
+    width: 100%;
+    height: 40px;
+    border: none;
+    font-weight: 700;
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+    transition-duration: 0.3s;
+}
+
+.detail-pengadaan-invest-button:hover{
+    background-color: #0f4e46;
+}
+
+.detail-pengadaan-invest-button:disabled{
+    background-color: #b8b8b8;
+}
+
+.detail-pengadaan-modal-text{
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+    padding-top: 30px;
+    color: #1E8E7F;
+}
+
+.detail-pengadaan-modal-target{
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+}
+
+.progress-bar {
+    background-color: #0BBBA8;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    font-size: 20px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.progress{
+    height: 27px;
+    border-radius: 7px;
+}
+
+.detail-pengadaan-modal-desc{
+    font-weight: normal;
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+    opacity: 0.6;
+    padding-top: 5px
+}
+
+.detail-pengadaan-midtext {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #ccc; 
+    line-height: 0.1em;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #146A5F;
+    background-color: #fff;
+    border-bottom: 3px solid #146A5F;
+    border-left: none;
+    border-right: none;
+    opacity: 1;
+}
+
+.nav-tabs {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link{
+    color: black;
+    opacity: 0.6;
+}
+
+.nav-tabs .nav-link:hover{
+    color: #146A5F;
+    opacity: 1;
+}
+
+.tab-content{
+    padding-top: 15px;
+}
+
+.store-information{
+    font-weight: 700;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    color: #146A5F;
+    line-height: 2.0;
+    text-align: left;
+}
+
+.store-information-span{
+    font-weight: normal;
+    color: black;
+}
+
+.mainan-wrapper{  
+    vertical-align: top; 
+    text-align: left;
+}
+
+.mainan-image{
+    max-height: 101px;
+    max-width: 101px;
+    object-fit: contain;
+}
+
+.toys-summary{
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.5;
+    align-items: center;
+}
+
+.mi-card-money{
+    border: 1px solid #b5b5b5;
+    border-radius: 10px;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: normal;
+}
+
+.card-text:last-child {
+    margin-bottom: 16px !important;
+}
+
+.fade{
+    transition: opacity .300s linear;
+}
