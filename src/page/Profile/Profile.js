@@ -105,7 +105,7 @@ const Profile = ({ userData, isAuthenticated }) => {
         e.preventDefault();
         setLoading(true);
         if (!isFilled) {
-            const res = await post_profile(email, full_name, address, phone_number, ktp_number, birth_date, profile_picture);
+            const res = await post_profile(email, full_name, address, province, district, phone_number, ktp_number, birth_date, profile_picture);
             if (res.success) {
                 window.location.reload(false);
             } else {
@@ -113,7 +113,7 @@ const Profile = ({ userData, isAuthenticated }) => {
                 alert('Terjadi kesalahan, pastikan Anda mengisi semua data (termasuk foto profil)')
             }
         } else {
-            const res = await update_profile(email, full_name, address, phone_number, ktp_number, birth_date, profile_picture, imageChanged);
+            const res = await update_profile(email, full_name, address, province, district, phone_number, ktp_number, birth_date, profile_picture, imageChanged);
             if (res.success) {
                 window.location.reload(false);
             } else {
