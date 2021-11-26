@@ -41,7 +41,7 @@ const resolved = [{
 }]
 
 const mock = new MockAdapter(axios);
-mock.onGet(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan?status=NAS`).reply(200, notAssignedData);
+mock.onGet(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/wilayah/`).reply(200, notAssignedData);
 mock.onGet(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/list-operator/assigned/`).reply(200, assignedData);
 mock.onGet(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/list-operator/resolved/`).reply(200, resolved);
 
