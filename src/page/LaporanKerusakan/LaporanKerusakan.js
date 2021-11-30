@@ -1,10 +1,10 @@
 import './LaporanKerusakan.css';
 import axios from 'axios';
 import { ChevronLeft } from 'react-feather';
+import { Link, Redirect, useHistory  } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
 
 const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
 
@@ -15,6 +15,15 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
     });
 
     const{kode} = formData
+    let history = useHistory();
+
+    useEffect(() => {
+        try {
+            setFormData({ ...formData, kode: match.params.pk });
+        }
+        catch (err) {           
+        }
+    });
 
     const config = {
         headers: {
@@ -32,7 +41,7 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
         if (localStorage.getItem('access')) {
             var formDataToSend = new FormData();
 
-            formDataToSend.append('mainan_pengadaan', match.params.pk);
+            formDataToSend.append('mainan_pengadaan', formData['kode']);
             formDataToSend.append('deskripsi', formData['deskripsi']);
 
             for (let i = 0; i < formData['bukti'].length; i++) {
@@ -98,7 +107,7 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
                                         id='kode'
                                         type='text'
                                         name='kode'
-                                        value='20'
+                                        value={kode}
                                         onChange={e => onChange(e)}
                                         disabled
                                     />

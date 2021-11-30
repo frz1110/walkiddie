@@ -20,12 +20,6 @@ jest.mock('../../components/Map/Map', () => {
     }
 })
 
-jest.mock('react-chartjs-2', ()=>{
-    return {
-        Doughnut: () => <div/>,
-    }
-})
-
 describe('<DetailLaporanKerusakan />', () => {
 
     it('should redirect if not authenticated', () => {
@@ -96,37 +90,37 @@ describe('<DetailLaporanKerusakan />', () => {
         expect(loc.pathname).toBe('/');
     });
 
-    // test('back button work correctly', () => {
-    //     const mockUser = jest.fn()
-    //     const mockAuthenticate = jest.fn()
-    //     const mockMatch = {
-    //         params: {
-    //             pk: 1
-    //         }
-    //     }
-    //     const initialState = {
-    //         auth: {
-    //             isAuthenticated: true,
-    //             user: {
-    //                 role: "Investor"
-    //             }
-    //         }
-    //     }
-    //     localStorage.setItem('access', 'token')
-    //     const store = mockStore(initialState)
-    //     const historyBack = jest.spyOn(window.history, 'back');
-    //     historyBack.mockImplementation(() => { });
+    test('back button work correctly', () => {
+        const mockUser = jest.fn()
+        const mockAuthenticate = jest.fn()
+        const mockMatch = {
+            params: {
+                pk: 1
+            }
+        }
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    role: "Mitra"
+                }
+            }
+        }
+        localStorage.setItem('access', 'token')
+        const store = mockStore(initialState)
+        const historyBack = jest.spyOn(window.history, 'back');
+        historyBack.mockImplementation(() => { });
 
-    //     const { getByText } = render(
-    //         <Provider store={store}>
-    //             <BrowserRouter>
-    //                 <DetailLaporanKerusakan isAuthenticated={mockAuthenticate} userData={mockUser} match={mockMatch} />
-    //             </BrowserRouter>
-    //         </Provider>);
-    //     const backButton = getByText('Detail Laporan', { selector: "h3" });
-    //     userEvent.click(backButton);
+        const { getByText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <DetailLaporanKerusakan isAuthenticated={mockAuthenticate} userData={mockUser} match={mockMatch} />
+                </BrowserRouter>
+            </Provider>);
+        const backButton = getByText('Detail Laporan', { selector: "h3" });
+        userEvent.click(backButton);
 
-    //     expect(historyBack).toHaveBeenCalledTimes(1);
-    //     historyBack.mockRestore()
-    // })
+        expect(historyBack).toHaveBeenCalledTimes(1);
+        historyBack.mockRestore()
+    })
 })

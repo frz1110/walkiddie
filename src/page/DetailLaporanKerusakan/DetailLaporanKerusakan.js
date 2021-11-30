@@ -14,6 +14,7 @@ const DetailLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
     const [pengadaan, setPengadaan] = useState([]);
     const [mainan, setMainan] = useState([]);
     const [toko, setToko] = useState([]);
+    const [status, setStatus] = useState([]);
     
     let history = useHistory();
     const config = {
@@ -31,6 +32,14 @@ const DetailLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
             setMainanPengadaan(laporanObj.data.mainanPengadaan);
             setPengadaan(laporanObj.data.mainanPengadaan.pengadaan);
             setToko(laporanObj.data.mainanPengadaan.pengadaan.toko);
+
+            if(laporanObj.data.status==='NAS'){
+                setStatus("Belum Diperbaiki");
+            }else if(laporanObj.data.status==='RSV'){
+                setStatus("Sudah Selesai");
+            }else{
+                setStatus("Sedang Diperbaiki");
+            }
         }
         catch (err) {           
             history.push('/')
@@ -103,7 +112,7 @@ const DetailLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
                     Mitra:
                     <span className="store-information-span">  {laporan.mitra}</span><br />
                     Status:
-                    <span className="store-information-span">  {laporan.status}</span><br />
+                    <span className="store-information-span">  {status}</span><br />
                     Id Mainan:
                     <span className="store-information-span">  {mainanPengadaan.id}</span><br />
                     Nama Mainan:

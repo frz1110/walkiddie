@@ -1,13 +1,14 @@
 import LaporanKerusakan from './LaporanKerusakan';
 import '@testing-library/jest-dom';
 import { BrowserRouter, Route } from 'react-router-dom'
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import axios from 'axios'
 import { Provider } from 'react-redux'
 
-jest.mock('axios')
+jest.mock('axios');
 
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
@@ -56,6 +57,7 @@ describe('<LaporanKerusakan />', () => {
 
         expect(screen.getByLabelText(/Kode Mainan/)).toBeInTheDocument();        
         expect(screen.getByLabelText(/Deskripsi Kerusakan/)).toBeInTheDocument();
+        expect(screen.getByText(/Bukti Kerusakan/)).toBeInTheDocument();
     });
 
     it('should redirect if not authenticated', () => {
@@ -132,6 +134,101 @@ describe('<LaporanKerusakan />', () => {
         const deskripsi = getByLabelText('Deskripsi Kerusakan');
         userEvent.type(deskripsi, 'Mesin Tidak Menyala');
         expect(screen.getByLabelText('Deskripsi Kerusakan')).toHaveValue('Mesin Tidak Menyala');
+    });
+
+    test('submit through form', async() => {
+        const mockUser = jest.fn()
+        const mockAuthenticate = jest.fn()
+        global.URL.createObjectURL = jest.fn();
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    email: "user12345@gmail.com",
+                    first_name: "ihsan",
+                    last_name: "azizi",
+                    role: "Mitra"
+                }
+            }
+        }
+        localStorage.setItem('access', 'token')
+        const store = mockStore(initialState)
+
+        const { getByLabelText, getByRole, getByText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <LaporanKerusakan isAuthenticated={mockAuthenticate} user={mockUser}/>
+                </BrowserRouter>
+            </Provider>);
+
+        const file = new File(['user'], 'user.png', { type: 'image/png' })
+
+        const kerusakanData = {
+            data: {
+                mainan_pengadaan: "1",
+                deskripsi: "Mesin Tidak Menyala",
+                foto_kerusakan: file
+            }
+        }
+
+        const deskripsi_kerusakan = getByLabelText('Deskripsi Kerusakan');
+        const bukti_kerusakan = getByRole('mediatoko');
+        const tombolSimpan = getByText("Submit");
+
+        axios.post.mockImplementationOnce(() => Promise.resolve(kerusakanData));
+
+        userEvent.type(deskripsi_kerusakan, 'Mesin Tidak Menyala');
+        userEvent.upload(bukti_kerusakan, file);
+
+        fireEvent.click(tombolSimpan);
+
+        await(()=> expect(axios.post).toHaveBeenCalledTimes(1));
+        localStorage.removeItem('access', 'token')
+    });
+
+    test('fail submit through form', async() => {
+        const mockUser = jest.fn()
+        const mockAuthenticate = jest.fn()
+        global.URL.createObjectURL = jest.fn();
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    email: "user12345@gmail.com",
+                    first_name: "ihsan",
+                    last_name: "azizi",
+                    role: "Mitra"
+                }
+            }
+        }
+        localStorage.setItem('access', 'token')
+        const store = mockStore(initialState)
+
+        const { getByLabelText, getByRole, getByText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <LaporanKerusakan isAuthenticated={mockAuthenticate} user={mockUser}/>
+                </BrowserRouter>
+            </Provider>);
+
+        const kerusakanData = {
+            data: {
+                mainan_pengadaan: "1",
+                deskripsi: "Mesin Tidak Menyala",
+            }
+        }
+
+        const deskripsi_kerusakan = getByLabelText('Deskripsi Kerusakan');
+        const tombolSimpan = getByText("Submit");
+
+        axios.post.mockImplementationOnce(() => Promise.reject(kerusakanData));
+
+        userEvent.type(deskripsi_kerusakan, 'Mesin Tidak Menyala');
+
+        fireEvent.click(tombolSimpan);
+
+        await(()=> expect(axios.post).toHaveBeenCalledTimes(1));
+        localStorage.removeItem('access', 'token')
     });
 
     test('back button work correctly', () => {

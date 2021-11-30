@@ -9,6 +9,7 @@ import { Link, Redirect } from 'react-router-dom';
 const UpdateLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
 
     var [kode, setKode] = useState();
+    var [pk, setPk] = useState();
     var [deskripsiLabel, setDeskripsiLabel] = useState();
     var [bukti, setBukti] = useState();
     var [deskripsi, setDeskripsi] = useState();
@@ -29,6 +30,7 @@ const UpdateLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
                 setDeskripsiLabel(laporanObj.data.deskripsi);
                 setBukti(laporanObj.data.fotoKerusakan);
                 setStatus(laporanObj.data.status);
+                setPk(match.params.pk);
             }
             catch (err) {
             }
@@ -48,8 +50,8 @@ const UpdateLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
 
             formDataToSend.append('mainan_pengadaan', kode);
             formDataToSend.append('deskripsi', deskripsi);
-
-            axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/${match.params.pk}/update/`, formDataToSend, config)
+            
+            axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/${pk}/update/`, formDataToSend, config)
                 .then((response) => {
                     console.log(response);
                     console.log('Success post');
@@ -57,20 +59,14 @@ const UpdateLaporanKerusakan = ({ isAuthenticated, userData, match}) => {
                     alert('Anda telah mengubah laporan kerusakan');
                 }, (error) => {
                     if (error.response) {
-
                         console.log("error.response")
                         console.log(error.response)
-
                     } else if (error.request) {
-
                         console.log("error.request")
                         console.log(error.request)
-
                     } else if (error.message) {
-
                         console.log("error.message")
                         console.log(error.message)
-
                     }
                     console.log(error);
                     alert("Terdapat kesalahan. Silakan mengecek kembali laporan yang Anda masukan dan refresh ulang halaman ini dan perbaiki pengadaan Anda.")
