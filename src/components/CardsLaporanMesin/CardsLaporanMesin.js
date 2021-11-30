@@ -9,13 +9,6 @@ const Cards = ({ posts, loading }) => {
     return <h2>Loading...</h2>;
   }
 
-  const config = {
-    headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-    }
-  };
-
   return (
     <CardColumns>
       {posts.map(post => (
