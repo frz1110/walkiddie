@@ -15,13 +15,7 @@ import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding
 const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
     const onBoardingSteps = [
         {
-            content: <h5>Homepage investor</h5>,
-            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
-            placement: 'center',
-            target: 'body',
-        },
-        {
-            content: 'Lihat dan cari pasar pengadaan yang bisa kamu investasikan.',
+            content: 'Cari pasar pengadaan yang bisa kamu investasikan.',
             placement: 'bottom',
             styles: {
                 options: {
@@ -30,6 +24,17 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
             },
             target: '#l-o-pengadaan',
             title: 'Cari Pengadaan',
+        },
+        {
+            content: 'Cari saham yang dijual investor lain.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#l-o-marketplace',
+            title: 'Cari Saham Dijual',
         },
         {
             content: 'Lihat laporan investasi yang dimiliki.',
@@ -43,7 +48,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
             title: 'Laporan Investasi',
         },
         {
-            content: 'Daftar investasi yang kamu miliki. Kamu bisa menekan salah satu investasi untuk melihat informasi detailnya.',
+            content: 'Kamu bisa menekan salah satu investasi untuk melihat informasi detailnya.',
             placement: 'bottom',
             styles: {
                 options: {
@@ -51,13 +56,30 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                 },
             },
             target: '#l-o-owned',
-            title: 'Investasi yang dimiliki',
+            title: 'Daftar investasi yang dimiliki',
         },
         {
-            content: <h4>Selesai</h4>,
-            placement: 'center',
-            target: 'body',
+            content: 'Tekan card ini untuk melihat detail keuntungan yang kamu dapatkan dari investasi ini.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.owned-pengadaan-object',
+            title: 'Investasi yang didapatkan',
         },
+        {
+            content: 'Cari tahu tentang toko dan pengadaan ini.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '.detail-pengadaan-text',
+            title: 'Informasi seputar pengadaan',
+        }
     ];
 
     const [pengadaan, setPengadaan] = useState([]);
@@ -123,7 +145,7 @@ const ListOwnedPengadaan = ({ isAuthenticated, user }) => {
                         <img id="l-o-pengadaan" src={pengadaanCard} alt="" className="investor-card-menu" />
                     </Link>
                     <Link to="/list-saham-dijual">
-                        <img id="l-o-pengadaan" src={sahamCard} alt="" className="investor-card-menu" />
+                        <img id="l-o-marketplace" src={sahamCard} alt="" className="investor-card-menu" />
                     </Link>
                     <Link to="/ringkasan-sales">
                         <img id="l-o-laporan" src={investasiCard} alt="" className="investor-card-menu" />

@@ -9,8 +9,72 @@ import Table from 'react-bootstrap/Table';
 import NumberFormat from 'react-number-format';
 import { Line, Bar } from 'react-chartjs-2';
 import emptyIcon from '../ListOwnedPengadaan/empty.svg';
+import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
+
 
 const DetailInvestasi = ({ isAuthenticated, user, location }) => {
+    const onBoardingSteps = [
+            {
+                content: 'Chart pendapatan bulanan',
+                placement: 'bottom',
+                styles: {
+                    options: {
+                        width: 300,
+                    },
+                },
+                target: '#monthly-chart',
+            },
+            {
+                content: 'Chart pendapatan tahunan',
+                placement: 'bottom',
+                styles: {
+                    options: {
+                        width: 300,
+                    },
+                },
+                target: '#yearly-chart',
+            },
+            {
+                content: 'Pilihan untuk melihat laporan keuntungan per hari/minggu/bulan',
+                placement: 'bottom',
+                styles: {
+                    options: {
+                        width: 300,
+                    },
+                },
+                target: '#dropdown-time',
+            },
+            {
+                content: 'Laporan pendapatan oleh mitra. Tabel berisi waktu - revenue yang diterima mitra - keuntungan yang anda dapatkan',
+                placement: 'bottom',
+                styles: {
+                    options: {
+                        width: 300,
+                    },
+                },
+                target: '#tabel-pendapatan',
+            },{
+                content: 'Pendapatan kumulatif dan persentase kepemilikan kumulatif anda.',
+                placement: 'bottom',
+                styles: {
+                    options: {
+                        width: 300,
+                    },
+                },
+                target: '#total-card',
+            },
+            {
+                content: 'Tekan untuk jual investasi ini.',
+                placement: 'bottom',
+                styles: {
+                    options: {
+                        width: 300,
+                    },
+                },
+                target: '#btn-jual-inves',
+            },
+    
+    ];
     const [sales, setSales] = useState([]);
     const [pendapatan, setPendapatan] = useState('');
     const [empty, setEmpty] = useState(false); 
@@ -179,11 +243,12 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
             <br />
             <br />
             {!empty && <> <div>
+                <WalkiddieOnboarding steps={onBoardingSteps} />
                 <Row style={{ margin: "0px" }}>
-                    <div className="col chart-card">
+                    <div id='monthly-chart' className="col chart-card">
                         <Line data={dataLineChart} height={180} options={optionsLineChart} />
                     </div>
-                    <div className="col chart-card" style={{ marginLeft: "15px" }}>
+                    <div id='yearly-chart' className="col chart-card" style={{ marginLeft: "15px" }}>
                         <Bar data={dataBarChart} height={180} options={optionsLineChart} />
                     </div>
                 </Row>
@@ -191,7 +256,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                 <div className="detail-investasi-table-wrapper">
                     <h3 className="table-title-rincian">Tabel Rincian Pendapatan</h3>
                     <div className="dropdown-ringkasan-sales">
-                            <Dropdown
+                            <Dropdown id='dropdown-time'
                                 onSelect={handleSelect}>
                                 <Dropdown.Toggle variant="success" id="dropdown-basic">
                                     {filter}
@@ -207,7 +272,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
 
                     <div className="table-wrapper-invest" style={{ marginTop: "15px" }}>
                         <div style={{ width: "100%", height: "100%" }}>
-                            <Table bordered borderless>
+                            <Table id='tabel-pendapatan' bordered borderless>
                                 <thead>
                                     <tr>
                                         <th style={{ textAlign: "center" }}>No</th>
@@ -236,7 +301,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
                             minWidth: "250px",
                             boxShadow: "0px 1px 4px rgb(0 0 0 / 25%)",
                             padding: "10px"
-                        }}>
+                        }} id='total-card'>
                             <div className="detail-investasi-small-card-title">
                                 Total Pendapatan:<br />
                             </div>
@@ -258,7 +323,7 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
             </div>
             <br />
             <div className="col-sm">
-                {!sellmode && <button className="wkd-nav-button wkd-dark-green-button" onClick={() => setSellmode(true)}>Jual Investasi</button>}
+                {!sellmode &&  <button id='btn-jual-inves' className="wkd-nav-button wkd-dark-green-button" onClick={() => setSellmode(true)}>Jual Investasi</button>}
                 {sellmode && <>
                         <p>Yakin menjual kepemilikan di perusahaan ini?</p>
                         <br />
