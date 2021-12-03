@@ -35,6 +35,7 @@ import ListLaporanMesin from './page/ListLaporanMesin/ListLaporanMesin';
 import DetailLaporanKerusakan from './page/DetailLaporanKerusakan/DetailLaporanKerusakan';
 import UpdateLaporanKerusakan from './page/UpdateLaporanKerusakan/UpdateLaporanKerusakan';
 import ListSahamDijual from './page/ListSahamDijual/ListSahamDijual';
+import BeliSaham from './page/BeliSaham/BeliSaham';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -131,6 +132,8 @@ function App() {
               </Route>
               <Route path="/list-saham-dijual">
                 <ListSahamDijual />
+              </Route>
+              <Route path={"/beli-investasi/:pk"} component={BeliSaham}>
               </Route>
             </Switch>
           </div>
