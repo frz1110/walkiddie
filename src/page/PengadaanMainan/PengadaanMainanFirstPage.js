@@ -125,11 +125,7 @@ const PengadaanMainanFirstPage = ({ daftarMainan, setState, formData, navigation
 
                         <h3 className="midtext" ><span>Katalog Mainan</span></h3>
 
-                        <div
-                            style={{
-                                textAlign: 'center'
-                            }}
-                        >
+                        <div style={{ textAlign: 'center' }} id="p-m-1-katalog">
                             <br></br>
                             <p>Pilih pengadaan mainan yang Anda inginkan!</p>
 
