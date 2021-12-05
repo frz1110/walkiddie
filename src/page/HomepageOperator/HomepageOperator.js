@@ -19,10 +19,10 @@ const HomepageOperator = ({isAuthenticated, user}) => {
     } else {
       setFilter('NAS');
     }
-  }, [setFilter, hash])
+  }, [setFilter, hash]);
 
-  if (!isAuthenticated) return <Redirect to="/masuk" />
-  if (user.role !== "Operator") return <Redirect to="/" />
+  if (!isAuthenticated) return <Redirect to="/masuk" />;
+  if (user.role !== "Operator") return <Redirect to="/" />;
 
   return (
     <div id="l-o-owned" className="list-owned-pengadaan">
@@ -41,7 +41,7 @@ const HomepageOperator = ({isAuthenticated, user}) => {
       {laporan.length > 0 ? laporan.map(item => (
         <Card
           image={item.fotoKerusakan}
-          header={item.mainanPengadaan.pengadaan.toko.namaToko}
+          header={`${item.mainanPengadaan.mainan.namaMainan} - ${item.mainanPengadaan.pengadaan.toko.namaToko}`}
           link={`/laporan/${item.pk}`}
           loc={item.mainanPengadaan.pengadaan.toko.lokasiToko}
           desc={item.deskripsi}
