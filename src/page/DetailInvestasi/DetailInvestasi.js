@@ -13,7 +13,7 @@ import CardMainan from '../../components/CardMainan/CardMainan';
 
 function statusReadable(status) {
     if (status === 'RSK') {
-        return 'Rusak';
+        return 'Dalam Perbaikan';
     } else if (status === 'BFS') {
         return 'Berfungsi Normal';
     } else {
@@ -299,13 +299,13 @@ const DetailInvestasi = ({ isAuthenticated, user, location }) => {
       <div className="col-sm">
         {data.statusInvestasi === "DJL" && <>
           <p>Sedang dijual.</p>
-          <button className="wkd-nav-button wkd-dark-green-button" onClick={() => handleCancel()}>Cancel Jual</button>
+          <button className="wkd-nav-button wkd-dark-green-button" onClick={() => handleCancel()}>Batalkan Jual</button>
         </>}
         {!sellmode && data.statusInvestasi !== "DJL" && <button className="wkd-nav-button wkd-dark-green-button" onClick={() => setSellmode(true)}>Jual Investasi</button>}
         {sellmode && <>
           <p>Yakin menjual kepemilikan di perusahaan ini?</p>
           <br />
-          <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => setSellmode(false)}>Cancel</button>
+          <button className="wkd-nav-button wkd-light-tosca-button" onClick={() => setSellmode(false)}>Batal</button>
           <button id="m-i-buat" className="wkd-nav-button wkd-dark-green-button" onClick={() => handleSubmit()}>Jual Saham</button>
         </>}
       </div>
