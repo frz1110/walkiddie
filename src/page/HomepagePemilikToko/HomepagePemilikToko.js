@@ -32,7 +32,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
             title: 'Daftarkan Toko',
         },
         {
-            content: 'Lihat laporan investasi yang dimiliki.',
+            content: 'Lihat laporan kerusakan mesin Anda.',
             placement: 'bottom',
             styles: {
                 options: {
@@ -40,7 +40,7 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                 },
             },
             target: '#h-p-laporan',
-            title: 'Laporan Investasi',
+            title: 'Laporan Mesin',
         },
         {
             content: 'Daftar pengadaan yang kamu miliki. ',
@@ -51,7 +51,18 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                 },
             },
             target: '#h-p-pengadaan',
-            title: 'Investasi yang dimiliki',
+            title: 'Pengadaan yang Anda buat',
+        },
+        {
+            content: 'Buat Pendapatan dari Pengadaan untuk ditampilkan kepada Investor Anda',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#h-p-pendapatan',
+            title: 'Membuat Pendapatan',
         },
         {
             content: 'Daftar toko yang kamu miliki. ',
@@ -211,7 +222,10 @@ const HomepagePemilikToko = ({ isAuthenticated, user }) => {
                             />
                         </Row>
                     </div>
-                    <a href={"/membuat-pendapatan/"} className="custom-card-walkiddie">
+                </div>
+                
+                <div id="h-p-pendapatan">
+                <a href={"/membuat-pendapatan/"} className="custom-card-walkiddie">
                     <button className="wkd-home-button wkd-nav-button wkd-tosca-button">
                         Buat Pendapatan
                     </button>
