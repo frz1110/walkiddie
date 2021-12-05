@@ -20,6 +20,17 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
             target: 'body',
         },
         {
+            content: 'Ringkasan mainan dapat dilihat di sini. Jumlah mainan dapat ditambah atau dikurangi.',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#p-m-2-ringkasan',
+            title: 'Pengadaan Mainan (2)',
+        },
+        {
             content: 'Isi semua data yang diperlukan.',
             placement: 'top',
             styles: {
@@ -304,7 +315,8 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                         <p>Buat pengadaan dan raih keuntungannya.</p>
                         <br></br>
                         <form className="centered" onSubmit={handleSubmit}>
-                            <div id="p-m-2-form" className="justify-content-center">
+                            <div className="justify-content-center">
+                                <div id="p-m-2-ringkasan">
                                 <h3 className="midtext" ><span>Ringkasan Mainan</span></h3>
                                 <br></br>
 
@@ -335,7 +347,9 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                                             </div>
                                         </div>) : null;
                                 })};
-
+                                </div>
+                                
+                                <div id="p-m-2-form">
                                 <h3 className="midtext" ><span>Informasi Pengadaan</span></h3>
                                 <br></br>
                                 <div className="form-group row">
@@ -406,6 +420,7 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                                         />
                                     </div>
                                 </div>
+                        </div>
                             </div>
                             <div 
                             style={{
@@ -413,7 +428,7 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                             }}
                             >   
                                 <button className="wkd-home-button wkd-nav-button wkd-tosca-button daftar-toko-padding-button" onClick={previous}>Sebelumnya</button>
-                                <button className="wkd-home-button wkd-nav-button wkd-dark-green-button daftar-toko-padding-button"  type="submit">Simpan</button>
+                                <button id="p-m-2-simpan" className="wkd-home-button wkd-nav-button wkd-dark-green-button daftar-toko-padding-button"  type="submit">Simpan</button>
                             </div>
                         </form>
                     </div>
