@@ -15,7 +15,10 @@ const mockStore = configureStore(middlewares)
 
 const notAssignedData = [{
     pk:1,
-    mainanPengadaan: { pengadaan: { toko: { namaToko: 'Not Assigned' }}},
+    mainanPengadaan: {
+        mainan: { namaMainan: 'Mainan 1' },
+        pengadaan: { toko: { namaToko: 'Not Assigned' }}
+    },
     loc: 'TimeZone Mall Pejaten Village',
     level: '4',
     deskripsi: 'Rusak',
@@ -24,21 +27,27 @@ const notAssignedData = [{
 
 const assignedData = [{
     pk:2,
-    mainanPengadaan: { pengadaan: { toko: { namaToko: 'Assigned' }}},
+    mainanPengadaan: {
+        mainan: { namaMainan: 'Mainan 2'},
+        pengadaan: { toko: { namaToko: 'Assigned' }}
+    },
     loc: 'TimeZone Mall PIK',
     level: '3',
     deskripsi: 'Rusak',
     status: 'BD'
-}]
+}];
 
 const resolved = [{
     pk:3,
-    mainanPengadaan: { pengadaan: { toko: { namaToko: 'Resolved' }}},
+    mainanPengadaan: {
+        mainan: { namaMainan: 'Mainan 3'},
+        pengadaan: { toko: { namaToko: 'Resolved' }}
+    },
     loc: 'timezone mall pim',
     level: '3',
     deskripsi: 'Rusak',
     status: 'SD'
-}]
+}];
 
 const mock = new MockAdapter(axios);
 mock.onGet(`${process.env.REACT_APP_BACKEND_API_URL}/api/laporan/wilayah/`).reply(200, notAssignedData);
@@ -97,7 +106,7 @@ describe('<HomepageOperator />', () => {
                 }
             }
         })
-        await waitFor(() => expect(screen.getByText(/Not Assigned/)).toBeInTheDocument());
+        await waitFor(() => expect(screen.getByText(/Mainan 1 - Not Assigned/)).toBeInTheDocument());
     })
 
     it('should redirect if not authenticated', async () => {
@@ -131,7 +140,7 @@ describe('<HomepageOperator />', () => {
                 }
             }
         }, { route: "/#sedang-diperbaiki"})
-        await waitFor(() => expect(screen.getByText(/Assigned/)).toBeInTheDocument());
+        await waitFor(() => expect(screen.getByText(/Mainan 2 - Assigned/)).toBeInTheDocument());
     });
     it('should able to display laporan selesai', async () => {
         setUp({
@@ -142,7 +151,7 @@ describe('<HomepageOperator />', () => {
                 }
             }
         }, { route: "/#selesai"})
-        await waitFor(() => screen.getByText(/Resolved/));
+        await waitFor(() => screen.getByText(/Mainan 3 - Resolved/));
     });
     it('should able to display laporan if no hash exist', async () => {
         setUp({
@@ -153,6 +162,6 @@ describe('<HomepageOperator />', () => {
                 }
             }
         }, { route: "/#none"})
-        await waitFor(() => screen.getByText(/Not Assigned/));
+        await waitFor(() => expect(screen.getByText(/Mainan 1 - Not Assigned/)).toBeInTheDocument());
     });
 })
