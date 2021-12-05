@@ -1,9 +1,13 @@
 .card-mainan {
     padding: 10px 20px;
     margin: 5px 5px;
-    border: solid 1px lightgrey;
+    border: solid 1px green;
     border-radius: 5px;
     flex-grow: 1;
+}
+
+.normal-status {
+    color: green;
 }
 
 .card-mainan h1 {

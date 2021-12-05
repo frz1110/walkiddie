@@ -12,7 +12,7 @@ export default function CardMainan({
       <img src={foto} />
       <h1>{nama}</h1>
       <p>{detail}</p>
-      <p class={`${rusak && 'rusak-status'}`}>{status}</p>
+      <p class={`normal-status ${rusak && 'rusak-status'}`}>{status}</p>
     </div>
   );
 }
