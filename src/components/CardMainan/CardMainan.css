@@ -1,0 +1,32 @@
+.card-mainan {
+    padding: 10px 20px;
+    margin: 5px 5px;
+    border: solid 1px green;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+
+.normal-status {
+    color: green;
+}
+
+.card-mainan h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: revert;
+}
+
+.card-mainan img {
+    margin: 10px 5px;
+    width: 200px;
+    height: 200px;
+}
+
+.rusak {
+    border: solid 1px red;
+}
+
+.rusak-status {
+    color: red;
+    font-weight: 600;
+}

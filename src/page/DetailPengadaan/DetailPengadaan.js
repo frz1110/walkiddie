@@ -14,6 +14,8 @@ import { ChevronLeft } from 'react-feather';
 import NumberFormat from 'react-number-format';
 import { load_profile } from '../../actions/auth';
 import {Doughnut} from 'react-chartjs-2';
+import WalkiddieOnboarding from '../../components/OnBoarding/WalkiddieOnboarding';
+
 
 const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
     const [toko, setToko] = useState({latitude: 0, longitude: 0});
@@ -22,6 +24,108 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
     const [filesPengadaan, setFilesPengadaan] = useState([]);
     const [disable, setDisable] = useState(false);
     const [totalInvested, setTotal] = useState(0);
+    const [role, setRole] = useState('');
+    const onBoardingSteps = [
+        {
+            content: <h5>Petunjuk detail pengadaan</h5>,
+            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+            placement: 'center',
+            target: 'body',
+        },
+        {
+            content: 'Halaman ini menunjukkan detail dari pengadaan yang telah dibuat.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#wrapper',
+            title: 'Detail Pengadaan',
+        },
+        {
+            content: 'Bagian ini menunjukkan progres pengumpulan modal pengadaan.',
+            placement: 'right',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#modal',
+            title: 'Detail Pengadaan',
+        },
+        {
+            content: 'Bagian ini menunjukkan persentase jumlah investasi pada pengadaan bagi pengguna investor.',
+            placement: 'right',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#investasi',
+            title: 'Detail Pengadaan',
+        },
+        {
+            content: 'Bagian ini menunjukkan detail pengadaan. Disediakan tombol bagi investor agar dapat ikut berinvestasi.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#pengadaan',
+            title: 'Detail Pengadaan',
+        },
+        {
+            content: 'Pengguna dapat memilih tab berbeda untuk melihat detail berbeda',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#tabs',
+            title: 'Detail Pengadaan',
+        },
+        {
+            content: '"Informasi Toko" menunjukkan detail toko yang lebih lengkap.',
+            placement: 'top',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#tabs',
+            title: 'Detail Pengadaan',
+        },
+        {
+            content: '"Pilihan Mainan" menunjukkan mainan-mainan dalam pengadaan. Mitra dapat melapor kerusakan pada mainan di sini.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#tabs',
+            title: 'Detail Pengadaan',
+        },
+        {
+            content: '"Estimasi Keuangan" menunjukkan perkiraan keuangan yang didapatkan dari pengadaan.',
+            placement: 'bottom',
+            styles: {
+                options: {
+                    width: 300,
+                },
+            },
+            target: '#tabs',
+            title: 'Detail Pengadaan',
+        },
+        {
+            content: <h4>Selesai</h4>,
+            placement: 'center',
+            target: 'body',
+        },
+    ];
 
     let history = useHistory();
     const config = {
@@ -58,6 +162,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
         try {
             const user = await load_profile()(toko.owner);
             setUserPhone(user.res.data.phone_number);
+            setRole(userData.role);
         }
         catch (err) {
             setUserPhone('-')
@@ -109,11 +214,12 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
 
   if (!isAuthenticated) {
     return (<Redirect to="/masuk" />)
-  } else if (userData.role !== 'Investor') {
-    return (<Redirect to="/" />)
-  } else {
+  } else if (userData.role == 'Investor' || userData.role == 'Mitra')  {
     return (
-        <div className="detail-pengadaan-wrapper">
+        <>
+        <WalkiddieOnboarding steps={onBoardingSteps} />
+
+        <div id="wrapper" className="detail-pengadaan-wrapper">
             <h3 className="back-button" onClick={() => window.history.back()}><ChevronLeft size="40" className="chevron-left"/>Kembali</h3>
             <div className="detail-pengadaan-store-header">
                 <img src={toko.fotoProfilToko} className="detail-pengadaan-profile-image" alt=""></img>
@@ -133,12 +239,16 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                             ))}
                         </Carousel>
                     </div>
+
+                    <div id="modal">
                     <h3 className="detail-pengadaan-modal-text">Kebutuhan Modal</h3>
                     <p className="detail-pengadaan-midtext"></p>
                     <h3 className="detail-pengadaan-modal-target"><NumberFormat value={pengadaan.totalBiaya} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></h3>
                     <ProgressBar striped now={(pengadaan.danaTerkumpul/pengadaan.totalBiaya*100)+10} label={(pengadaan.danaTerkumpul/pengadaan.totalBiaya*100)+ "%"} />
                     <p className="detail-pengadaan-modal-desc">Terkumpul dari target: <NumberFormat value={pengadaan.totalBiaya} displayType={'text'} thousandSeparator={true} prefix={'Rp '}/></p>
-                    
+                    </div>
+
+                    <div id="investasi">
                     <h3 className="detail-pengadaan-modal-text">Jumlah Investasimu</h3>
                     <p className="detail-pengadaan-midtext"></p>
                     
@@ -152,11 +262,12 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                                 <h3 className="detail-pengadaan-modal-target">{totalInvested}%</h3>
                             </div>
                     </Row>
+                    </div>
                     <br></br>
                     <br></br>
                 </div>
                 <div className="col-lg-7">
-                    <div className="detail-pengadaan-box-wrapper">
+                    <div id="pengadaan" className="detail-pengadaan-box-wrapper">
                         <Row className="detail-pengadaan-distance-row">
                             <div className="col-sm">
                                 <h3>Periode Pengadaan</h3>
@@ -189,9 +300,10 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                         </Row>
                     </div>
                     <br></br>
+                    <div id="tabs">
                     <Tabs fill justify defaultActiveKey="toko" id="uncontrolled-tab-example">
                         <Tab eventKey="toko" title="Informasi Toko">
-                            <div className="store-information">
+                            <div id="informasi-toko" className="store-information">
                                 Nama Toko:
                                 <span className="store-information-span">  {toko.namaToko}</span><br />
                                 Nama Cabang:
@@ -208,6 +320,7 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                             </div>
                         </Tab>
                         <Tab eventKey="mainan" title="Pilihan Mainan">
+                            <div id="mainan">
                             { pengadaan.length !== 0 && pengadaan.daftarMainan.map(item => (
                                 <Row className="justify-content-center toys-summary">
                                 <div className="col-sm-2">
@@ -219,13 +332,18 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                                 </div>
                                 <div className="col-sm-4" style={{ fontSize: "15px" }}>
                                     <div className="line" />
-                                    <span style={{ fontWeight: "500" }}>Jumlah: </span>{item.kuantitas}
+                                    {role==="Mitra" && <a href={"/laporan-kerusakan/"+item.id} className="custom-card-walkiddie">
+                                    <button className="wkd-home-button wkd-nav-button wkd-tosca-button">
+                                        Lapor Kerusakan
+                                    </button>
+                                    </a>}
                                 </div>
                             </Row>
                             )) }
+                            </div>
                         </Tab>
                         <Tab eventKey="keuangan" title="Estimasi Keuangan">
-                            <div className="card mi-card-money">
+                            <div id="keuangan" className="card mi-card-money">
                                 <div className="card-body">
                                     <p className="card-text">
                                         {pengadaan.estimasiKeuangan}
@@ -234,12 +352,16 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
                             </div>
                         </Tab>
                     </Tabs>
+                    </div>
                 </div>
             </Row>
             <br />
         </div>
+    </>
     );
-}
+}else{
+    return (<Redirect to="/" />)
+  } 
 }
 
 const mapStateToProps = (state) => ({

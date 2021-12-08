@@ -151,7 +151,7 @@ describe('<DetailPengadaan />', () => {
         expect(loc.pathname).toBe('/masuk');
     });
 
-    it('should redirect if not investor', () => {
+    it('should redirect if not investor or mitra', () => {
         let loc;
         const mockUser = jest.fn()
         const mockMatch = {
@@ -163,7 +163,7 @@ describe('<DetailPengadaan />', () => {
             auth: {
                 isAuthenticated: true,
                 user: {
-                    role: "Mitra"
+                    role: "Operator"
                 }
             }
         }

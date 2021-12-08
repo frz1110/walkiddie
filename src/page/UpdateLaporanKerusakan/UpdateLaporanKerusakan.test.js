@@ -1,19 +1,19 @@
-import MembuatPendapatan from './MembuatPendapatan';
+import UpdateLaporanKerusakan from './UpdateLaporanKerusakan';
 import '@testing-library/jest-dom';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
 import axios from 'axios'
+import { Provider } from 'react-redux'
 
 jest.mock('axios')
 
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 
-describe('<MembuatPendapatan />', () => {
+describe('<UpdateLaporanKerusakan />', () => {
     it('renders correctly', () => {
         const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
@@ -30,10 +30,10 @@ describe('<MembuatPendapatan />', () => {
         const { getByText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <MembuatPendapatan userData={mockUser} isAuthenticated={mockAuthenticate} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
-        expect(getByText(/Buat Pendapatan Toko/)).toBeInTheDocument();
+        expect(getByText(/Ubah Laporan Kerusakan Mesin/)).toBeInTheDocument();
     });
 
     it('renders the right contents', () => {
@@ -51,12 +51,13 @@ describe('<MembuatPendapatan />', () => {
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <MembuatPendapatan userData={mockUser} isAuthenticated={mockAuthenticate} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
 
-        expect(screen.getByLabelText(/Tanggal Pendapatan/)).toBeInTheDocument();
-        expect(screen.getByLabelText(/Jumlah Pendapatan/)).toBeInTheDocument();
+        expect(screen.getByLabelText(/Kode Mainan/)).toBeInTheDocument();        
+        expect(screen.getByLabelText(/Deskripsi Kerusakan/)).toBeInTheDocument();
+        expect(screen.getByText(/Bukti Kerusakan/)).toBeInTheDocument();
     });
 
     it('should redirect if not authenticated', () => {
@@ -67,7 +68,7 @@ describe('<MembuatPendapatan />', () => {
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <MembuatPendapatan userData={mockUser} isAuthenticated={false} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={false} />
                     <Route
                         path="*"
                         render={({ location }) => {
@@ -88,7 +89,7 @@ describe('<MembuatPendapatan />', () => {
             auth: {
                 isAuthenticated: true,
                 user: {
-                    role: "Operator"
+                    role: "Investor"
                 }
             }
         }
@@ -96,7 +97,7 @@ describe('<MembuatPendapatan />', () => {
         render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <MembuatPendapatan userData={mockUser} isAuthenticated={false} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={false} />
                     <Route
                         path="*"
                         render={({ location }) => {
@@ -126,21 +127,16 @@ describe('<MembuatPendapatan />', () => {
         const { getByLabelText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <MembuatPendapatan userData={mockUser} isAuthenticated={mockAuthenticate} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
 
-        const tanggal_pendapatan = getByLabelText('Tanggal Pendapatan');
-        const jumlah_pendapatan = getByLabelText('Jumlah Pendapatan');
-
-        userEvent.type(tanggal_pendapatan, '2021-03-21');
-        userEvent.type(jumlah_pendapatan, '100000');
-
-        expect(screen.getByLabelText('Tanggal Pendapatan')).toHaveValue('2021-03-21');
-        expect(screen.getByLabelText('Jumlah Pendapatan')).toHaveValue('100000');
+        const deskripsi = getByLabelText('Deskripsi Kerusakan');
+        userEvent.type(deskripsi, 'Mesin Tidak Menyala');
+        expect(screen.getByLabelText('Deskripsi Kerusakan')).toHaveValue('Mesin Tidak Menyala');
     });
 
-    test('submit through form', async() => {
+    test('update through form', async() => {
         const mockUser = jest.fn()
         const mockAuthenticate = jest.fn()
         global.URL.createObjectURL = jest.fn();
@@ -158,76 +154,75 @@ describe('<MembuatPendapatan />', () => {
         localStorage.setItem('access', 'token')
         const store = mockStore(initialState)
 
-        const { getByLabelText, getByRole, getByText } = render(
+        const { getByLabelText, getByText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <MembuatPendapatan isAuthenticated={mockAuthenticate} user={mockUser}/>
+                    <UpdateLaporanKerusakan isAuthenticated={mockAuthenticate} user={mockUser}/>
                 </BrowserRouter>
             </Provider>);
 
-        const pendapatanData = {
+        const kerusakanData = {
             data: {
-                pendapatan: "10000",
-                tanggal_pendapatan: '2021-03-21',
+                mainan_pengadaan: "1",
+                deskripsi: "Mesin Tidak Menyala",
             }
         }
 
-        const tanggal_pendapatan = getByLabelText('Tanggal Pendapatan');
-        const pendapatan = getByLabelText('Jumlah Pendapatan');
-        const tombolSimpan = getByText("Simpan");
+        const deskripsi_kerusakan = getByLabelText('Deskripsi Kerusakan');
+        const tombolSimpan = getByText("Submit");
 
-        axios.post.mockImplementationOnce(() => Promise.resolve(pendapatanData));
+        axios.put.mockImplementationOnce(() => Promise.resolve(kerusakanData));
 
-        userEvent.type(pendapatan, '10000');
-        userEvent.type(tanggal_pendapatan, '2021-03-21');
-
-        fireEvent.click(tombolSimpan);
-
-        await(()=> expect(axios.post).toHaveBeenCalledTimes(1));
-        localStorage.removeItem('access', 'token')
-    });
-
-    test('fail submit through form', async() => {
-        const mockUser = jest.fn()
-        const mockAuthenticate = jest.fn()
-        global.URL.createObjectURL = jest.fn();
-        const initialState = {
-            auth: {
-                isAuthenticated: true,
-                user: {
-                    email: "user12345@gmail.com",
-                    first_name: "ihsan",
-                    last_name: "azizi",
-                    role: "Mitra"
-                }
-            }
-        }
-        localStorage.setItem('access', 'token')
-        const store = mockStore(initialState)
-
-        const { getByLabelText, getByRole, getByText } = render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <MembuatPendapatan isAuthenticated={mockAuthenticate} user={mockUser}/>
-                </BrowserRouter>
-            </Provider>);
-
-        const pendapatanData = {
-            data: {
-                pendapatan: "10000"
-            }
-        }
-
-        const pendapatan = getByLabelText('Jumlah Pendapatan');
-        const tombolSimpan = getByText("Simpan");
-
-        axios.post.mockImplementationOnce(() => Promise.resolve(pendapatanData));
-
-        userEvent.type(pendapatan, '10000');
+        userEvent.type(deskripsi_kerusakan, 'Mesin Tidak Menyala');
         
         fireEvent.click(tombolSimpan);
 
-        await(()=> expect(axios.post).toHaveBeenCalledTimes(1));
+        await(()=> expect(axios.put).toHaveBeenCalledTimes(1));
+        localStorage.removeItem('access', 'token')
+    });
+
+    test('fail update through form', async() => {
+        const mockUser = jest.fn()
+        const mockAuthenticate = jest.fn()
+        global.URL.createObjectURL = jest.fn();
+        const initialState = {
+            auth: {
+                isAuthenticated: true,
+                user: {
+                    email: "user12345@gmail.com",
+                    first_name: "ihsan",
+                    last_name: "azizi",
+                    role: "Mitra"
+                }
+            }
+        }
+        localStorage.setItem('access', 'token')
+        const store = mockStore(initialState)
+
+        const { getByLabelText, getByText } = render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <UpdateLaporanKerusakan isAuthenticated={mockAuthenticate} user={mockUser}/>
+                </BrowserRouter>
+            </Provider>);
+
+        const kerusakanData = {
+            data: {
+                mainan_pengadaan: "1",
+                deskripsi: "Mesin Tidak Menyala",
+            }
+        }
+
+        const deskripsi_kerusakan = getByLabelText('Deskripsi Kerusakan');
+        const tombolSimpan = getByText("Submit");
+
+        axios.put.mockImplementationOnce(() => Promise.reject(kerusakanData));
+
+        userEvent.type(deskripsi_kerusakan, 'Mesin Tidak Menyala');
+
+        fireEvent.click(tombolSimpan);
+
+        await(()=> expect(axios.put).toHaveBeenCalledTimes(1));
         localStorage.removeItem('access', 'token')
     });
 
@@ -251,10 +246,10 @@ describe('<MembuatPendapatan />', () => {
         const { getByText } = render(
             <Provider store={store}>
                 <BrowserRouter>
-                    <MembuatPendapatan userData={mockUser} isAuthenticated={mockAuthenticate} />
+                    <UpdateLaporanKerusakan userData={mockUser} isAuthenticated={mockAuthenticate} />
                 </BrowserRouter>
             </Provider>);
-        const backButton = getByText('Buat Pendapatan Toko', { selector: "h3" });
+        const backButton = getByText('Ubah Laporan Kerusakan Mesin', { selector: "h3" });
         userEvent.click(backButton);
 
         expect(historyBack).toHaveBeenCalledTimes(1);

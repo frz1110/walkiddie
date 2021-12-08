@@ -24,6 +24,8 @@ const Profile = ({ userData, isAuthenticated }) => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         address: '',
+        province: '',
+        district: '',
         phone_number: '',
         ktp_number: '',
         birth_date: '',
@@ -88,6 +90,8 @@ const Profile = ({ userData, isAuthenticated }) => {
             }
             setFormData({
                 address: profile.address,
+                province: profile.province,
+                district: profile.district,
                 phone_number: profile.phone_number,
                 ktp_number: profile.ktp_number,
                 birth_date: profile.birth_date,
@@ -101,7 +105,7 @@ const Profile = ({ userData, isAuthenticated }) => {
         e.preventDefault();
         setLoading(true);
         if (!isFilled) {
-            const res = await post_profile(email, full_name, address, phone_number, ktp_number, birth_date, profile_picture);
+            const res = await post_profile(email, full_name, address, province, district, phone_number, ktp_number, birth_date, profile_picture);
             if (res.success) {
                 window.location.reload(false);
             } else {
@@ -109,7 +113,7 @@ const Profile = ({ userData, isAuthenticated }) => {
                 alert('Terjadi kesalahan, pastikan Anda mengisi semua data (termasuk foto profil)')
             }
         } else {
-            const res = await update_profile(email, full_name, address, phone_number, ktp_number, birth_date, profile_picture, imageChanged);
+            const res = await update_profile(email, full_name, address, province, district, phone_number, ktp_number, birth_date, profile_picture, imageChanged);
             if (res.success) {
                 window.location.reload(false);
             } else {
@@ -124,7 +128,7 @@ const Profile = ({ userData, isAuthenticated }) => {
         setImageChaged(true);
     };
 
-    const { address, phone_number, ktp_number, birth_date, profile_picture, income } = formData;
+    const { address, province, district, phone_number, ktp_number, birth_date, profile_picture, income } = formData;
     const full_name = first_name + " " + last_name;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -273,6 +277,36 @@ const Profile = ({ userData, isAuthenticated }) => {
                                             onChange={e => onChange(e)}
                                             required
                                             type="date"
+                                        />
+                                    </div>
+                                </div>
+                            </Row>
+                            <Row className="justify-content-center">
+                                <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='province'> Province </label>
+                                        <br></br>
+                                        <input
+                                            required
+                                            type='text'
+                                            id='province'
+                                            name='province'
+                                            value={province}
+                                            onChange={e => onChange(e)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-sm">
+                                    <div className="profile-form-container">
+                                        <label htmlFor='district'> District </label>
+                                        <br></br>
+                                        <input
+                                            required
+                                            type="text"
+                                            id='district'
+                                            name='district'
+                                            value={district}
+                                            onChange={e => onChange(e)}
                                         />
                                     </div>
                                 </div>

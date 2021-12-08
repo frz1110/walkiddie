@@ -18,7 +18,7 @@ import {
 import axios from 'axios';
 
 
-export const post_profile = async (email, full_name, address, phone_number, ktp_number, birth_date, profile_picture) => {
+export const post_profile = async (email, full_name, address, province, district, phone_number, ktp_number, birth_date, profile_picture) => {
     var formDataToSend = new FormData();
     const config = {
         headers: {
@@ -29,6 +29,8 @@ export const post_profile = async (email, full_name, address, phone_number, ktp_
     formDataToSend.append('email', email);
     formDataToSend.append('full_name', full_name);
     formDataToSend.append('address', address);
+    formDataToSend.append('province', province);
+    formDataToSend.append('district', district);
     formDataToSend.append('phone_number', phone_number);
     formDataToSend.append('ktp_number', ktp_number);
     formDataToSend.append('birth_date', birth_date);
@@ -48,7 +50,7 @@ export const post_profile = async (email, full_name, address, phone_number, ktp_
     }
 };
 
-export const update_profile = async (email, full_name, address, phone_number, ktp_number, birth_date, profile_picture, imageChanged) => {
+export const update_profile = async (email, full_name, address, province, district, phone_number, ktp_number, birth_date, profile_picture, imageChanged) => {
     var formDataToSend = new FormData();
     const config = {
         headers: {
@@ -59,6 +61,8 @@ export const update_profile = async (email, full_name, address, phone_number, kt
     formDataToSend.append('email', email);
     formDataToSend.append('full_name', full_name);
     formDataToSend.append('address', address);
+    formDataToSend.append('province', province);
+    formDataToSend.append('district', district);
     formDataToSend.append('phone_number', phone_number);
     formDataToSend.append('ktp_number', ktp_number);
     formDataToSend.append('birth_date', birth_date);

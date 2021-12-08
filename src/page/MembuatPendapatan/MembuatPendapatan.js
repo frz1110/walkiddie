@@ -7,7 +7,7 @@ import { Row } from "react-bootstrap";
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-const Profile = ({ isAuthenticated }) => {
+const Profile = ({ isAuthenticated, userData }) => {
     const [loading, setLoading] = useState(false);
 
     const config = {
@@ -110,6 +110,8 @@ const Profile = ({ isAuthenticated }) => {
 
     if (!isAuthenticated) {
         return <Redirect to='/masuk' />
+    }else if (userData.role != 'Mitra'){
+        return (<Redirect to="/" />)
     }
 
     return (
