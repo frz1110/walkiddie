@@ -173,21 +173,30 @@ const HomepageInvestor = ({ isAuthenticated, user }) => {
     }, [searchTerm]);
 
     const handleChange = async e => {
-        var res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
-        res = res.data.filter((e) => {
-            if (e['status'] === "TRM") {
-                return e
-            }
-        });
-        var res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, config);
-        res2 = res2.data.filter((e) => {
-            if (e['status'] === "TRM") {
-                return e
-            }
-        });
-        const filterData = filterChange(res, e.value, 'daerah');
-
+        try{
+            var res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/toko/`, config);
+            res = res.data.filter((e) => {
+                if (e['status'] === "TRM") {
+                    return e
+                }
+            });
+        }
+        catch (e){
+            alert('Terdapat kesalahan pada database toko.');
+        };
+        try{
+            var res2 = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, config);
+            res2 = res2.data.filter((e) => {
+                if (e['status'] === "TRM") {
+                    return e
+                }
+            });
+        }
+        catch(e){
+            alert('Terdapat kesalahan pada database pengadaan.');
+        }
         let result = [];
+        const filterData = filterChange(res, e.value, 'daerah');
         for (let i = 0; i < res2.length; i++) {
             for (let j = 0; j < filterData.length; j++) {
                 if (res2[i].toko.pk === filterData[j].pk) {
