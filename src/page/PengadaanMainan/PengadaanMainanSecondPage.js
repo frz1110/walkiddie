@@ -20,17 +20,6 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
             target: 'body',
         },
         {
-            content: 'Ringkasan mainan dapat dilihat di sini. Jumlah mainan dapat ditambah atau dikurangi.',
-            placement: 'top',
-            styles: {
-                options: {
-                    width: 300,
-                },
-            },
-            target: '#p-m-2-ringkasan',
-            title: 'Pengadaan Mainan (2)',
-        },
-        {
             content: 'Isi semua data yang diperlukan.',
             placement: 'top',
             styles: {
@@ -127,9 +116,9 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
         setFormData({
             ...formData,
             selectedCheckboxes: [
-                ...formData['selectedCheckboxes'].slice(0, id - 1),
+                ...formData['selectedCheckboxes'].slice(0, id - 8),
                 false,
-                ...formData['selectedCheckboxes'].slice(id)
+                ...formData['selectedCheckboxes'].slice(id - 7)
             ]
             , totalBiaya: totalSemuaBiaya
         });
@@ -207,7 +196,7 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
             let totalSemuaBiaya = 0;
             let response;
             for (let i = 0; i < totalBiayaMainan.length; i++) {
-                if (formData['selectedCheckboxes'][i] === true){
+                if (formData['selectedCheckboxes'][i+7] === true){
                     response = totalBiayaMainan[i];
                     totalSemuaBiaya += response.value;
                 }
@@ -315,15 +304,14 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                         <p>Buat pengadaan dan raih keuntungannya.</p>
                         <br></br>
                         <form className="centered" onSubmit={handleSubmit}>
-                            <div className="justify-content-center">
-                                <div id="p-m-2-ringkasan">
+                            <div id="p-m-2-form" className="justify-content-center">
                                 <h3 className="midtext" ><span>Ringkasan Mainan</span></h3>
                                 <br></br>
 
                                 {daftarMainan.map(mainan => {
-                                    return formData['selectedCheckboxes'][(mainan.id) - 1] === true && countPaket[(mainan.id) - 1].value > 0
+                                    return formData['selectedCheckboxes'][(mainan.id) - 8] === true && countPaket[(mainan.id) - 7].value > 0
                                         ? (<div className="profile-details-wrapper flex-wrapper">
-                                            <img src={TempatSampah} onClick={() => hapus(mainan.id, mainan.harga)} alt="Delete Icon"></img>
+                                            <img src={TempatSampah} onClick={() => hapus(mainan.id - 7, mainan.harga)} alt="Delete Icon"></img>
                                             <div className="vertical-line-pengadaan-mainan"></div>
                                             <img src={mainan.gambar_mainan} className="review-pengadaan-mainan"
                                                 style={{
@@ -338,18 +326,16 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                                             </div>
                                             <div className="profile-details">
 
-                                                <img onClick={() => minus(mainan.id, mainan.harga)} className="icon" src={Minus}></img>
-                                                {countPaket[mainan.id - 1].value}
-                                                <img onClick={() => plus(mainan.id, mainan.harga)} className="icon" src={Plus}></img>
+                                                <img onClick={() => minus(mainan.id - 7, mainan.harga)} className="icon" src={Minus}></img>
+                                                {countPaket[mainan.id - 8].value}
+                                                <img onClick={() => plus(mainan.id - 7, mainan.harga)} className="icon" src={Plus}></img>
                                             </div>
                                             <div className="profile-details">
-                                                <h3>{totalBiayaMainan[mainan.id - 1].value}</h3>
+                                                <h3>{totalBiayaMainan[mainan.id - 8].value}</h3>
                                             </div>
                                         </div>) : null;
                                 })};
-                                </div>
-                                
-                                <div id="p-m-2-form">
+
                                 <h3 className="midtext" ><span>Informasi Pengadaan</span></h3>
                                 <br></br>
                                 <div className="form-group row">
@@ -420,7 +406,6 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                                         />
                                     </div>
                                 </div>
-                        </div>
                             </div>
                             <div 
                             style={{
@@ -428,7 +413,7 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                             }}
                             >   
                                 <button className="wkd-home-button wkd-nav-button wkd-tosca-button daftar-toko-padding-button" onClick={previous}>Sebelumnya</button>
-                                <button id="p-m-2-simpan" className="wkd-home-button wkd-nav-button wkd-dark-green-button daftar-toko-padding-button"  type="submit">Simpan</button>
+                                <button className="wkd-home-button wkd-nav-button wkd-dark-green-button daftar-toko-padding-button"  type="submit">Simpan</button>
                             </div>
                         </form>
                     </div>

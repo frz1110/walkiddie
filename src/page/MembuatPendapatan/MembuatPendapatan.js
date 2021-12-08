@@ -76,6 +76,7 @@ const Profile = ({ isAuthenticated, userData }) => {
                 .then((response) => {
                     console.log(response);
                     console.log('Success post');
+                    window.history.back();
                     alert('Anda telah memasukan pendapatan pengadaan mainan');
                 }, (error) => {
                     if (error.response) {

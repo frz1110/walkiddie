@@ -14,17 +14,6 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
         bukti: [],
     });
 
-    const{kode} = formData
-    let history = useHistory();
-
-    useEffect(() => {
-        try {
-            setFormData({ ...formData, kode: match.params.pk });
-        }
-        catch (err) {           
-        }
-    });
-
     const config = {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -40,8 +29,8 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
     const postLaporan = () => {
         if (localStorage.getItem('access')) {
             var formDataToSend = new FormData();
-
-            formDataToSend.append('mainan_pengadaan', formData['kode']);
+            
+            formDataToSend.append('mainan_pengadaan', match.params.pk);
             formDataToSend.append('deskripsi', formData['deskripsi']);
 
             for (let i = 0; i < formData['bukti'].length; i++) {
@@ -107,7 +96,7 @@ const LaporanKerusakan = ({ isAuthenticated, userData, match}) => {
                                         id='kode'
                                         type='text'
                                         name='kode'
-                                        value={kode}
+                                        value={match.params.pk}
                                         onChange={e => onChange(e)}
                                         disabled
                                     />
