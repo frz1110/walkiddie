@@ -186,6 +186,22 @@ const DetailPengadaan = ({ isAuthenticated, userData, match}) => {
         catch (err) {
             setDisable(false);
         }
+        // line 182 `const total = ...` creates TypeError: Reduce of empty array with no initial value.
+        // Try block abandons execution. Below is a bodgefix for getting disable button to work.
+        try {
+            await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/investasi/`, config)
+                .then(response => {
+                    if(response.data.filter(b => b.investor === userData.email && b.pengadaan === pengadaan.pk && b.status ==="MPA" ).length !== 0){
+                        setDisable(true);
+                    } else if(pengadaan.danaTerkumpul>=pengadaan.totalBiaya){
+                        setDisable(true);
+                    }
+                    const investasi = response.data.filter(data => data.pengadaan === parseInt(match.params.pk) && data.status === "TRM");
+                });
+        }
+        catch (err) {
+            setDisable(false);
+        }
     }
   
 
