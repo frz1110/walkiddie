@@ -152,8 +152,8 @@ const PengadaanMainanFirstPage = ({ daftarMainan, setState, formData, navigation
                                         id={mainan.id}
                                         // onChange={() => onChange(1)}
                                         // selected={selectedCheckboxes.includes(1)}
-                                        checked={checkedState[(mainan.id)-8]}
-                                        onChange={() => handleOnChange((mainan.id)-8)}
+                                        checked={checkedState[(mainan.id)-1]}
+                                        onChange={() => handleOnChange((mainan.id)-1)}
                                     />
                                 </Card.Body>
                                 </Card>
