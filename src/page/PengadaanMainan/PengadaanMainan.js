@@ -22,7 +22,6 @@ const PengadaanMainan = ({ isAuthenticated, user }) => {
         selectedCheckboxes: []
     });
 
-    console.log(formData)
     const steps = [
         { id: "pilih mainan" },
         { id: "konfirmasi" }
@@ -52,8 +51,6 @@ const PengadaanMainan = ({ isAuthenticated, user }) => {
                 }
             }
             setDaftarToko(allToko);
-            // console.log(allToko);
-            // console.log(daftarToko);
         } catch {
             alert('Terdapat kesalahan pada database. Mohon refresh ulang halaman ini')
         }
@@ -66,13 +63,13 @@ const PengadaanMainan = ({ isAuthenticated, user }) => {
         try {
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/api/mainan/`, config);
             setDaftarMainan(res.data);
-            console.log(res.data);
             let totalBiaya = [];
             for(let i=0; i < res.data.length; i++){
                 let response = res.data[i];
                 let value = response['harga'];
                 totalBiaya.push({id:i ,value:value});
             }
+            console.log('TOTAL BIAYA');
             console.log(totalBiaya);
             setTotalBiayaMainan(totalBiaya);
         } catch {
@@ -87,8 +84,7 @@ const PengadaanMainan = ({ isAuthenticated, user }) => {
 
     const changeData = checkbox => setFormData({...formData, selectedCheckboxes: checkbox});
     const updateTotalBiaya = (harga,id) => {
-        var index = totalBiayaMainan.findIndex(x=> x.id === id);
-
+        var index = daftarMainan.findIndex(x=> x.id === (id));
         let g = totalBiayaMainan[index];
         g['value'] = harga;
         if (index === -1){
@@ -101,7 +97,7 @@ const PengadaanMainan = ({ isAuthenticated, user }) => {
             g,
             ...totalBiayaMainan.slice(index+1)
             ]
-            );
+        );
     }
 
     if (!isAuthenticated) return <Redirect to="/masuk" />

@@ -9,7 +9,6 @@ const PengadaanMainanFirstPage = ({ daftarMainan, setState, formData, navigation
     const onBoardingSteps = [
         {
             content: <h5>Petunjuk pengadaan mainan</h5>,
-            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
             placement: 'center',
             target: 'body',
         },

@@ -43,12 +43,14 @@
     border-color: white;
     padding:0px;
     align-content: center;
+    font-weight: bold;
 }
 
 .DateRangePickerInput__withBorder {
     border-radius: 0px;
     padding:0px;
     border: none;
+
 }
 
 #tata-start-date, #tata-end-date{
@@ -57,6 +59,7 @@
     margin: auto;
     padding: 0px;
     text-align: center;
+    font-weight:normal;
 }
 
 .DateRangePickerInput_arrow.DateRangePickerInput_arrow_1{

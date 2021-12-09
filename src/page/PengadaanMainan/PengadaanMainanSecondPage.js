@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { DateRangePicker } from 'react-dates';
 import 'react-calendar/dist/Calendar.css';
 import 'react-dates/lib/css/_datepicker.css';
@@ -15,7 +15,6 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
     const onBoardingSteps = [
         {
             content: <h5>Petunjuk pengadaan mainan (2)</h5>,
-            locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
             placement: 'center',
             target: 'body',
         },
@@ -55,17 +54,17 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
     const [focusedInput, setFocusedInput] = useState(null);
     const [countPaket, setCountPaket] = useState(new Array(25).fill({ value: 1 }));
 
-    console.log(formData.paketMainan);
-
     const updatePaketMainan = () => {
         let semuaMainan = [];
-        for (let i = 0; i < daftarMainan.length; i++) {
-            if (formData['selectedCheckboxes'][i] === true && countPaket[i].value > 0) {
-                semuaMainan.push({ 'mainan': daftarMainan[i].id, 'kuantitas': countPaket[i].value })
+        let totalBiayaMainan=0;
+        daftarMainan.forEach(element => {
+            if (formData['selectedCheckboxes'][element.id-1] === true && countPaket[element.id-1].value > 0) {
+                semuaMainan.push({ 'mainan': element.id, 'kuantitas': countPaket[element.id-1].value });
+                totalBiayaMainan += (element.harga * countPaket[element.id-1].value);
+                setTotalBiayaMainan(element.harga * countPaket[element.id-1].value, element.id);
             }
-        }
-        console.log(semuaMainan);
-        setFormData({ ...formData, paketMainan: semuaMainan });
+        });
+        setFormData({ ...formData, paketMainan: semuaMainan, totalBiaya: totalBiayaMainan });
     }
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -73,8 +72,6 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
     const handleDatesChange = ({ startDate, endDate }) => {
         setStartDate(startDate);
         setEndDate(endDate);
-        console.log(startDate);
-        console.log(endDate);
         if (startDate !== null && endDate !== null) {
             setFormData({
                 ...formData,
@@ -91,28 +88,16 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
     }
 
     const updateCountMainan = (id, count) => {
-        console.log(countPaket);
         setCountPaket([
             ...countPaket.slice(0, id),
             { value: count },
             ...countPaket.slice(id + 1)
         ]);
-        console.log(countPaket);
         updatePaketMainan();
     }
-    console.log(countPaket);
 
-    const hapus = (id, hargaMainan) => {
+    const hapus = (id) => {
         updateCountMainan(id - 1, 0);
-        setTotalBiayaMainan(hargaMainan * 0, id - 1);
-        let totalSemuaBiaya = 0;
-        let response;
-        for (let i = 0; i < totalBiayaMainan.length; i++) {
-            if (formData['selectedCheckboxes'][i] === true) {
-                response = totalBiayaMainan[i];
-                totalSemuaBiaya += response.value;
-            }
-        }
         setFormData({
             ...formData,
             selectedCheckboxes: [
@@ -120,53 +105,19 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                 false,
                 ...formData['selectedCheckboxes'].slice(id - 7)
             ]
-            , totalBiaya: totalSemuaBiaya
         });
-        console.log(countPaket);
-        console.log(totalBiayaMainan);
     }
 
-    const plus = (id, hargaMainan) => {
+    const plus = (id) => {
         updateCountMainan(id - 1, countPaket[id - 1].value + 1);
-        setTotalBiayaMainan(hargaMainan * (countPaket[id - 1].value + 1), id - 1);
-
-        let totalSemuaBiaya = 0;
-        let response;
-        for (let i = 0; i < totalBiayaMainan.length; i++) {
-            if (formData['selectedCheckboxes'][i] === true) {
-                response = totalBiayaMainan[i];
-                totalSemuaBiaya += response.value;
-            }
-        }
-        setFormData({ ...formData, totalBiaya: totalSemuaBiaya });
-        console.log(totalSemuaBiaya);
-        console.log(countPaket);
-        console.log(totalBiayaMainan);
     }
 
-    const minus = (id, hargaMainan) => {
+    const minus = (id) => {
         updateCountMainan(id - 1, countPaket[id - 1].value - 1);
-        setTotalBiayaMainan(hargaMainan * (countPaket[id - 1].value - 1), id - 1);
-
-        let totalSemuaBiaya = 0;
-        let response;
-        for (let i = 0; i < totalBiayaMainan.length; i++) {
-            if (formData['selectedCheckboxes'][i] === true) {
-                response = totalBiayaMainan[i];
-                totalSemuaBiaya += response.value;
-            }
-        }
-        setFormData({ ...formData, totalBiaya: totalSemuaBiaya });
-        console.log(totalSemuaBiaya);
-        console.log(countPaket);
-        console.log(totalBiayaMainan);
     }
 
     const handleChange = async (e) => {
         setFormData({ ...formData, pkToko: e.value });
-
-        console.log(formData);
-        console.log(e.value);
     }
 
     const handleSubmit = e => {
@@ -185,35 +136,7 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
         updatePaketMainan();
     }, [countPaket]);
 
-    
-
-    useEffect(() => {
-        if(!formData['paketMainan']) {
-            updatePaketMainan();
-        }
-
-        if(!formData['totalBiaya']) {
-            let totalSemuaBiaya = 0;
-            let response;
-            for (let i = 0; i < totalBiayaMainan.length; i++) {
-                if (formData['selectedCheckboxes'][i+7] === true){
-                    response = totalBiayaMainan[i];
-                    totalSemuaBiaya += response.value;
-                }
-            }
-            setFormData({ ...formData, totalBiaya: totalSemuaBiaya })
-        }
-    }, [requestSent]);
-
     const postPengadaanMainan = () => {
-        let semuaMainan = [];
-        for (let i = 0; i < daftarMainan.length; i++) {
-            if (formData['selectedCheckboxes'][(daftarMainan[i].id) - 1] === true && countPaket[daftarMainan[i].id - 1].value > 0) {
-                semuaMainan.push({ 'mainan': daftarMainan[i].id, 'kuantitas': countPaket[daftarMainan[i].id - 1].value })
-            }
-        }
-        setFormData({ ...formData, paketMainan: semuaMainan });
-
         if (localStorage.getItem('access')) {
             updatePaketMainan();
 
@@ -221,7 +144,6 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
 
             formDataToSend.append('toko', formData['pkToko']);
             formDataToSend.append('daftar_mainan', JSON.stringify(formData['paketMainan']));
-            console.log(formDataToSend.get('daftar_mainan'))
             for (let i = 0; i < formData['mediaTokoList'].length; i++) {
                 formDataToSend.append('media_pengadaan', formData['mediaTokoList'][i], formData['mediaTokoList'][i].name);
             }
@@ -229,14 +151,12 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
             formDataToSend.append('periodePengadaanMulai', formData['periodePengadaanMulai']);
             formDataToSend.append('periodePengadaanAkhir', formData['periodePengadaanAkhir']);
             formDataToSend.append('estimasiKeuangan', formData['estimasiKeuangan']);
-
-            for (var pair of formDataToSend.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
+            // for (var pair of formDataToSend.entries()) {
+            //     console.log(pair[0] + ', ' + pair[1]);
+            // }
 
             axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/api/pengadaan/`, formDataToSend, config)
                 .then((response) => {
-                    console.log(response);
                     console.log('Success post');
                     alert('Anda telah memasukan pengadaan mainan');
                     setRequestSent(true);
@@ -311,7 +231,7 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                                 {daftarMainan.map(mainan => {
                                     return formData['selectedCheckboxes'][(mainan.id) - 8] === true && countPaket[(mainan.id) - 7].value > 0
                                         ? (<div className="profile-details-wrapper flex-wrapper">
-                                            <img src={TempatSampah} onClick={() => hapus(mainan.id - 7, mainan.harga)} alt="Delete Icon"></img>
+                                            <img src={TempatSampah} onClick={() => hapus(mainan.id)} alt="Delete Icon"></img>
                                             <div className="vertical-line-pengadaan-mainan"></div>
                                             <img src={mainan.gambar_mainan} className="review-pengadaan-mainan"
                                                 style={{
@@ -326,16 +246,18 @@ const PengadaanMainanSecondPage = ({ daftarMainan, daftarToko, formData, setForm
                                             </div>
                                             <div className="profile-details">
 
-                                                <img onClick={() => minus(mainan.id - 7, mainan.harga)} className="icon" src={Minus}></img>
-                                                {countPaket[mainan.id - 8].value}
-                                                <img onClick={() => plus(mainan.id - 7, mainan.harga)} className="icon" src={Plus}></img>
+                                                <img onClick={() => minus(mainan.id)} className="icon" src={Minus}></img>
+                                                {countPaket[mainan.id - 1].value}
+                                                <img onClick={() => plus(mainan.id)} className="icon" src={Plus}></img>
                                             </div>
                                             <div className="profile-details">
-                                                <h3>{totalBiayaMainan[mainan.id - 8].value}</h3>
+                                                <h3>{mainan.harga * countPaket[mainan.id-1].value}</h3>
                                             </div>
                                         </div>) : null;
-                                })};
-
+                                })}
+                                </div>
+                                
+                                <div id="p-m-2-form">
                                 <h3 className="midtext" ><span>Informasi Pengadaan</span></h3>
                                 <br></br>
                                 <div className="form-group row">
