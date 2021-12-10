@@ -175,7 +175,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(MembuatInvestasi);
 
 function nominalIsValid(nominal, pengadaan) {
-    return (nominal) <= (100- pengadaan.danaTerkumpul)
+    return (nominal) <= (100- (pengadaan.danaTerkumpul/pengadaan.totalBiaya))
 }
 
 function getCheckedValue() {

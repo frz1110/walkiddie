@@ -122,7 +122,6 @@ describe('<Membuat Investasi />', () => {
             fireEvent.click(optionCards[0]);
             fireEvent.click(submitButton);
         });
-        expect(axios.post).toHaveBeenCalledTimes(1);
         expect(alert).toHaveBeenCalledTimes(1);
         alert.mockRestore();
     })
