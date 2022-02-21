@@ -1,41 +1,76 @@
 image: node:12.16.3-buster-slim
 
 stages:
-  - test
+  - code-clean
+  - sonar
   - deploy
 
+lint:
+  stage: code-clean
+  script:
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
+    - npm install
+    - npm run lint
+
 test:
-  stage: test
+  stage: code-clean
   artifacts:
     expire_in: 1 hour
     paths:
       - coverage/lcov.info
       - test-report.xml
   script:
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
+    - npm install @here/maps-api-for-javascript --save
     - npm install
     - npm run test -- --coverage --watchAll=false
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
 
+SonarScanner Dev:
+  image:
+    name: sonarsource/sonar-scanner-cli:4.6
+    entrypoint: [""]
+  stage: sonar
+  script:
+  - sonar-scanner
+    -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
+    -Dsonar.login=$SONARQUBE_TOKEN
+    -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+    -Dsonar.branch.target=staging
+    -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
+  except:
+    - master
+    - staging
+
+SonarScanner:
+  image:
+    name: sonarsource/sonar-scanner-cli:4.6
+    entrypoint: [""]
+  stage: sonar
+  script:
+  - sonar-scanner
+    -Dsonar.host.url=https://pmpl.cs.ui.ac.id/sonarqube
+    -Dsonar.login=$SONARQUBE_TOKEN
+    -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+    -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
+  only:
+    - master
+    - staging
+
 StagingDeployment:
-  image: ruby:2.7.1
+  image: alpine
   stage: deploy
   script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
-    - dpl --provider=heroku --app=${REPO_NAME} --api-key=${HEROKU_API}
+    - apk add curl
+    - curl -X POST -d {} "$BUILD_HOOK?trigger_branch=staging"
   only:
     - staging
 
 ProductionDeployment:
-  image: ruby:2.7.1
+  image: alpine
   stage: deploy
   script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
-    - dpl --provider=heroku --app=${DEPLOYMENT_REPO_NAME} --api-key=${HEROKU_API}
+    - apk add curl
+    - curl -X POST -d {} "$BUILD_HOOK?trigger_branch=master"
   only:
     - master

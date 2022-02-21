@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+.wkd-footer-container {
+    background-color: #146A5F;
+}
+
+#wkd-footer {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    max-width: 1214px;
+    margin: 0 auto;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    color: white;
+}
+
+.wkd-footer-container .wkd-icons {
+    margin-left: auto;
+}
+
+.wkd-footer-container .wkd-icons a {
+    color: white;
+}
+
+.wkd-icons-container {
+    width: 24px;
+    height: 24px;
+    padding: 8px;
+    margin: 0 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    box-sizing: initial;
+}
+
+.wkd-icons-container svg {
+    width: 18px;
+    height: 18px;
+    align-items: center;
+}

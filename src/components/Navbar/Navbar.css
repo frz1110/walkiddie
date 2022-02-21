@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+.wkd-navbar-container {
+    width: 100%;
+    height: 72px;
+    box-shadow: rgb(0 0 0 / 7%) 0px 4px 6px -1px;
+    position: relative;
+    z-index: 6;
+    background-color: white;
+}
+
+.wkd-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+    margin: 0 auto;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    padding-left: 105px;
+    padding-right: 112px;
+}
+
+.wkd-navbar .wkd-nav-menu {
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2px;
+    display: inline-flex;
+    height: inherit;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.5s;
+}
+
+.wkd-navbar .wkd-nav-menu:hover {
+    border-bottom: 2px solid #146A5F;
+}
+
+.wkd-navbar .wkd-nav-menu a {
+    color: gray !important;
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    font-weight: bold;
+    transition-duration: 0.5s;
+    opacity: 0.9;
+    display: inline-block;     
+    position: relative;    
+    z-index: 1;     
+    padding: 2em 0;     
+    margin: -2em 0; 
+}
+
+.wkd-navbar .wkd-nav-menu a:hover {
+    color: #146A5F !important;
+    opacity: 1;
+}
+
+.wkd-nav-logo {
+    text-align: left;
+}
+
+.wkd-nav-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.wkd-nav-buttons button {
+    margin: 0 7px;
+    width: 95px;
+    height: 42px;
+    font-weight: 600;
+    padding: 0;
+    font-size: 14px;
+    transition-duration: 0.3s;
+}
+
+.wkd-nav-button {
+    border-radius: 8px;
+    border: 0;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    height: 49px;
+    padding: 0 27px;
+}
+
+.wkd-nav-button.wkd-light-tosca-button span{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.wkd-nav-button.wkd-light-tosca-button span:after{
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.wkd-nav-button.wkd-light-tosca-button:hover span{
+    padding-right: 15px;
+}
+
+.wkd-nav-button.wkd-light-tosca-button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.wkd-nav-dummy {
+    margin: 0 7px;
+    width: 95px;
+}
+
+.wkd-light-tosca-button:hover {
+    background-color: #bbdfdb;
+}
+
+.wkd-dark-green-button:hover {
+    background-color: #0f4e46;
+}
+
+.wkd-tosca-button:hover {
+    background-color: #D3F1EE;
+    color: #146A5F;
+}
+
+.nav-profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button {
+    font-family: 'Manrope', sans-serif;
+}

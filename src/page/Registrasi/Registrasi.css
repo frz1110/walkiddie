@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+/* latin-ext */
+.p { 
+    text-align: center ;
+    font-family: 'DM-Sans', sans-serif;
+}
+
+.regist-invest-square-box label{
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 10px;
+}
+
+.regist-invest-google-image {
+    width: 30px;
+}
+
+#regist-invest-signup {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+    font-family: 'DM Sans', sans-serif;
+    margin: 44px auto 55px;
+}
+
+.regist-invest-title{
+    font-weight: 700;
+    font-size: 25px;
+    padding-bottom: 15px;
+    text-align: left;
+    max-width: fit-content;
+    cursor: pointer;
+}
+
+.regist-invest-button {
+    border: none;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: normal;
+    border-radius: 5px;
+    width : 380px;
+    transition-duration: 0.3s;
+}
+
+.regist-invest-google-button {
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 10px 15px;
+    text-align: center;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 15px;
+    width : 300px;
+    height: 52px;
+    transition-duration: 0.3s;
+}
+
+.regist-invest-google-button:hover {
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.25);
+}
+
+.regist-invest-square-box{
+    padding: 20px 30px 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.25);
+}
+
+.regist-midtext {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #ccc; 
+    line-height: 0.1em; 
+    margin-top: 5px;
+} 
+
+.regist-midtext span { 
+    background:#fff; 
+    padding:0 10px; 
+}
+
+.regist-centered {
+    padding-top: 10px;
+    text-align: left;
+}
+
+.regist-invest-form-container {
+    padding-bottom: 16px;
+}
+
+.regist-invest-form-container ::placeholder {
+    font-size: 15px;
+}
+
+.regist-centered input, select, textarea {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.regist-invest-to-login {
+    padding-top: 8px;
+    font-size: 15px;
+    color: black;
+    font-weight: normal;
+}
+
+.regist-invest-to-login span a{
+    font-weight: bold;
+    color: #146A5F !important;
+}

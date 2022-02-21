@@ -1,0 +1,12 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 20vw;
+  margin-bottom: 100px;
+}
+
+.login-wkd-icon {
+  width: 178px;
+  margin: 20px 0px;
+}

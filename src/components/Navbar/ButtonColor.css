@@ -1,0 +1,24 @@
+.wkd-dark-green-button {
+    background-color: #146A5F;
+    color: white;
+}
+
+.wkd-light-tosca-button {
+    background-color: #D3F1EE;
+    color: #146A5F;
+}
+
+.wkd-tosca-button {
+    background-color: #0BBBA8;
+    color: white;
+}
+
+.wkd-nav-button a, .wkd-nav-button a:hover {
+    text-decoration: none;
+    color: inherit;
+    width: inherit;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

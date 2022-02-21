@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+.react-joyride__tooltip{
+  font-family: 'DM Sans', sans-serif;
+}
+
+.react-joyride__tooltip [title~=Next] {
+  background-color: #146A5F !important
+}
+
+.react-joyride__tooltip [title~=Last] {
+  background-color: #146A5F !important
+}
+
+.react-joyride__tooltip [title~=Back] {
+  font-weight: 500;
+  color: #146A5F !important
+}

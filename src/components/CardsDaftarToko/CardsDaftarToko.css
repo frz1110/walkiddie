@@ -1,0 +1,42 @@
+
+.card-daftartoko-flex-item { 
+    min-height: 400px;  
+    display: 'flex';
+    flex-wrap: 'wrap';
+    flex: 50%;
+}
+
+.card-daftartoko-content-limit {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-align: left;
+}
+
+.card-daftartoko-text {
+    -webkit-line-clamp: 3; /* number of lines to show */
+    margin-top: 20px;
+    height: 70px;
+}
+
+.card-daftartoko-title {
+    -webkit-line-clamp: 1; /* number of lines to show */
+}
+
+@media (max-width: 800px) {
+    .card-daftartoko-flex-item {
+      flex: 100%;
+    }
+}
+
+.toko-profil-img {
+    border-radius: 50%;
+    max-width: 50px;
+    margin-right: 10px;
+}
+
+a.custom-card-daftartoko-walkiddie,
+a.custom-card-daftartoko-walkiddie:hover {
+  color: inherit;
+}

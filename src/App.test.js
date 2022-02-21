@@ -1,8 +1,22 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+jest.mock('./page/DetailPengadaan/DetailPengadaan', () => {
+    return function DummyDetailPengadaan(props) {
+        return <div />
+    }
+})
+jest.mock('./page/DaftarToko/DaftarToko', () => {
+    return function DummyDaftarToko(props) {
+        return <div />
+    }
+})
+
+describe('<App />', () => {
+  it('renders navbar, home, and footer', () => {
+    const {getByTestId, getByText} = render(<App />);
+    expect(getByTestId('navbar')).toBeInTheDocument();
+    expect(getByText(/Platform Crowdfunding/)).toBeInTheDocument();
+    expect(getByText(/Walkiddie. All rights reserved./)).toBeInTheDocument();
+  });
 });
